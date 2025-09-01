@@ -1,0 +1,250 @@
+export type Domain =
+  | 'animal'
+  | 'plant'
+  | 'environment'
+  | 'earth_science'
+  | 'astronomy'
+  | 'physics'
+  | 'chemistry'
+  | 'biology'
+  | 'health'
+  | 'history'
+  | 'geography'
+  | 'civics'
+  | 'economics'
+  | 'business'
+  | 'math'
+  | 'computer_science'
+  | 'programming'
+  | 'language'
+  | 'literature'
+  | 'arts'
+  | 'music'
+  | 'philosophy'
+  | 'psychology'
+  | 'engineering'
+  | 'other';
+
+export const DomainSubtopicTemplates: Record<Domain, string[]> = {
+  animal: [
+    'Basics & traits of {subject}',
+    'Habitat & range',
+    'Diet & foraging',
+    'Behavior & social',
+    'Reproduction & lifecycle',
+    'Predators & defenses',
+    'Conservation status',
+    'Similar species & identification',
+  ],
+  plant: [
+    'Basics & classification of {subject}',
+    'Morphology & structure',
+    'Habitat & range',
+    'Growth & reproduction',
+    'Pollinators & dispersal',
+    'Human uses & benefits',
+    'Pests & defenses',
+    'Conservation status',
+    'Similar species & identification',
+  ],
+  environment: [
+    'Ecosystem basics of {subject}',
+    'Key species & actors',
+    'Processes & cycles',
+    'Human impacts',
+    'Metrics & indicators',
+    'Conservation & policy',
+    'Case studies',
+    'Mitigation & adaptation',
+    'Controversies & debates',
+  ],
+  earth_science: [
+    'Earth systems overview',
+    'Rocks, minerals & weather',
+    'Geological processes',
+    'Measurement & tools',
+    'Natural hazards',
+    'Case study regions',
+    'Practical applications',
+  ],
+  astronomy: [
+    'Overview of {subject}',
+    'Composition & structure',
+    'Dynamics & movement',
+    'Observation methods',
+    'Phenomena & events',
+    'Missions & history',
+    'Comparisons & relationships',
+    'Open questions & mysteries',
+  ],
+  physics: [
+    'Definitions & concepts',
+    'Laws & equations',
+    'Units & dimensions',
+    'Worked examples (easy to hard)',
+    'Common misconceptions',
+    'Real-world applications',
+    'Practice problems',
+  ],
+  chemistry: [
+    'Key concepts of {subject}',
+    'Reactions & mechanisms',
+    'Stoichiometry & calculations',
+    'Structures & properties',
+    'Lab methods & safety',
+    'Industrial applications',
+    'Practice problems',
+  ],
+  biology: [
+    'Cell & anatomy basics',
+    'Physiology & function',
+    'Genetics & inheritance',
+    'Homeostasis & regulation',
+    'Pathogens & immunity',
+    'Research methods & tools',
+    'Medical applications',
+  ],
+  health: [
+    'Body systems basics',
+    'Nutrition & energy',
+    'Fitness & recovery',
+    'Public health concepts',
+    'Risk assessment & safety',
+    'Myths vs facts',
+  ],
+  history: [
+    'Background & context',
+    'Key figures & leaders',
+    'Timeline of events',
+    'Root causes',
+    'Major events',
+    'Consequences & impact',
+    'Primary sources',
+    'Historical debates',
+    'Legacy & significance',
+  ],
+  geography: [
+    'Physical setting & features',
+    'Human geography',
+    'Economy & resources',
+    'Culture & demographics',
+    'Environment & risks',
+    'Case studies',
+    'Maps & spatial skills',
+  ],
+  civics: [
+    'Constitutional basics',
+    'Institutions & roles',
+    'Elections & processes',
+    'Rights & responsibilities',
+    'Policy areas',
+    'Comparative systems',
+    'Civic participation',
+  ],
+  economics: [
+    'Core concepts',
+    'Supply & demand',
+    'Markets & failures',
+    'Macroeconomic indicators',
+    'Policy tools',
+    'Case studies',
+  ],
+  business: [
+    'Business models & strategy',
+    'Operations & processes',
+    'Marketing & branding',
+    'People & organization',
+    'Finance basics',
+    'Data & analytics',
+    'Case studies',
+  ],
+  math: [
+    'Definitions & concepts',
+    'Properties & theorems',
+    'Problem-solving techniques',
+    'Worked examples (easy to hard)',
+    'Common errors & pitfalls',
+    'Real-world applications',
+    'Practice problems',
+  ],
+  computer_science: [
+    'Problem models',
+    'Data structures',
+    'Algorithms & complexity',
+    'Programming paradigms',
+    'Systems basics',
+    'Examples & exercises',
+  ],
+  programming: [
+    'Language/framework basics',
+    'Syntax & data types',
+    'Core APIs & patterns',
+    'Debugging & testing',
+    'Idioms & anti-patterns',
+    'Coding exercises',
+  ],
+  language: [
+    'Core vocabulary',
+    'Grammar points',
+    'Usage & context',
+    'Dialogues & examples',
+    'Common errors',
+    'Practice drills',
+  ],
+  literature: [
+    'Context & author',
+    'Plot & summary',
+    'Themes & motifs',
+    'Character analysis',
+    'Style & literary devices',
+    'Critical readings',
+    'Comparisons & connections',
+  ],
+  arts: [
+    'Historical context',
+    'Movements & styles',
+    'Techniques & media',
+    'Iconic works',
+    'Elements & principles',
+    'Critique & analysis',
+  ],
+  music: [
+    'Theory basics',
+    'Genres & styles',
+    'Instruments',
+    'Form & structure',
+    'History & composers',
+    'Listening guides',
+  ],
+  philosophy: [
+    'Branches & questions',
+    'Major thinkers',
+    'Arguments & positions',
+    'Critiques & counterarguments',
+    'Practical applications',
+    'Texts & excerpts',
+  ],
+  psychology: [
+    'Foundations & methods',
+    'Cognition & learning',
+    'Development',
+    'Social & personality',
+    'Measurement & ethics',
+    'Applications',
+  ],
+  engineering: [
+    'Problem definition',
+    'Constraints & specifications',
+    'Design methods',
+    'Materials & mechanisms',
+    'Testing & iteration',
+    'Case studies',
+  ],
+  other: [
+    'Overview of {subject}',
+    'Key concepts',
+    'Frameworks & models',
+    'Examples & case studies',
+    'Practice exercises',
+  ],
+};
