@@ -1,27 +1,30 @@
-import { View, Text, Pressable, ImageBackground } from 'react-native';
+import { View, Text, Pressable, ImageBackground, KeyboardAvoidingView } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
 import { SquareBtn } from '@/components/buttons/square/SquareBtn';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Heading from '@/components/typography/Heading';
 
 const WelcomeScreen = () => {
   return (
-    <View className="flex-1 items-center justify-center">
+    <SafeAreaView className="flex-1">
+      {/* Background Texture */}
+      {/* TODO: Get correct copyright-free texture later */}
       <ImageBackground
         source={require('@/assets/textures/texture-16.png')}
         resizeMode="repeat"
         className="absolute bottom-0 left-0 right-0 top-0"
       />
-      <Text>Welcome</Text>
-      <Pressable onPress={() => console.log('login')}>
-        <Text>Login</Text>
-      </Pressable>
-      <Pressable onPress={() => console.log('signup')}>
-        <Text>Signup</Text>
-      </Pressable>
-      <SquareBtn onPress={() => console.log('play')} variant="stone" icon="play" />
-      <PrimaryBtn onPress={() => console.log('hello')} label="Hello" variant="stone" />
-    </View>
+      <KeyboardAvoidingView behavior="padding" className="flex-1">
+        {/* Screen Content */}
+        <View className="m-4 flex-1 items-center justify-center">
+          <Heading>Welcome</Heading>
+          <PrimaryBtn onPress={() => router.push('/(auth)/signup')} label="Join" variant="stone" />
+          <PrimaryBtn onPress={() => router.push('/(auth)/login')} label="Log In" variant="stone" />
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
