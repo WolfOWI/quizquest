@@ -14,14 +14,20 @@ type Props = {
 
 export function PrimaryBtn({ onPress, disabled, label, variant = 'wood' }: Props) {
   const btnHeight = 72;
+  const btnWidth = 300; // Fixed width that matches typical button image dimensions
+
   return (
-    <Pressable onPress={onPress} disabled={disabled} className="w-full">
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      className="self-center"
+      style={{ height: btnHeight, width: btnWidth }}>
       <ImageBackground
         source={variant === 'wood' ? woodBackground : stoneBackground}
-        resizeMode="contain"
+        resizeMode="stretch"
         style={{
           height: btnHeight,
-          width: '100%',
+          width: btnWidth,
           justifyContent: 'center',
           alignItems: 'center',
           opacity: disabled ? 0.6 : 1,
