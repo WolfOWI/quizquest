@@ -50,6 +50,9 @@ module.exports = {
       borderWidth: {
         hairline: hairlineWidth(),
       },
+      fontFamily: {
+        kenney: ['Kenney Mini', 'sans-serif'],
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
