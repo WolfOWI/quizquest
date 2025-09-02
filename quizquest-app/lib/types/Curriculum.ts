@@ -13,6 +13,7 @@ export interface SubjectDoc {
    */
   subjectTitle: string;
   subjectSlug: string;
+  description?: string;
   level: AudienceLevel;
   createdAt: Timestamp;
   source: SourceType;
@@ -30,6 +31,7 @@ export interface SubtopicDoc {
   /** doc id: subtopicSlug */
   subtopicTitle: string;
   subtopicSlug: string;
+  description?: string;
   pageSize: number; // e.g. 10 | 12 per page
   createdAt: Timestamp;
 }
