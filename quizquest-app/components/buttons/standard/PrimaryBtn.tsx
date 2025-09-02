@@ -1,20 +1,22 @@
 import React from 'react';
 import { Pressable, ImageBackground, View, Image, Text } from 'react-native';
 
-const background = require('@/assets/ui-assets/buttons/standard/primary.png');
+const woodBackground = require('@/assets/ui-assets/buttons/standard/primary-wood.png');
+const stoneBackground = require('@/assets/ui-assets/buttons/standard/primary-stone.png');
 
 type Props = {
   onPress?: () => void;
   disabled?: boolean;
   label: string;
+  variant?: 'wood' | 'stone';
 };
 
-export function PrimaryBtn({ onPress, disabled, label }: Props) {
+export function PrimaryBtn({ onPress, disabled, label, variant = 'wood' }: Props) {
   const btnHeight = 72;
   return (
-    <Pressable onPress={onPress} disabled={disabled}>
+    <Pressable onPress={onPress} disabled={disabled} className="w-full">
       <ImageBackground
-        source={background}
+        source={variant === 'wood' ? woodBackground : stoneBackground}
         resizeMode="contain"
         style={{
           height: btnHeight,
