@@ -7,16 +7,16 @@ import TopAppBar from '@/components/navigation/TopAppBar';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 
 const LoginScreen = () => {
+  // TODO: Get correct copyright-free texture later
   const backgroundTexture = require('@/assets/textures/texture-16.png');
   return (
     <StandardSafeLayout bgTextureSrc={backgroundTexture}>
-      <TopAppBar title="Login" pretitle="Login" titleCenter />
-      <TopAppBar title="Login" />
-      <TopAppBar title="Login" leftButtonIcon="back" pretitle="Create a" titleCenter />
-      <TopAppBar title="Login" leftButtonIcon="back" />
-      <TopAppBar title="Login" rightButtonIcon="close" pretitle="Login" titleCenter />
-      <TopAppBar title="Login" rightButtonIcon="close" />
-      <TopAppBar title="Login" leftButtonIcon="back" rightButtonIcon="close" />
+      <TopAppBar
+        title="Login"
+        leftButtonIcon="back"
+        leftButtonPress={() => router.back()}
+        titleCenter
+      />
     </StandardSafeLayout>
   );
 };

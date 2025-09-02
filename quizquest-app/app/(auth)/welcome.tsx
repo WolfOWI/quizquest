@@ -12,9 +12,13 @@ const WelcomeScreen = () => {
   const backgroundTexture = require('@/assets/textures/texture-16.png');
   return (
     <StandardSafeLayout bgTextureSrc={backgroundTexture}>
-      <Heading>Welcome</Heading>
-      <PrimaryBtn onPress={() => router.push('/(auth)/signup')} label="Join" variant="stone" />
-      <PrimaryBtn onPress={() => router.push('/(auth)/login')} label="Log In" variant="stone" />
+      <View className="w-full flex-1 items-center justify-between">
+        <Heading>Welcome</Heading>
+        <View className="flex w-full flex-col gap-2">
+          <PrimaryBtn onPress={() => router.push('/(auth)/signup')} label="Join" variant="stone" />
+          <PrimaryBtn onPress={() => router.push('/(auth)/login')} label="Log In" variant="stone" />
+        </View>
+      </View>
     </StandardSafeLayout>
   );
 };
