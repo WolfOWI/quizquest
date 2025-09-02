@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, ImageBackground } from 'react-native';
+import { SquareBtnIcons, BtnMaterialVariants } from '@/lib/types/ui-related/UIButtons';
 
 // Back
 const backStoneIdle = require('@/assets/ui-assets/buttons/square/back/back-stone-idle.png');
@@ -47,8 +48,8 @@ type Props = {
   width?: number;
   height?: number;
   disabled?: boolean;
-  variant?: 'wood' | 'stone';
-  icon?: 'back' | 'check' | 'close' | 'minus' | 'play' | 'pause' | 'plus' | 'question';
+  variant?: BtnMaterialVariants;
+  icon?: SquareBtnIcons;
 };
 
 export function SquareBtn({
