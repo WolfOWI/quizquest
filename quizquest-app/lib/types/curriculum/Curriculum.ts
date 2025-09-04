@@ -32,7 +32,6 @@ export interface SubtopicDoc {
   subtopicTitle: string;
   subtopicSlug: string;
   description?: string;
-  pageSize: number; // e.g. 10 | 12 per page
   createdAt: Timestamp;
 }
 
@@ -40,7 +39,7 @@ export interface SubtopicDoc {
 export interface QuestionPageDoc {
   /** doc id: "1", "2", ... (string) */
   pageNumber: number;
-  items: QuestionItem[];
+  items: QuestionItem[]; // Always contains 10 items
   createdAt: Timestamp;
 }
 

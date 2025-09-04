@@ -42,6 +42,11 @@ const questionStoneIdle = require('@/assets/ui-assets/buttons/square/question/qu
 const questionStoneDown = require('@/assets/ui-assets/buttons/square/question/question-stone-down.png');
 const questionWoodIdle = require('@/assets/ui-assets/buttons/square/question/question-wood-idle.png');
 const questionWoodDown = require('@/assets/ui-assets/buttons/square/question/question-wood-down.png');
+// Replay
+const replayStoneIdle = require('@/assets/ui-assets/buttons/square/replay/replay-stone-idle.png');
+const replayStoneDown = require('@/assets/ui-assets/buttons/square/replay/replay-stone-down.png');
+const replayWoodIdle = require('@/assets/ui-assets/buttons/square/replay/replay-wood-idle.png');
+const replayWoodDown = require('@/assets/ui-assets/buttons/square/replay/replay-wood-down.png');
 
 type Props = {
   onPress?: () => void;
@@ -97,6 +102,10 @@ export function SquareBtn({
         idle = questionStoneIdle;
         down = questionStoneDown;
         break;
+      case 'replay':
+        idle = replayStoneIdle;
+        down = replayStoneDown;
+        break;
     }
   } else {
     switch (icon) {
@@ -131,6 +140,10 @@ export function SquareBtn({
       case 'question':
         idle = questionWoodIdle;
         down = questionWoodDown;
+        break;
+      case 'replay':
+        idle = replayWoodIdle;
+        down = replayWoodDown;
         break;
     }
   }

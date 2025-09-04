@@ -6,6 +6,7 @@ export type SquareBtnIcons =
   | 'play'
   | 'pause'
   | 'plus'
-  | 'question';
+  | 'question'
+  | 'replay';
 
 export type BtnMaterialVariants = 'wood' | 'stone';
