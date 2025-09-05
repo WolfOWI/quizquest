@@ -17,6 +17,11 @@ const closeStoneIdle = require('@/assets/ui-assets/buttons/square/close/close-st
 const closeStoneDown = require('@/assets/ui-assets/buttons/square/close/close-stone-down.png');
 const closeWoodIdle = require('@/assets/ui-assets/buttons/square/close/close-wood-idle.png');
 const closeWoodDown = require('@/assets/ui-assets/buttons/square/close/close-wood-down.png');
+// Edit
+const editStoneIdle = require('@/assets/ui-assets/buttons/square/edit/edit-stone-idle.png');
+const editStoneDown = require('@/assets/ui-assets/buttons/square/edit/edit-stone-down.png');
+const editWoodIdle = require('@/assets/ui-assets/buttons/square/edit/edit-wood-idle.png');
+const editWoodDown = require('@/assets/ui-assets/buttons/square/edit/edit-wood-down.png');
 // Minus
 const minusStoneIdle = require('@/assets/ui-assets/buttons/square/minus/minus-stone-idle.png');
 const minusStoneDown = require('@/assets/ui-assets/buttons/square/minus/minus-stone-down.png');
@@ -120,6 +125,10 @@ export function SquareBtn({
       case 'close':
         idle = closeWoodIdle;
         down = closeWoodDown;
+        break;
+      case 'edit':
+        idle = editWoodIdle;
+        down = editWoodDown;
         break;
       case 'minus':
         idle = minusWoodIdle;

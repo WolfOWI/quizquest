@@ -2,6 +2,7 @@ export type SquareBtnIcons =
   | 'back'
   | 'check'
   | 'close'
+  | 'edit'
   | 'minus'
   | 'play'
   | 'pause'
