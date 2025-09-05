@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView, KeyboardAvoidingView, ImageBackground } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { router } from 'expo-router';
 import Heading from '@/components/typography/Heading';
@@ -9,15 +9,31 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { LoginFormData } from '@/lib/types/auth/LoginFormData';
+import { loginUser } from '@/services/authServices';
 
 const LoginScreen = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>();
-  const onSubmit: SubmitHandler<LoginFormData> = (data) => console.log(data);
-
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      let user = await loginUser(data);
+      console.log('User login successful!', user);
+      // router.replace('(app)/start');
+    } catch (error) {
+      setError("We couldn't log you in. Please try again.");
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   // TODO: Get correct copyright-free texture later
   const backgroundTexture = require('@/assets/textures/texture-16.png');
   return (

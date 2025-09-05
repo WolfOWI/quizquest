@@ -1,12 +1,34 @@
 import { Timestamp } from 'firebase/firestore';
 
+// Users/{uid}
 export interface User {
   uid?: string;
   username: string;
   email: string;
   createdAt: Timestamp;
-  character?: string; // TODO: Add character type
-  pet?: string; // TODO: Add pet type
-  inventory?: string[]; // TODO: Add inventory type
-  stats?: string[]; // TODO: Add stats type
+
+  // Currently Equipped
+  selections: {
+    characterId: string;
+    petId: string;
+  };
+
+  economy: {
+    coins: number;
+    gems: number;
+  };
+
+  stats: {
+    level: number;
+    xp: number;
+
+    // Runs
+    totalRuns: number;
+    totalWins: number;
+    totalEnemiesDefeated: number;
+
+    // Questions
+    totalQuestionsAnswered: number;
+    totalCorrectAnswers: number;
+  };
 }
