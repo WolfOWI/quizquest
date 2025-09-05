@@ -20,13 +20,13 @@ const LoginScreen = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>();
+
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     setIsLoading(true);
     setError(null);
     try {
       let user = await loginUser(data);
-      console.log('User login successful!', user);
-      // router.replace('(app)/start');
+      console.log('Login successful');
     } catch (error) {
       setError("We couldn't log you in. Please try again.");
       console.error(error);
@@ -91,7 +91,12 @@ const LoginScreen = () => {
           />
           {errors.password && <Text className="text-red-500">{errors.password.message}</Text>}
 
-          <PrimaryBtn label="Log In" variant="stone" onPress={handleSubmit(onSubmit)} />
+          <PrimaryBtn
+            label={isLoading ? 'Logging In...' : 'Log In'}
+            variant="stone"
+            onPress={handleSubmit(onSubmit)}
+            disabled={isLoading}
+          />
         </View>
       </View>
     </StandardSafeLayout>

@@ -30,8 +30,7 @@ const SignupScreen = () => {
     setError(null);
     try {
       await registerUser(data);
-      console.log('User registration successful!');
-      // router.replace('(app)/start');
+      console.log('Registration successful');
     } catch (error) {
       setError("We couldn't create your account. Please try again.");
       console.error(error);
@@ -144,7 +143,12 @@ const SignupScreen = () => {
             <Text className="text-red-500">{errors.confirmPassword.message}</Text>
           )}
 
-          <PrimaryBtn label="Sign Up" variant="stone" onPress={handleSubmit(onSubmit)} />
+          <PrimaryBtn
+            label={isLoading ? 'Creating Account...' : 'Sign Up'}
+            variant="stone"
+            onPress={handleSubmit(onSubmit)}
+            disabled={isLoading}
+          />
         </View>
       </View>
     </StandardSafeLayout>

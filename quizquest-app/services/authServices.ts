@@ -1,7 +1,7 @@
 // Authentication Services
 
 import { auth } from '@/config/firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { LoginFormData } from '@/lib/types/auth/LoginFormData';
 import { SignUpFormData } from '@/lib/types/auth/SignUpFormData';
@@ -51,6 +51,18 @@ export const registerUser = async (data: SignUpFormData) => {
   }
 };
 
+// Firebase User Sign Up
+const signUp = async (data: SignUpFormData) => {
+  const { email, password } = data;
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    console.error('Firebase Auth Error:', error);
+    throw error;
+  }
+};
+
 // User Login (Firebase Auth + Firestore)
 export const loginUser = async (data: LoginFormData): Promise<User> => {
   try {
@@ -69,18 +81,6 @@ export const loginUser = async (data: LoginFormData): Promise<User> => {
   }
 };
 
-// Firebase User Sign Up
-const signUp = async (data: SignUpFormData) => {
-  const { email, password } = data;
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
-  } catch (error) {
-    console.error('Firebase Auth Error:', error);
-    throw error;
-  }
-};
-
 // Firebase User Login
 const login = async (data: LoginFormData) => {
   const { email, password } = data;
@@ -91,6 +91,17 @@ const login = async (data: LoginFormData) => {
     const errorCode = (error as FirebaseError).code;
     const errorMessage = (error as FirebaseError).message;
     console.error(errorCode, errorMessage);
+    throw error;
+  }
+};
+
+// User Logout
+export const logoutUser = async () => {
+  try {
+    await signOut(auth);
+    console.log('User logged out successfully');
+  } catch (error) {
+    console.error('Error logging out user:', error);
     throw error;
   }
 };
