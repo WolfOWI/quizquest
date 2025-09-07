@@ -101,11 +101,11 @@ const BattleSpriteTestScreen = () => {
     }, 50);
   };
 
-  const handlePlayerBlockSequence = () => {
-    setCurrentPlayerAnimation('block_hit → idle');
+  const handlePlayerHurtSequence = () => {
+    setCurrentPlayerAnimation('hurt → idle');
     stopPlayerAnimation();
     setTimeout(() => {
-      playPlayerSequence(['block_hit', 'idle'], selectedPlayerId, true, 10);
+      playPlayerSequence(['hurt', 'idle'], selectedPlayerId, true, 10);
     }, 50);
   };
 
@@ -117,10 +117,10 @@ const BattleSpriteTestScreen = () => {
       setTimeout(
         () => {
           stopPlayerAnimation();
-          handlePlayerBlockSequence();
+          handlePlayerHurtSequence();
         },
         getAnimationDuration(selectedEnemyId, 'attack', 10) / 2 -
-          getAnimationDuration(selectedPlayerId, 'block_hit', 10) / 1.5
+          getAnimationDuration(selectedPlayerId, 'hurt', 10) / 1.2
       );
     }, 50);
   };
@@ -324,7 +324,7 @@ const BattleSpriteTestScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   className="rounded bg-orange-600 px-3 py-2"
-                  onPress={handlePlayerBlockSequence}>
+                  onPress={handlePlayerHurtSequence}>
                   <Text className="text-xs font-semibold text-white">Block Hit → Idle</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
