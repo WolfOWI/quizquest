@@ -63,15 +63,9 @@ const StartScreen = () => {
 
         {/* Test Button */}
         <PrimaryBtn
-          label="Test Player Sprites"
+          label="Sprite Tests"
           variant="wood"
-          onPress={() => router.push('/(app)/playerSpriteTest')}
-        />
-
-        <PrimaryBtn
-          label="Test Enemy Sprites"
-          variant="wood"
-          onPress={() => router.push('/(app)/enemySpriteTest' as any)}
+          onPress={() => router.push('/(app)/spriteTests')}
         />
 
         {/* Logout Button */}

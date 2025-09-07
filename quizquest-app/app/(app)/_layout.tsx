@@ -11,6 +11,14 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
+        name="spriteTests"
+        options={{
+          title: 'Sprite Tests',
+          headerShown: false,
+        }}
+      />
+      {/* TODO Hide / Remove later */}
+      <Stack.Screen
         name="playerSpriteTest"
         options={{
           title: 'Player Sprite Test',
@@ -21,6 +29,13 @@ export default function AppLayout() {
         name="enemySpriteTest"
         options={{
           title: 'Enemy Sprite Test',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="battleSpriteTest"
+        options={{
+          title: 'Battle Sprite Test',
           headerShown: false,
         }}
       />
