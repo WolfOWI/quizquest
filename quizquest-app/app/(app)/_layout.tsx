@@ -17,6 +17,13 @@ export default function AppLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="enemySpriteTest"
+        options={{
+          title: 'Enemy Sprite Test',
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
