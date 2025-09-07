@@ -4,7 +4,7 @@ import { SpriteProps } from '@/lib/types/sprites/Sprite';
 import { getSpriteData } from '@/lib/utils/spriteUtils';
 import { calculateProportionalWidth } from '@/lib/utils/spriteUtils';
 
-const PlayerSprite: React.FC<SpriteProps> = ({
+const EnemySprite: React.FC<SpriteProps> = ({
   characterId,
   defaultAnimation = 'idle',
   loop = true,
@@ -46,4 +46,4 @@ const PlayerSprite: React.FC<SpriteProps> = ({
   );
 };
 
-export default PlayerSprite;
+export default EnemySprite;

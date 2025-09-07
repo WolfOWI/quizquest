@@ -1,7 +1,7 @@
 import { useRef, useCallback } from 'react';
 import { AnimatedSpriteType } from '@darrench3140/react-native-sprite-sheet';
-import { SpriteAnimationHook } from '@/lib/types/sprites/PlayerSprite';
-import { getAnimationDuration } from '@/lib/utils/animationUtils';
+import { SpriteAnimationHook } from '@/lib/types/sprites/Sprite';
+import { getAnimationDuration } from '@/lib/utils/spriteUtils';
 
 export const useSpriteAnimation = (): SpriteAnimationHook => {
   const spriteRef = useRef<AnimatedSpriteType | null>(null);

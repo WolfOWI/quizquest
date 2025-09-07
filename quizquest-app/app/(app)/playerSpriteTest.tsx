@@ -6,7 +6,7 @@ import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import PlayerSprite from '@/components/sprites/PlayerSprite';
 import { useSpriteAnimation } from '@/lib/hooks/useSpriteAnimation';
 import { CharacterData } from '@/lib/constants/sprites/PlayerSpriteData';
-import { getPlayerCharacterData } from '@/lib/utils/playerUtils';
+import { getSpriteData } from '@/lib/utils/spriteUtils';
 
 const PlayerSpriteTestScreen = () => {
   const { spriteRef, playAnimation, play2AnimationSequence, stopAnimation } = useSpriteAnimation();
@@ -60,7 +60,7 @@ const PlayerSpriteTestScreen = () => {
   };
 
   // Get current character data
-  const currentCharacterData = getPlayerCharacterData(selectedCharacterId);
+  const currentCharacterData = getSpriteData(selectedCharacterId);
 
   // Auto-start idle animation when component mounts or character changes
   useEffect(() => {
@@ -74,7 +74,7 @@ const PlayerSpriteTestScreen = () => {
   return (
     <StandardSafeLayout bgTextureSrc={backgroundTexture}>
       <TopAppBar
-        title="Player Test"
+        title="Players"
         titleCenter
         leftButtonIcon="back"
         leftButtonPress={() => router.back()}

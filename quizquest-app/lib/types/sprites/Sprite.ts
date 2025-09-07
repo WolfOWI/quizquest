@@ -1,6 +1,6 @@
 import { AnimatedSpriteType } from '@darrench3140/react-native-sprite-sheet';
 
-export interface PlayerSpriteProps {
+export interface SpriteProps {
   characterId: string;
   defaultAnimation?: string;
   loop?: boolean;

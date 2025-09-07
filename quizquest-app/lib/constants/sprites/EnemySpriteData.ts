@@ -30,3 +30,8 @@ export const bushMonster_data = {
     }
   },
 };
+
+// Enemy Character Data Collection
+export const EnemyData = {
+  bushMonster: bushMonster_data,
+};
