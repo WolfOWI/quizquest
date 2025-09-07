@@ -4,13 +4,12 @@ import { router } from 'expo-router';
 import TopAppBar from '@/components/navigation/TopAppBar';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import PlayerSprite from '@/components/sprites/PlayerSprite';
-import { usePlayerSpriteAnimation } from '@/lib/hooks/usePlayerSpriteAnimation';
+import { useSpriteAnimation } from '@/lib/hooks/useSpriteAnimation';
 import { CharacterData } from '@/lib/constants/sprites/PlayerSpriteData';
 import { getPlayerCharacterData } from '@/lib/utils/playerUtils';
 
 const PlayerSpriteTestScreen = () => {
-  const { spriteRef, playAnimation, play2AnimationSequence, stopAnimation } =
-    usePlayerSpriteAnimation();
+  const { spriteRef, playAnimation, play2AnimationSequence, stopAnimation } = useSpriteAnimation();
 
   const [selectedCharacterId, setSelectedCharacterId] = useState('heavyKnight_red');
   const [currentDisplayedAnimation, setCurrentDisplayedAnimation] = useState('idle');

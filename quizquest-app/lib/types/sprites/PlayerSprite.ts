@@ -11,7 +11,7 @@ export interface PlayerSpriteProps {
   spriteRef?: React.RefObject<AnimatedSpriteType | null>;
 }
 
-export interface PlayerSpriteAnimationHook {
+export interface SpriteAnimationHook {
   spriteRef: React.RefObject<AnimatedSpriteType | null>;
   playAnimation: (animation: string, loop?: boolean, fps?: number) => void;
   play2AnimationSequence: (

@@ -15,11 +15,11 @@ import TopAppBar from '@/components/navigation/TopAppBar';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import { useAppStore } from '@/lib/state/appStore';
 import PlayerSprite from '@/components/sprites/PlayerSprite';
-import { usePlayerSpriteAnimation } from '@/lib/hooks/usePlayerSpriteAnimation';
+import { useSpriteAnimation } from '@/lib/hooks/useSpriteAnimation';
 
 const StartScreen = () => {
   const { userDoc, logout, authUser, authStatus } = useAppStore();
-  const { spriteRef, playAnimation } = usePlayerSpriteAnimation();
+  const { spriteRef, playAnimation } = useSpriteAnimation();
 
   // TODO: Get correct copyright-free texture later
   const backgroundTexture = require('@/assets/textures/texture-16.png');

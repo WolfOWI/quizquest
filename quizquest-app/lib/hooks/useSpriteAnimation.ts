@@ -1,9 +1,9 @@
 import { useRef, useCallback } from 'react';
 import { AnimatedSpriteType } from '@darrench3140/react-native-sprite-sheet';
-import { PlayerSpriteAnimationHook } from '@/lib/types/sprites/PlayerSprite';
+import { SpriteAnimationHook } from '@/lib/types/sprites/PlayerSprite';
 import { getAnimationDuration } from '@/lib/utils/animationUtils';
 
-export const usePlayerSpriteAnimation = (): PlayerSpriteAnimationHook => {
+export const useSpriteAnimation = (): SpriteAnimationHook => {
   const spriteRef = useRef<AnimatedSpriteType | null>(null);
 
   const playAnimation = useCallback((animation: string, loop: boolean = true, fps: number = 10) => {
