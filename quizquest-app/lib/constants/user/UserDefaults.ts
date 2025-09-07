@@ -1,6 +1,6 @@
 export const userDefaults = {
   selections: {
-    characterId: 'heavy_knight_red',
+    characterId: 'heavyKnight_red',
     petId: '',
   },
   economy: {

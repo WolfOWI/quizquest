@@ -10,6 +10,13 @@ export default function AppLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="playerSpriteTest"
+        options={{
+          title: 'Player Sprite Test',
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
