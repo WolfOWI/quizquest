@@ -65,8 +65,43 @@ export const skeleton_data = {
   },
 };
 
+// Goblin
+export const goblin_data = {
+  name: 'Goblin',
+  skins: ['goblin_default'],
+  animations: ['run', 'run_hit', 'idle', 'block', 'hit', 'idle02', 'attack', 'jump', 'die'],
+  frameSize: { width: 336, height: 256 },
+  spriteSheetSize: { width: 19152, height: 256 },
+  columnRowMapping: [56],
+  offset: { x: 0, y: 2 },
+  animationFrames: {
+    run: getFrames(0, 5),
+    run_hit: getFrames(6, 11),
+    idle: getFrames(12, 16),
+    block: getFrames(17, 21),
+    hit: getFrames(22, 26),
+    idle02: getFrames(27, 31),
+    attack: getFrames(32, 38),
+    jump: getFrames(39, 45),
+    die: getFrames(46, 56),
+  },
+  getSpriteSource: (skin: string) => {
+    switch (skin) {
+      case 'goblin_default':
+        return Image.resolveAssetSource(
+          require('@/assets/sprites/enemies/goblin/goblin_default.png')
+        );
+      default:
+        return Image.resolveAssetSource(
+          require('@/assets/sprites/enemies/goblin/goblin_default.png')
+        );
+    }
+  },
+};
+
 // Enemy Character Data Collection
 export const EnemyData = {
   bushMonster: bushMonster_data,
   skeleton: skeleton_data,
+  goblin: goblin_data,
 };

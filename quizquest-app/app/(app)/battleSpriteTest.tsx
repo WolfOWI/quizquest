@@ -44,6 +44,7 @@ const BattleSpriteTestScreen = () => {
   const enemyGroups = {
     bushMonster: EnemyData.bushMonster.skins,
     skeleton: EnemyData.skeleton.skins,
+    goblin: EnemyData.goblin.skins,
   };
 
   const playerGroups = {
