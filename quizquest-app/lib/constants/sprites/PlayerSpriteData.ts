@@ -200,7 +200,7 @@ export const mage_data = {
     'die',
   ],
   frameSize: { width: 256, height: 256 },
-  spriteSheetSize: { width: 16896, height: 256 },
+  spriteSheetSize: { width: 16640, height: 256 },
   columnRowMapping: [64],
   offset: { x: 0, y: 2 },
   animationFrames: {
