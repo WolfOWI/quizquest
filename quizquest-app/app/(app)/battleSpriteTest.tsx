@@ -6,13 +6,37 @@ import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import EnemySprite from '@/components/sprites/EnemySprite';
 import { useSpriteAnimation } from '@/lib/hooks/useSpriteAnimation';
 import { EnemyData } from '@/lib/constants/sprites/EnemySpriteData';
-import { getSpriteData } from '@/lib/utils/spriteUtils';
+import { getAnimationDuration, getSpriteData } from '@/lib/utils/spriteUtils';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { CharacterData } from '@/lib/constants/sprites/PlayerSpriteData';
+import PlayerSprite from '@/components/sprites/PlayerSprite';
 
 const BattleSpriteTestScreen = () => {
-  const { spriteRef, playAnimation, play2AnimationSequence, stopAnimation } = useSpriteAnimation();
+  const {
+    spriteRef: enemySpriteRef,
+    playAnimation: playEnemyAnimation,
+    play2AnimationSequence: playEnemySequence,
+    stopAnimation: stopEnemyAnimation,
+  } = useSpriteAnimation();
+  const {
+    spriteRef: playerSpriteRef,
+    playAnimation: playPlayerAnimation,
+    play2AnimationSequence: playPlayerSequence,
+    stopAnimation: stopPlayerAnimation,
+  } = useSpriteAnimation();
 
   const [selectedEnemyId, setSelectedEnemyId] = useState('bushMonster_default');
-  const [currentDisplayedAnimation, setCurrentDisplayedAnimation] = useState('idle');
+  const [selectedPlayerId, setSelectedPlayerId] = useState('heavyKnight_red');
+  const [currentEnemyAnimation, setCurrentEnemyAnimation] = useState('idle');
+  const [currentPlayerAnimation, setCurrentPlayerAnimation] = useState('idle');
 
   // TODO: Get correct copyright-free texture later
   const backgroundTexture = require('@/assets/textures/texture-16.png');
@@ -21,53 +45,99 @@ const BattleSpriteTestScreen = () => {
     bushMonster: EnemyData.bushMonster.skins,
   };
 
-  const handleEnemyChange = (enemyId: string) => {
-    setSelectedEnemyId(enemyId);
+  const playerGroups = {
+    heavyKnight: CharacterData.heavyKnight.skins,
+    samurai: CharacterData.samurai.skins,
+    mage: CharacterData.mage.skins,
   };
 
-  const handlePlayAnimation = (animation: string, loop: boolean = true) => {
-    setCurrentDisplayedAnimation(animation);
-    stopAnimation();
+  // Enemy animation handlers
+  const handleEnemyAnimation = (animation: string, loop: boolean = true) => {
+    setCurrentEnemyAnimation(animation);
+    stopEnemyAnimation();
     setTimeout(() => {
-      playAnimation(animation, loop, 10);
+      playEnemyAnimation(animation, loop, 10);
     }, 50);
   };
 
-  const handleAttackIdleSequence = () => {
-    setCurrentDisplayedAnimation('attack → idle');
-    stopAnimation();
+  const handleEnemyAttackSequence = () => {
+    setCurrentEnemyAnimation('attack → idle');
+    stopEnemyAnimation();
     setTimeout(() => {
-      play2AnimationSequence(['attack', 'idle'], selectedEnemyId, true, 10);
+      playEnemySequence(['attack', 'idle'], selectedEnemyId, true, 10);
     }, 50);
   };
 
-  const handleHitIdleSequence = () => {
-    setCurrentDisplayedAnimation('hit → idle');
-    stopAnimation();
+  const handleEnemyHitSequence = () => {
+    setCurrentEnemyAnimation('hit → idle');
+    stopEnemyAnimation();
     setTimeout(() => {
-      play2AnimationSequence(['hit', 'idle'], selectedEnemyId, true, 10);
+      playEnemySequence(['hit', 'idle'], selectedEnemyId, true, 10);
     }, 50);
   };
 
-  const handleDieOnce = () => {
-    setCurrentDisplayedAnimation('die');
-    stopAnimation();
+  const handleEnemyDie = () => {
+    setCurrentEnemyAnimation('die');
+    stopEnemyAnimation();
     setTimeout(() => {
-      playAnimation('die', false, 10);
+      playEnemyAnimation('die', false, 10);
     }, 50);
   };
 
-  // Get current enemy data
+  // Player animation handlers
+  const handlePlayerAnimation = (animation: string, loop: boolean = true) => {
+    setCurrentPlayerAnimation(animation);
+    stopPlayerAnimation();
+    setTimeout(() => {
+      playPlayerAnimation(animation, loop, 10);
+    }, 50);
+  };
+
+  const handlePlayerAttackSequence = () => {
+    setCurrentPlayerAnimation('attack → idle');
+    stopPlayerAnimation();
+    setTimeout(() => {
+      playPlayerSequence(['attack', 'idle'], selectedPlayerId, true, 10);
+    }, 50);
+  };
+
+  const handlePlayerBlockSequence = () => {
+    setCurrentPlayerAnimation('block_hit → idle');
+    stopPlayerAnimation();
+    setTimeout(() => {
+      playPlayerSequence(['block_hit', 'idle'], selectedPlayerId, true, 10);
+    }, 50);
+  };
+
+  // Inter-character animation handlers
+  const handleEnemyAttackPlayer = () => {
+    stopEnemyAnimation();
+    setTimeout(() => {
+      handleEnemyAttackSequence();
+      setTimeout(
+        () => {
+          stopPlayerAnimation();
+          handlePlayerBlockSequence();
+        },
+        getAnimationDuration(selectedEnemyId, 'attack', 10) / 2 -
+          getAnimationDuration(selectedPlayerId, 'block_hit', 10) / 1.5
+      );
+    }, 50);
+  };
+
+  // Get current sprite data
   const currentEnemyData = getSpriteData(selectedEnemyId);
+  const currentPlayerData = getSpriteData(selectedPlayerId);
 
-  // Auto-start idle animation when component mounts or enemy changes
+  // Auto-start idle animations when component mounts or characters change
   useEffect(() => {
     const timer = setTimeout(() => {
-      playAnimation('idle', true, 10);
-    }, 100); // Small delay to ensure sprite is ready
+      playEnemyAnimation('idle', true, 10);
+      playPlayerAnimation('idle', true, 10);
+    }, 100); // Small delay to ensure sprites are ready
 
     return () => clearTimeout(timer);
-  }, [selectedEnemyId, playAnimation]);
+  }, [selectedEnemyId, selectedPlayerId, playEnemyAnimation, playPlayerAnimation]);
 
   return (
     <StandardSafeLayout bgTextureSrc={backgroundTexture}>
@@ -79,92 +149,190 @@ const BattleSpriteTestScreen = () => {
       />
       <ScrollView className="flex-1 p-4">
         <View className="items-center space-y-6">
-          {/* Enemy Selection */}
+          {/* Character Selection */}
           <View className="w-full">
-            <Text className="mb-2 text-lg font-bold text-white">1. Select Enemy Skin</Text>
-            <ScrollView className="max-h-40">
-              {Object.entries(enemyGroups).map(([enemyType, skins]) => (
-                <View key={enemyType} className="mb-4">
-                  <Text className="mb-2 text-sm font-semibold capitalize text-yellow-400">
-                    {enemyType.replace('_', ' ')}
-                  </Text>
-                  <View className="flex-row flex-wrap gap-2">
-                    {skins.map((enemyId: string) => (
-                      <TouchableOpacity
-                        key={enemyId}
-                        className={`rounded px-3 py-2 ${
-                          selectedEnemyId === enemyId ? 'bg-yellow-600' : 'bg-gray-600'
-                        }`}
-                        onPress={() => handleEnemyChange(enemyId)}>
-                        <Text className="text-xs text-white">
-                          {enemyId.replace(`${enemyType}_`, '')}
-                        </Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
+            <Text className="mb-4 text-lg font-bold text-white">1. Select Characters</Text>
+            <View className="flex-row gap-4">
+              {/* Enemy Selection */}
+              <View className="flex-1">
+                <Text className="mb-2 text-sm font-semibold text-yellow-400">Enemy</Text>
+                <Select onValueChange={(e) => setSelectedEnemyId(e?.value ?? '')}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select an enemy" />
+                  </SelectTrigger>
+                  <SelectContent className="w-[180px]">
+                    <SelectGroup>
+                      <SelectLabel>Enemies</SelectLabel>
+                      {Object.entries(enemyGroups).map(([enemyType]) => (
+                        <SelectItem key={enemyType} label={enemyType} value={enemyType}>
+                          {enemyType.replace('_', ' ')}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </View>
 
-          {/* Sprite Display */}
-          <View className="w-full items-center">
-            <Text className="mb-2 text-lg font-bold text-white">2. Current Enemy</Text>
-            <Text className="mb-4 text-sm text-white">
-              {selectedEnemyId} - Current: {currentDisplayedAnimation}
-            </Text>
+              {/* Player Selection */}
+              <View className="flex-1">
+                <Text className="mb-2 text-sm font-semibold text-blue-400">Player</Text>
+                <Select onValueChange={(e) => setSelectedPlayerId(e?.value ?? '')}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select an player" />
+                  </SelectTrigger>
+                  <SelectContent className="w-[180px]">
+                    <SelectGroup>
+                      <SelectLabel>Players</SelectLabel>
+                      {Object.entries(playerGroups).map(([playerType]) => (
+                        <SelectItem key={playerType} label={playerType} value={playerType}>
+                          {playerType.replace('_', ' ')}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </View>
+            </View>
+          </View>
+          <Text className="mb-2 text-xs text-white">
+            {selectedEnemyId} - {currentEnemyAnimation}
+          </Text>
+          <Text className="mb-2 text-xs text-white">
+            {selectedPlayerId} - {currentPlayerAnimation}
+          </Text>
+
+          {/* -------------------- Battle Component -------------------- */}
+
+          <View
+            className="relative w-full flex-1 flex-row items-center justify-between"
+            style={{ height: 200 }}>
+            <PlayerSprite
+              key={selectedPlayerId}
+              characterId={selectedPlayerId}
+              defaultAnimation="idle"
+              autoPlay={false}
+              spriteRef={playerSpriteRef}
+              size={150}
+              styles={{
+                // backgroundColor: 'blue',
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                transform: [{ translateX: '-50%' }],
+              }}
+            />
             <EnemySprite
-              key={selectedEnemyId} // Rerender when enemy changes
+              key={selectedEnemyId}
               characterId={selectedEnemyId}
               defaultAnimation="idle"
               autoPlay={false}
-              spriteRef={spriteRef}
-              size={200}
+              spriteRef={enemySpriteRef}
+              size={150}
+              styles={{
+                // backgroundColor: 'red',
+                position: 'absolute',
+                bottom: 0,
+                right: '50%',
+                transform: [{ translateX: '50%' }],
+              }}
             />
           </View>
+          {/* -------------------- Battle Component -------------------- */}
 
           {/* Animation Controls */}
           <View className="w-full">
-            <Text className="mb-2 text-lg font-bold text-white">3. Animation Controls</Text>
-            <Text className="mb-4 text-sm text-white">
-              Available animations for {currentEnemyData.name}:
-            </Text>
-            <View className="mb-4 flex-row flex-wrap justify-center gap-2">
-              {currentEnemyData.animations.map((animation: string) => (
+            <Text className="mb-4 text-lg font-bold text-white">3. Animation Controls</Text>
+            <TouchableOpacity
+              className="rounded bg-yellow-600 px-3 py-2"
+              onPress={() => handleEnemyAttackPlayer()}>
+              <Text className="text-xs font-semibold capitalize text-white">
+                Enemy Attack Player
+              </Text>
+            </TouchableOpacity>
+
+            {/* Enemy Controls */}
+            <View className="mb-6">
+              <Text className="mb-2 text-sm font-semibold text-yellow-400">
+                Enemy ({currentEnemyData.name}) Animations:
+              </Text>
+              <View className="mb-3 flex-row flex-wrap gap-2">
+                {currentEnemyData.animations.map((animation: string) => (
+                  <TouchableOpacity
+                    key={animation}
+                    className="rounded bg-yellow-600 px-3 py-2"
+                    onPress={() => handleEnemyAnimation(animation, true)}>
+                    <Text className="text-xs font-semibold capitalize text-white">
+                      {animation.replace('_', ' ')}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View className="flex-row flex-wrap gap-2">
                 <TouchableOpacity
-                  key={animation}
-                  className="rounded bg-blue-600 px-3 py-2"
-                  onPress={() => handlePlayAnimation(animation, true)}>
-                  <Text className="text-xs font-semibold capitalize text-white">
-                    {animation.replace('_', ' ')}
-                  </Text>
+                  className="rounded bg-green-600 px-3 py-2"
+                  onPress={() => handleEnemyAnimation('idle', true)}>
+                  <Text className="text-xs font-semibold text-white">Idle</Text>
                 </TouchableOpacity>
-              ))}
+                <TouchableOpacity
+                  className="rounded bg-purple-600 px-3 py-2"
+                  onPress={handleEnemyAttackSequence}>
+                  <Text className="text-xs font-semibold text-white">Attack → Idle</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="rounded bg-orange-600 px-3 py-2"
+                  onPress={handleEnemyHitSequence}>
+                  <Text className="text-xs font-semibold text-white">Hit → Idle</Text>
+                </TouchableOpacity>
+                <TouchableOpacity className="rounded bg-red-800 px-3 py-2" onPress={handleEnemyDie}>
+                  <Text className="text-xs font-semibold text-white">Die</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="rounded bg-gray-600 px-3 py-2"
+                  onPress={stopEnemyAnimation}>
+                  <Text className="text-xs font-semibold text-white">Stop</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
-            {/* Special Controls */}
-            <View className="flex-row flex-wrap justify-center gap-2">
-              <TouchableOpacity
-                className="rounded bg-green-600 px-4 py-2"
-                onPress={() => handlePlayAnimation('idle', true)}>
-                <Text className="text-sm font-semibold text-white">Start Idle</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="rounded bg-purple-600 px-4 py-2"
-                onPress={handleAttackIdleSequence}>
-                <Text className="text-sm font-semibold text-white">Attack → Idle</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="rounded bg-orange-600 px-4 py-2"
-                onPress={handleHitIdleSequence}>
-                <Text className="text-sm font-semibold text-white">Hit → Idle</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="rounded bg-red-800 px-4 py-2" onPress={handleDieOnce}>
-                <Text className="text-sm font-semibold text-white">Die (Once)</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="rounded bg-gray-600 px-4 py-2" onPress={stopAnimation}>
-                <Text className="text-sm font-semibold text-white">Stop</Text>
-              </TouchableOpacity>
+            {/* Player Controls */}
+            <View>
+              <Text className="mb-2 text-sm font-semibold text-blue-400">
+                Player ({currentPlayerData.name}) Animations:
+              </Text>
+              <View className="mb-3 flex-row flex-wrap gap-2">
+                {currentPlayerData.animations.map((animation: string) => (
+                  <TouchableOpacity
+                    key={animation}
+                    className="rounded bg-blue-600 px-3 py-2"
+                    onPress={() => handlePlayerAnimation(animation, true)}>
+                    <Text className="text-xs font-semibold capitalize text-white">
+                      {animation.replace('_', ' ')}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View className="flex-row flex-wrap gap-2">
+                <TouchableOpacity
+                  className="rounded bg-green-600 px-3 py-2"
+                  onPress={() => handlePlayerAnimation('idle', true)}>
+                  <Text className="text-xs font-semibold text-white">Idle</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="rounded bg-purple-600 px-3 py-2"
+                  onPress={handlePlayerAttackSequence}>
+                  <Text className="text-xs font-semibold text-white">Attack → Idle</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="rounded bg-orange-600 px-3 py-2"
+                  onPress={handlePlayerBlockSequence}>
+                  <Text className="text-xs font-semibold text-white">Block Hit → Idle</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="rounded bg-gray-600 px-3 py-2"
+                  onPress={stopPlayerAnimation}>
+                  <Text className="text-xs font-semibold text-white">Stop</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>

@@ -13,6 +13,7 @@ const EnemySprite: React.FC<SpriteProps> = ({
   autoPlay = true,
   size,
   spriteRef,
+  styles,
 }) => {
   const ref = spriteRef;
 
@@ -41,7 +42,7 @@ const EnemySprite: React.FC<SpriteProps> = ({
       inLoop={loop}
       fps={fps}
       autoPlay={autoPlay}
-      styles={{ transform: [{ scaleX: flip ? -1 : 1 }] }}
+      styles={[styles, { transform: [{ scaleX: flip ? -1 : 1 }] }]}
     />
   );
 };

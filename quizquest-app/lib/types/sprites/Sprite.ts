@@ -1,4 +1,5 @@
 import { AnimatedSpriteType } from '@darrench3140/react-native-sprite-sheet';
+import { StyleProp, ViewStyle } from 'react-native';
 
 export interface SpriteProps {
   characterId: string;
@@ -9,6 +10,7 @@ export interface SpriteProps {
   autoPlay?: boolean;
   size?: number;
   spriteRef?: React.RefObject<AnimatedSpriteType | null>;
+  styles?: StyleProp<ViewStyle>;
 }
 
 export interface SpriteAnimationHook {

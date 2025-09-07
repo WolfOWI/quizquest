@@ -34,6 +34,12 @@ const StartScreen = () => {
           variant="wood"
           onPress={() => router.push('/(app)/enemySpriteTest' as any)}
         />
+
+        <PrimaryBtn
+          label="Battle Test"
+          variant="wood"
+          onPress={() => router.push('/(app)/battleSpriteTest' as any)}
+        />
       </View>
     </StandardSafeLayout>
   );
