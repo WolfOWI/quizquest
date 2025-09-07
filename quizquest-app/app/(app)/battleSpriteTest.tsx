@@ -109,6 +109,14 @@ const BattleSpriteTestScreen = () => {
     }, 50);
   };
 
+  const handlePlayerDie = () => {
+    setCurrentPlayerAnimation('die');
+    stopPlayerAnimation();
+    setTimeout(() => {
+      playPlayerAnimation('die', false, 10);
+    }, 50);
+  };
+
   // Inter-character animation handlers
   const handleEnemyAttackPlayer = () => {
     stopEnemyAnimation();
@@ -123,6 +131,60 @@ const BattleSpriteTestScreen = () => {
           getAnimationDuration(selectedPlayerId, 'hurt', 10) / 1.2
       );
     }, 50);
+  };
+
+  const handlePlayerAttackEnemy = () => {
+    stopPlayerAnimation();
+    setTimeout(() => {
+      handlePlayerAttackSequence();
+      setTimeout(
+        () => {
+          stopEnemyAnimation();
+          handleEnemyHitSequence();
+        },
+        getAnimationDuration(selectedPlayerId, 'attack', 10) / 2 -
+          getAnimationDuration(selectedEnemyId, 'hit', 10) / 1.2
+      );
+    }, 50);
+  };
+
+  const handleEnemyDefeatPlayer = () => {
+    stopEnemyAnimation();
+    setTimeout(() => {
+      handleEnemyAttackSequence();
+      setTimeout(
+        () => {
+          stopPlayerAnimation();
+          handlePlayerDie();
+        },
+        getAnimationDuration(selectedEnemyId, 'attack', 10) / 2 -
+          getAnimationDuration(selectedPlayerId, 'die', 10) / 3
+      );
+    }, 50);
+  };
+
+  const handlePlayerDefeatEnemy = () => {
+    stopPlayerAnimation();
+    setTimeout(() => {
+      handlePlayerAttackSequence();
+      setTimeout(
+        () => {
+          stopEnemyAnimation();
+          handleEnemyDie();
+        },
+        getAnimationDuration(selectedPlayerId, 'attack', 10) / 1 -
+          getAnimationDuration(selectedEnemyId, 'die', 10) / 2
+      );
+    }, 50);
+  };
+
+  const resetBattle = () => {
+    stopEnemyAnimation();
+    stopPlayerAnimation();
+    setTimeout(() => {
+      playEnemyAnimation('idle', true, 10);
+      playPlayerAnimation('idle', true, 10);
+    }, 100);
   };
 
   // Get current sprite data
@@ -248,6 +310,36 @@ const BattleSpriteTestScreen = () => {
               <Text className="text-xs font-semibold capitalize text-white">
                 Enemy Attack Player
               </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="rounded bg-yellow-600 px-3 py-2"
+              onPress={() => handlePlayerAttackEnemy()}>
+              <Text className="text-xs font-semibold capitalize text-white">
+                Player Attack Enemy
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="rounded bg-yellow-600 px-3 py-2"
+              onPress={() => handleEnemyDefeatPlayer()}>
+              <Text className="text-xs font-semibold capitalize text-white">
+                Enemy Defeat Player
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="rounded bg-yellow-600 px-3 py-2"
+              onPress={() => handlePlayerDefeatEnemy()}>
+              <Text className="text-xs font-semibold capitalize text-white">
+                Player Defeat Enemy
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="rounded bg-yellow-600 px-3 py-2"
+              onPress={() => resetBattle()}>
+              <Text className="text-xs font-semibold capitalize text-white">Reset Battle</Text>
             </TouchableOpacity>
 
             {/* Enemy Controls */}
