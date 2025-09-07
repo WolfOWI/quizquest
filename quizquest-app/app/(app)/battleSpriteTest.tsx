@@ -43,6 +43,7 @@ const BattleSpriteTestScreen = () => {
 
   const enemyGroups = {
     bushMonster: EnemyData.bushMonster.skins,
+    skeleton: EnemyData.skeleton.skins,
   };
 
   const playerGroups = {

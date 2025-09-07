@@ -19,6 +19,7 @@ const EnemySpriteTestScreen = () => {
 
   const enemyGroups = {
     bushMonster: EnemyData.bushMonster.skins,
+    skeleton: EnemyData.skeleton.skins,
   };
 
   const handleEnemyChange = (enemyId: string) => {
