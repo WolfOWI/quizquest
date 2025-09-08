@@ -13,11 +13,13 @@ const StandardSafeLayout = ({
   bgTexture,
   bgImage,
   textureScale = 1,
+  noHorizontalPadding = false,
 }: {
   children: React.ReactNode;
   bgTexture?: ImageSourcePropType;
   bgImage?: ImageSourcePropType;
   textureScale?: number;
+  noHorizontalPadding?: boolean;
 }) => {
   return (
     <SafeAreaView className="flex-1">
@@ -42,7 +44,7 @@ const StandardSafeLayout = ({
       )}
       <KeyboardAvoidingView behavior="padding" className="flex-1">
         {/* Screen Content */}
-        <View className="mx-4 flex-1">{children}</View>
+        <View className={`${noHorizontalPadding ? '' : 'mx-4'} flex-1`}>{children}</View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
