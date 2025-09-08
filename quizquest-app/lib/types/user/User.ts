@@ -14,7 +14,7 @@ export interface User {
   };
 
   economy: {
-    coins: number;
+    gold: number;
     gems: number;
   };
 

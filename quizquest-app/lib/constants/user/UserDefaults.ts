@@ -4,7 +4,7 @@ export const userDefaults = {
     petId: '',
   },
   economy: {
-    coins: 0,
+    gold: 0,
     gems: 0,
   },
 };

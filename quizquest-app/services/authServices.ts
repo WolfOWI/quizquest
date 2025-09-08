@@ -26,11 +26,11 @@ export const registerUser = async (data: SignUpFormData) => {
         petId: userDefaults.selections.petId,
       },
       economy: {
-        coins: userDefaults.economy.coins,
+        gold: userDefaults.economy.gold,
         gems: userDefaults.economy.gems,
       },
       stats: {
-        level: 1,
+        level: 0,
         xp: 0,
         totalRuns: 0,
         totalWins: 0,

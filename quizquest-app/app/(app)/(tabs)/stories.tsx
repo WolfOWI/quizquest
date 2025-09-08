@@ -44,7 +44,7 @@ const StoriesScreen = () => {
   return (
     <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4} noHorizontalPadding>
       <View className="mx-4">
-        <CurrencyDisplay gemCount={userDoc.economy.gems} goldCount={userDoc.economy.coins} />
+        <CurrencyDisplay gemCount={userDoc.economy.gems} goldCount={userDoc.economy.gold} />
         <TopAppBar
           title="Stories"
           titleSize="large"
