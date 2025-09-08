@@ -46,10 +46,7 @@ const StartScreen = () => {
     <StandardSafeLayout bgTextureSrc={backgroundTexture}>
       <TopAppBar title="Start" titleCenter />
       <View className="flex-1 items-center justify-center">
-        <Text className="mb-4 text-xl text-white">Hello {userDoc?.username}!</Text>
-        <Text className="mb-4 text-lg text-white">
-          Your character is {userDoc?.selections.characterId}
-        </Text>
+        <Text className="font-kenney text-2xl text-white">{userDoc?.username}</Text>
 
         {/* Character Display */}
         <View className="mb-6">

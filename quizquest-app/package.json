@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@darrench3140/react-native-sprite-sheet": "^1.1.0",
+    "@expo-google-fonts/jacquard-12": "^0.4.0",
+    "@expo-google-fonts/pixelify-sans": "^0.4.1",
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-navigation/native": "^7.0.0",
     "@rn-primitives/label": "^1.2.0",

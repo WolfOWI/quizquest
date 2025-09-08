@@ -5,13 +5,19 @@ import { ThemeProvider } from '@react-navigation/native';
 import { PortalHost } from '@rn-primitives/portal';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useColorScheme } from 'nativewind';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useAuthListener } from '@/lib/hooks/useAuthListener';
 import { useAppStore } from '@/lib/state/appStore';
 import { useRouter, useSegments } from 'expo-router';
+import { Jacquard12_400Regular } from '@expo-google-fonts/jacquard-12';
+import {
+  PixelifySans_400Regular,
+  PixelifySans_500Medium,
+  PixelifySans_600SemiBold,
+  PixelifySans_700Bold,
+} from '@expo-google-fonts/pixelify-sans';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -22,7 +28,6 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const { colorScheme } = useColorScheme();
   const router = useRouter();
   const segments = useSegments();
   const { authStatus, authUser, userDoc } = useAppStore();
@@ -52,6 +57,11 @@ export default function RootLayout() {
 
   const [loaded] = useFonts({
     'Kenney Mini': require('@/assets/fonts/Kenney Mini.ttf'),
+    Jacquard12_400Regular: Jacquard12_400Regular,
+    PixelifySans_400Regular: PixelifySans_400Regular,
+    PixelifySans_500Medium: PixelifySans_500Medium,
+    PixelifySans_600SemiBold: PixelifySans_600SemiBold,
+    PixelifySans_700Bold: PixelifySans_700Bold,
   });
 
   useEffect(() => {
@@ -65,8 +75,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={NAV_THEME[colorScheme ?? 'light']}>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+    <ThemeProvider value={NAV_THEME.dark}>
+      <StatusBar style="light" />
       <Stack screenOptions={{ headerShown: false }} />
       <PortalHost />
     </ThemeProvider>
