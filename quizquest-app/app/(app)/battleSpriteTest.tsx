@@ -38,6 +38,12 @@ const BattleSpriteTestScreen = () => {
   const [currentEnemyAnimation, setCurrentEnemyAnimation] = useState('idle');
   const [currentPlayerAnimation, setCurrentPlayerAnimation] = useState('idle');
 
+  // Battle container controls
+  const [spriteDistance, setSpriteDistance] = useState(200); // Distance between sprites
+  const [spriteScale, setSpriteScale] = useState(1.0); // Scale factor for both sprites
+  const [enemySize, setEnemySize] = useState(150); // Individual enemy size
+  const [playerSize, setPlayerSize] = useState(150); // Individual player size
+
   // TODO: Get correct copyright-free texture later
   const backgroundTexture = require('@/assets/textures/texture-16.png');
 
@@ -267,39 +273,145 @@ const BattleSpriteTestScreen = () => {
 
           {/* -------------------- Battle Component -------------------- */}
 
+          {/* Battle Container Controls */}
+          <View className="w-full">
+            <Text className="mb-4 text-lg font-bold text-white">2. Battle Container Settings</Text>
+            <View className="mb-4 flex-row gap-4">
+              <View className="flex-1">
+                <Text className="mb-2 text-sm font-semibold text-white">
+                  Distance: {spriteDistance}px
+                </Text>
+                <View className="flex-row gap-2">
+                  <TouchableOpacity
+                    className="rounded bg-gray-600 px-3 py-1"
+                    onPress={() => setSpriteDistance(Math.min(400, spriteDistance + 25))}>
+                    <Text className="text-xs text-white">+25</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="rounded bg-gray-600 px-3 py-1"
+                    onPress={() => setSpriteDistance(Math.max(50, spriteDistance - 25))}>
+                    <Text className="text-xs text-white">-25</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View className="flex-1">
+                <Text className="mb-2 text-sm font-semibold text-white">
+                  Scale: {spriteScale.toFixed(1)}x
+                </Text>
+                <View className="flex-row gap-2">
+                  <TouchableOpacity
+                    className="rounded bg-gray-600 px-3 py-1"
+                    onPress={() => setSpriteScale(Math.max(0.5, spriteScale - 0.1))}>
+                    <Text className="text-xs text-white">-0.1</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="rounded bg-gray-600 px-3 py-1"
+                    onPress={() => setSpriteScale(Math.min(2.0, spriteScale + 0.1))}>
+                    <Text className="text-xs text-white">+0.1</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+            <View className="mb-4 flex-row gap-4">
+              <View className="flex-1">
+                <Text className="mb-2 text-sm font-semibold text-yellow-400">
+                  Enemy Size: {enemySize}px
+                </Text>
+                <View className="flex-row gap-2">
+                  <TouchableOpacity
+                    className="rounded bg-yellow-600 px-3 py-1"
+                    onPress={() => setEnemySize(Math.max(50, enemySize - 25))}>
+                    <Text className="text-xs text-white">-25</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="rounded bg-yellow-600 px-3 py-1"
+                    onPress={() => setEnemySize(Math.min(300, enemySize + 25))}>
+                    <Text className="text-xs text-white">+25</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View className="flex-1">
+                <Text className="mb-2 text-sm font-semibold text-blue-400">
+                  Player Size: {playerSize}px
+                </Text>
+                <View className="flex-row gap-2">
+                  <TouchableOpacity
+                    className="rounded bg-blue-600 px-3 py-1"
+                    onPress={() => setPlayerSize(Math.max(50, playerSize - 25))}>
+                    <Text className="text-xs text-white">-25</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="rounded bg-blue-600 px-3 py-1"
+                    onPress={() => setPlayerSize(Math.min(300, playerSize + 25))}>
+                    <Text className="text-xs text-white">+25</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+
+          {/* Battle Arena Container */}
           <View
-            className="relative w-full flex-1 flex-row items-center justify-between"
-            style={{ height: 200 }}>
-            <PlayerSprite
-              key={selectedPlayerId}
-              characterId={selectedPlayerId}
-              defaultAnimation="idle"
-              autoPlay={false}
-              spriteRef={playerSpriteRef}
-              size={150}
-              styles={{
-                // backgroundColor: 'blue',
-                position: 'absolute',
+            className="relative w-full items-center justify-end"
+            style={{
+              height: 250, // Fixed height
+              minHeight: 250,
+            }}>
+            {/* Battle Arena Background (optional visual aid) */}
+            <View
+              className="absolute rounded-lg border-2 border-gray-500 bg-gray-800/30"
+              style={{
+                width: spriteDistance + Math.max(enemySize, playerSize) * spriteScale,
+                height: 250, // Fixed height to match container
                 bottom: 0,
-                left: '50%',
-                transform: [{ translateX: '-50%' }],
               }}
             />
-            <EnemySprite
-              key={selectedEnemyId}
-              characterId={selectedEnemyId}
-              defaultAnimation="idle"
-              autoPlay={false}
-              spriteRef={enemySpriteRef}
-              size={150}
-              styles={{
-                // backgroundColor: 'red',
-                position: 'absolute',
+
+            {/* Enemy Sprite (Left side) */}
+            <View
+              className="absolute items-center justify-end"
+              style={{
+                left: 0,
                 bottom: 0,
-                right: '50%',
-                transform: [{ translateX: '50%' }],
-              }}
-            />
+                width: spriteDistance / 2,
+                height: 250, // Fixed height container
+              }}>
+              <EnemySprite
+                key={selectedEnemyId}
+                characterId={selectedEnemyId}
+                defaultAnimation="idle"
+                autoPlay={false}
+                spriteRef={enemySpriteRef}
+                size={enemySize * spriteScale}
+                styles={{
+                  // backgroundColor: 'red',
+                  position: 'relative',
+                }}
+              />
+            </View>
+
+            {/* Player Sprite (Right side) */}
+            <View
+              className="absolute items-center justify-end"
+              style={{
+                right: 0,
+                bottom: 0,
+                width: spriteDistance / 2,
+                height: 250, // Fixed height container
+              }}>
+              <PlayerSprite
+                key={selectedPlayerId}
+                characterId={selectedPlayerId}
+                defaultAnimation="idle"
+                autoPlay={false}
+                spriteRef={playerSpriteRef}
+                size={playerSize * spriteScale}
+                styles={{
+                  // backgroundColor: 'blue',
+                  position: 'relative',
+                }}
+              />
+            </View>
           </View>
           {/* -------------------- Battle Component -------------------- */}
 
