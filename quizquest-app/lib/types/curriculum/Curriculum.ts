@@ -2,7 +2,7 @@
 import { Timestamp } from 'firebase/firestore';
 import { Domain } from './Domain';
 
-export type AudienceLevel = 'kids' | 'general' | 'expert';
+export type AudienceLevel = 'novice' | 'apprentice' | 'master';
 export type SourceType = 'generated' | 'document';
 
 // subjects/{id}
