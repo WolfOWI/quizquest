@@ -1,14 +1,20 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
-import Heading from '@/components/typography/Heading';
 import StoryBook from '@/components/cards/StoryBook';
 import { SubjectDoc } from '@/lib/types/curriculum/Curriculum';
 import { Timestamp } from 'firebase/firestore';
+import CurrencyDisplay from '@/components/counters/CurrencyDisplay';
+import { useAppStore } from '@/lib/state/appStore';
 
 const StoriesScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
+  const { userDoc } = useAppStore();
+
+  if (!userDoc) {
+    return null;
+  }
 
   // TODO: Temporary Fake data (replace with real data)
   const subjects: SubjectDoc[] = [
@@ -37,7 +43,16 @@ const StoriesScreen = () => {
 
   return (
     <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4} noHorizontalPadding>
-      <TopAppBar title="Stories" titleCenter />
+      <View className="mx-4">
+        <CurrencyDisplay gemCount={userDoc.economy.gems} goldCount={userDoc.economy.coins} />
+        <TopAppBar
+          title="Stories"
+          titleSize="large"
+          rightButtonIcon="plus"
+          rightButtonPress={() => console.log('Add Story Pressed')}
+          buttonVariant="wood"
+        />
+      </View>
       <View className="flex-1">
         <ScrollView
           horizontal
