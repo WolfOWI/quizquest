@@ -14,8 +14,7 @@ const PlayerSpriteTestScreen = () => {
   const [selectedCharacterId, setSelectedCharacterId] = useState('heavyKnight_red');
   const [currentDisplayedAnimation, setCurrentDisplayedAnimation] = useState('idle');
 
-  // TODO: Get correct copyright-free texture later
-  const backgroundTexture = require('@/assets/textures/texture-16.png');
+  const backgroundTexture = require('@/assets/textures/bricks_castle.png');
 
   const characterGroups = {
     heavyKnight: CharacterData.heavyKnight.skins,
@@ -72,7 +71,7 @@ const PlayerSpriteTestScreen = () => {
   }, [selectedCharacterId, playAnimation]);
 
   return (
-    <StandardSafeLayout bgTextureSrc={backgroundTexture}>
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
       <TopAppBar
         title="Players"
         titleCenter

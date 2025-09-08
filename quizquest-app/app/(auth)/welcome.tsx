@@ -8,10 +8,9 @@ import Heading from '@/components/typography/Heading';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 
 const WelcomeScreen = () => {
-  // TODO: Get correct copyright-free texture later
-  const backgroundTexture = require('@/assets/textures/texture-16.png');
+  const backgroundTexture = require('@/assets/textures/bricks_castle.png');
   return (
-    <StandardSafeLayout bgTextureSrc={backgroundTexture}>
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
       <View className="w-full flex-1 items-center justify-between">
         <Heading>Welcome</Heading>
         <View className="flex w-full flex-col gap-2">

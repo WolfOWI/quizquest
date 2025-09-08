@@ -44,8 +44,7 @@ const BattleSpriteTestScreen = () => {
   const [enemySize, setEnemySize] = useState(150); // Individual enemy size
   const [playerSize, setPlayerSize] = useState(150); // Individual player size
 
-  // TODO: Get correct copyright-free texture later
-  const backgroundTexture = require('@/assets/textures/texture-16.png');
+  const backgroundTexture = require('@/assets/textures/bricks_castle.png');
 
   const enemyGroups = {
     bushMonster: EnemyData.bushMonster.skins,
@@ -210,7 +209,7 @@ const BattleSpriteTestScreen = () => {
   }, [selectedEnemyId, selectedPlayerId, playEnemyAnimation, playPlayerAnimation]);
 
   return (
-    <StandardSafeLayout bgTextureSrc={backgroundTexture}>
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
       <TopAppBar
         title="Battle"
         titleCenter

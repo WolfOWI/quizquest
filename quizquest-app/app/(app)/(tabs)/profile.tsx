@@ -11,8 +11,10 @@ const ProfileScreen = () => {
   const { userDoc } = useAppStore();
   const { spriteRef } = useSpriteAnimation();
 
+  const backgroundTexture = require('@/assets/textures/bricks_castle.png');
+
   return (
-    <StandardSafeLayout>
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
       <TopAppBar title="Profile" titleCenter />
       <View className="flex-1 items-center justify-center px-4">
         <Heading className="mb-4 text-center">Profile</Heading>

@@ -5,8 +5,10 @@ import TopAppBar from '@/components/navigation/TopAppBar';
 import Heading from '@/components/typography/Heading';
 
 const StoriesScreen = () => {
+  const backgroundTexture = require('@/assets/textures/wood_planks.png');
+
   return (
-    <StandardSafeLayout>
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
       <TopAppBar title="Stories" titleCenter />
       <View className="flex-1 items-center justify-center px-4">
         <Heading className="mb-4 text-center">Stories</Heading>

@@ -5,8 +5,11 @@ import TopAppBar from '@/components/navigation/TopAppBar';
 import Heading from '@/components/typography/Heading';
 
 const KnowledgeScrollScreen = () => {
+  // const backgroundTexture = require('@/assets/textures/paper_crumbled2.png');
+  const backgroundImage = require('@/assets/textures/paper_scroll.png');
+
   return (
-    <StandardSafeLayout>
+    <StandardSafeLayout bgImage={backgroundImage}>
       <TopAppBar title="Knowledge Scroll" titleCenter />
       <View className="flex-1 items-center justify-center px-4">
         <Heading className="mb-4 text-center">Knowledge Scroll</Heading>

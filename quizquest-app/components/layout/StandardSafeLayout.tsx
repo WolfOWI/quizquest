@@ -10,22 +10,27 @@ import React from 'react';
 
 const StandardSafeLayout = ({
   children,
-  bgTextureSrc,
+  bgTexture,
   bgImage,
+  textureScale = 1,
 }: {
   children: React.ReactNode;
-  bgTextureSrc?: ImageSourcePropType;
+  bgTexture?: ImageSourcePropType;
   bgImage?: ImageSourcePropType;
+  textureScale?: number;
 }) => {
   return (
     <SafeAreaView className="flex-1">
       {/* Background Texture */}
       {/* TODO: Get correct copyright-free texture later */}
-      {bgTextureSrc && (
+      {bgTexture && (
         <ImageBackground
-          source={bgTextureSrc}
+          source={bgTexture}
           resizeMode="repeat"
           className="absolute bottom-0 left-0 right-0 top-0"
+          style={{
+            transform: [{ scale: textureScale }],
+          }}
         />
       )}
       {bgImage && (

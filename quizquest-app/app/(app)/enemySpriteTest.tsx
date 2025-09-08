@@ -14,8 +14,7 @@ const EnemySpriteTestScreen = () => {
   const [selectedEnemyId, setSelectedEnemyId] = useState('bushMonster_default');
   const [currentDisplayedAnimation, setCurrentDisplayedAnimation] = useState('idle');
 
-  // TODO: Get correct copyright-free texture later
-  const backgroundTexture = require('@/assets/textures/texture-16.png');
+  const backgroundTexture = require('@/assets/textures/bricks_castle.png');
 
   const enemyGroups = {
     bushMonster: EnemyData.bushMonster.skins,
@@ -72,7 +71,7 @@ const EnemySpriteTestScreen = () => {
   }, [selectedEnemyId, playAnimation]);
 
   return (
-    <StandardSafeLayout bgTextureSrc={backgroundTexture}>
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
       <TopAppBar
         title="Enemies"
         titleCenter

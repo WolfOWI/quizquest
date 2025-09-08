@@ -39,10 +39,9 @@ const SignupScreen = () => {
     }
   };
 
-  // TODO: Get correct copyright-free texture later
-  const backgroundTexture = require('@/assets/textures/texture-16.png');
+  const backgroundTexture = require('@/assets/textures/bricks_castle.png');
   return (
-    <StandardSafeLayout bgTextureSrc={backgroundTexture}>
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
       <TopAppBar
         title="Signup"
         leftButtonIcon="back"
