@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
-import { router } from 'expo-router';
+import { router, Link } from 'expo-router';
 import Heading from '@/components/typography/Heading';
 import TopAppBar from '@/components/navigation/TopAppBar';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
@@ -61,10 +61,17 @@ const StartScreen = () => {
           />
         </View>
 
+        {/* Main Navigation Button */}
+        <PrimaryBtn
+          label="Start"
+          variant="wood"
+          onPress={() => router.push('/(app)/(tabs)/stories')}
+        />
+
         {/* Test Button */}
         <PrimaryBtn
           label="Sprite Tests"
-          variant="wood"
+          variant="stone"
           onPress={() => router.push('/(app)/spriteTests')}
         />
 

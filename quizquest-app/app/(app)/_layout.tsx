@@ -11,6 +11,12 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
+        name="(tabs)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="spriteTests"
         options={{
           title: 'Sprite Tests',
