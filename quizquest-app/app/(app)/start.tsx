@@ -21,8 +21,7 @@ const StartScreen = () => {
   const { userDoc, logout, authUser, authStatus } = useAppStore();
   const { spriteRef, playAnimation } = useSpriteAnimation();
 
-  // TODO: Get correct copyright-free texture later
-  const backgroundTexture = require('@/assets/textures/texture-16.png');
+  const backgroundImage = require('@/assets/images/backgrounds/start.png');
 
   const handleLogout = async () => {
     try {
@@ -43,18 +42,18 @@ const StartScreen = () => {
   }
 
   return (
-    <StandardSafeLayout bgTextureSrc={backgroundTexture}>
-      <TopAppBar title="Start" titleCenter />
-      <View className="flex-1 items-center justify-center">
-        <Text className="font-kenney text-2xl text-white">{userDoc?.username}</Text>
-
+    <StandardSafeLayout bgImage={backgroundImage}>
+      <View className="h-32"></View>
+      <View className="flex-1 items-center justify-end">
         {/* Character Display */}
-        <View className="mb-6">
+        <View className="mb-6 items-center justify-center">
+          <Text className="-mb-12 font-kenney text-2xl text-white">{userDoc?.username}</Text>
           <PlayerSprite
             characterId={userDoc?.selections.characterId ?? 'heavyKnight_red'}
             defaultAnimation="idle"
             autoPlay={true}
             spriteRef={spriteRef}
+            size={250}
           />
         </View>
 

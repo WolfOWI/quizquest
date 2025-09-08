@@ -11,9 +11,11 @@ import React from 'react';
 const StandardSafeLayout = ({
   children,
   bgTextureSrc,
+  bgImage,
 }: {
   children: React.ReactNode;
   bgTextureSrc?: ImageSourcePropType;
+  bgImage?: ImageSourcePropType;
 }) => {
   return (
     <SafeAreaView className="flex-1">
@@ -23,6 +25,13 @@ const StandardSafeLayout = ({
         <ImageBackground
           source={bgTextureSrc}
           resizeMode="repeat"
+          className="absolute bottom-0 left-0 right-0 top-0"
+        />
+      )}
+      {bgImage && (
+        <ImageBackground
+          source={bgImage}
+          resizeMode="cover"
           className="absolute bottom-0 left-0 right-0 top-0"
         />
       )}
