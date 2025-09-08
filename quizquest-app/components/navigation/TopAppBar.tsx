@@ -10,6 +10,7 @@ type Props = {
   title?: string;
   pretitle?: string;
   titleCenter?: boolean;
+  titleSize?: 'standard' | 'large';
   rightButtonIcon?: SquareBtnIcons;
   rightButtonPress?: () => void;
   buttonVariant?: BtnMaterialVariants;
@@ -21,6 +22,7 @@ const TopAppBar = ({
   title,
   pretitle,
   titleCenter = false,
+  titleSize = 'standard',
   rightButtonIcon,
   rightButtonPress,
   buttonVariant = 'stone',
@@ -33,8 +35,8 @@ const TopAppBar = ({
 
       <View
         className={`flex-col items-center ${titleCenter && `absolute left-1/2 -translate-x-1/2`}`}>
-        {pretitle && <Text className="font-kenney text-white">{pretitle}</Text>}
-        {title && <Heading>{title}</Heading>}
+        {pretitle && <Text className="font-pixelify text-white">{pretitle}</Text>}
+        {title && <Heading size={titleSize}>{title}</Heading>}
       </View>
 
       {/* Invisible spacer to ensure right button is aligned to the right (when titleCenter is true) */}
