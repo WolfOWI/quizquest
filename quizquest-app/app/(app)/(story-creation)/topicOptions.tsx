@@ -119,6 +119,8 @@ const TopicOptionsScreen = () => {
           </View>
         </ScrollView>
 
+        {/* TODO: Add cost in gems / currency - for generating a story */}
+
         <View className="mt-auto gap-2">
           <PrimaryBtn onPress={handleBack} label="Back" />
           <PrimaryBtn
