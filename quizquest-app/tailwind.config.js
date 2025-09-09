@@ -53,13 +53,11 @@ module.exports = {
       fontFamily: {
         kenney: ['Kenney Mini', 'sans-serif'],
         jacquard: ['Jacquard12_400Regular', 'sans-serif'],
-        pixelify: [
-          'PixelifySans_400Regular',
-          'PixelifySans_500Medium',
-          'PixelifySans_600SemiBold',
-          'PixelifySans_700Bold',
-          'sans-serif',
-        ],
+        pixelify: ['PixelifySans_400Regular', 'sans-serif'],
+        pixelify: ['PixelifySans_400Regular', 'sans-serif'],
+        pixelifyMedium: ['PixelifySans_500Medium', 'sans-serif'],
+        pixelifySemibold: ['PixelifySans_600SemiBold', 'sans-serif'],
+        pixelifyBold: ['PixelifySans_700Bold', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {
