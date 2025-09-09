@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
+import { router } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
 import StoryBook from '@/components/cards/StoryBook';
@@ -49,7 +50,7 @@ const StoriesScreen = () => {
           title="Stories"
           titleSize="large"
           rightButtonIcon="plus"
-          rightButtonPress={() => console.log('Add Story Pressed')}
+          rightButtonPress={() => router.push('/(app)/(story-creation)/topicInput' as any)}
           buttonVariant="wood"
         />
       </View>

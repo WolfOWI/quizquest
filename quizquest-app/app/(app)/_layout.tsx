@@ -23,7 +23,7 @@ export default function AppLayout() {
           headerShown: false,
         }}
       />
-      {/* TODO Hide / Remove later */}
+      {/* TODO Remove Test Files Later */}
       <Stack.Screen
         name="playerSpriteTest"
         options={{
@@ -42,6 +42,12 @@ export default function AppLayout() {
         name="battleSpriteTest"
         options={{
           title: 'Battle Sprite Test',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(story-creation)"
+        options={{
           headerShown: false,
         }}
       />
