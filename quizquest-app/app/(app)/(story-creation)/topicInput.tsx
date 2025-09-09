@@ -8,12 +8,10 @@ import { Label } from '@/components/ui/label';
 import { AudienceLevel } from '@/lib/types/curriculum/Curriculum';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { capitaliseAllWords } from '@/lib/utils/textUtils';
+import { getDifficultyIcon } from '@/lib/utils/iconUtils';
 
 const TopicInputScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_smallplanks.png');
-  const daggerImage = require('@/assets/icons/difficulty/dagger.png');
-  const swordImage = require('@/assets/icons/difficulty/sword.png');
-  const flamingSwordImage = require('@/assets/icons/difficulty/sword_flaming.png');
 
   const [subject, setSubject] = useState('');
   const [selectedLevel, setSelectedLevel] = useState<AudienceLevel>('novice');
@@ -105,13 +103,7 @@ const TopicInputScreen = () => {
                       selectedLevel === level.value && 'bg-zinc-900/70'
                     }`}>
                     <Image
-                      source={
-                        level.value === 'novice'
-                          ? daggerImage
-                          : level.value === 'apprentice'
-                            ? swordImage
-                            : flamingSwordImage
-                      }
+                      source={getDifficultyIcon(level.value)}
                       className={` ${
                         selectedLevel === level.value ? 'h-8 w-8 opacity-100' : 'h-6 w-6 opacity-25'
                       }`}

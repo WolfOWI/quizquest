@@ -15,6 +15,9 @@ const AIValidationScreen = () => {
   const subject = params.subject as string;
   const level = params.level as AudienceLevel;
 
+  // TODO: Temporary set isValid to a random true / false
+  const [isValid, setIsValid] = useState(Boolean(Math.round(Math.random())));
+
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
   const loadingMessages = useMemo(
@@ -42,12 +45,12 @@ const AIValidationScreen = () => {
       clearInterval(messageInterval);
 
       // TODO: Add a time out screen
-      // Navigate to topic options screen
       router.replace({
         pathname: '/(app)/(story-creation)/topicOptions' as any,
         params: {
           subject,
           level,
+          isValid: isValid?.toString(),
           // Fake Options
           options: JSON.stringify([
             {
