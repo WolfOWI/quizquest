@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { AudienceLevel } from '@/lib/types/curriculum/Curriculum';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
+import { capitaliseAllWords } from '@/lib/utils/textUtils';
 
 const TopicInputScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_smallplanks.png');
@@ -41,7 +42,13 @@ const TopicInputScreen = () => {
       return;
     }
 
-    // TODO: Navigate to ai validation screen
+    router.push({
+      pathname: '/(app)/(story-creation)/aiValidation' as any,
+      params: {
+        subject: subject.trim(),
+        level: selectedLevel,
+      },
+    });
   };
 
   return (
@@ -68,7 +75,7 @@ const TopicInputScreen = () => {
           <Label className="mb-3 font-kenney text-lg text-white">Subject</Label>
           <Input
             placeholder="E.g. Space exploration, Squirrels, Japan..."
-            value={subject}
+            value={capitaliseAllWords(subject)}
             onChangeText={setSubject}
             className="font-pixelify border-white/20 text-white"
             autoCapitalize="none"
