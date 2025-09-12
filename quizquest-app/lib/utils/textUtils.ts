@@ -10,3 +10,8 @@ export const capitaliseAllWords = (string: string) => {
     .map((word) => capitaliseWord(word))
     .join(' ');
 };
+
+// Pad a number with leading zeros (e.g. 1 -> 01)
+export const addLeadingZero = (number: number) => {
+  return number.toString().padStart(2, '0');
+};

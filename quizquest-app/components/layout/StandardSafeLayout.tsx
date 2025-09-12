@@ -18,7 +18,6 @@ const StandardSafeLayout = ({
   return (
     <SafeAreaView className="flex-1">
       {/* Background Texture */}
-      {/* TODO: Get correct copyright-free texture later */}
       {bgTexture && (
         <ImageBackground
           source={bgTexture}
