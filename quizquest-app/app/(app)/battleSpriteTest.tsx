@@ -225,41 +225,37 @@ const BattleSpriteTestScreen = () => {
               {/* Enemy Selection */}
               <View className="flex-1">
                 <Text className="mb-2 text-sm font-semibold text-yellow-400">Enemy</Text>
-                <Select onValueChange={(e) => setSelectedEnemyId(e?.value ?? '')}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select an enemy" />
-                  </SelectTrigger>
-                  <SelectContent className="w-[180px]">
-                    <SelectGroup>
-                      <SelectLabel>Enemies</SelectLabel>
-                      {Object.entries(enemyGroups).map(([enemyType]) => (
-                        <SelectItem key={enemyType} label={enemyType} value={enemyType}>
-                          {enemyType.replace('_', ' ')}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Pressable
+                  className="h-10 w-[180px] flex-row items-center justify-between rounded-md border border-gray-600 bg-gray-800 px-3 py-2"
+                  onPress={() => {
+                    console.log('Enemy trigger pressed');
+                    // Cycle through enemy types
+                    const enemyTypes = Object.keys(enemyGroups);
+                    const currentIndex = enemyTypes.indexOf(selectedEnemyId);
+                    const nextIndex = (currentIndex + 1) % enemyTypes.length;
+                    setSelectedEnemyId(enemyTypes[nextIndex]);
+                  }}>
+                  <Text className="text-sm text-white">{selectedEnemyId.replace('_', ' ')}</Text>
+                  <Text className="text-gray-400">▼</Text>
+                </Pressable>
               </View>
 
               {/* Player Selection */}
               <View className="flex-1">
                 <Text className="mb-2 text-sm font-semibold text-blue-400">Player</Text>
-                <Select onValueChange={(e) => setSelectedPlayerId(e?.value ?? '')}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select an player" />
-                  </SelectTrigger>
-                  <SelectContent className="w-[180px]">
-                    <SelectGroup>
-                      <SelectLabel>Players</SelectLabel>
-                      {Object.entries(playerGroups).map(([playerType]) => (
-                        <SelectItem key={playerType} label={playerType} value={playerType}>
-                          {playerType.replace('_', ' ')}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Pressable
+                  className="h-10 w-[180px] flex-row items-center justify-between rounded-md border border-gray-600 bg-gray-800 px-3 py-2"
+                  onPress={() => {
+                    console.log('Player trigger pressed');
+                    // Cycle through player types
+                    const playerTypes = Object.keys(playerGroups);
+                    const currentIndex = playerTypes.indexOf(selectedPlayerId);
+                    const nextIndex = (currentIndex + 1) % playerTypes.length;
+                    setSelectedPlayerId(playerTypes[nextIndex]);
+                  }}>
+                  <Text className="text-sm text-white">{selectedPlayerId.replace('_', ' ')}</Text>
+                  <Text className="text-gray-400">▼</Text>
+                </Pressable>
               </View>
             </View>
           </View>
