@@ -51,6 +51,12 @@ export default function AppLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="(story)"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

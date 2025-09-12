@@ -1,0 +1,150 @@
+import React from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  Image,
+  ImageBackground,
+  ScrollView,
+  Modal,
+  Dimensions,
+} from 'react-native';
+import { SubtopicDoc } from '@/lib/types/curriculum/Curriculum';
+import { PrimaryBtn } from '../buttons/standard/PrimaryBtn';
+import { SquareBtn } from '../buttons/square/SquareBtn';
+
+interface QuestPreviewModalProps {
+  visible: boolean;
+  onClose: () => void;
+  onModalHide: () => void;
+  onStartQuest: () => void;
+  subtopic: SubtopicDoc & { completedQuestions: number; totalQuestions: number };
+  subjectTitle: string;
+  subjectLevel: string;
+}
+
+const QuestPreviewModal = ({
+  visible,
+  onClose,
+  onModalHide,
+  onStartQuest,
+  subtopic,
+  subjectTitle,
+  subjectLevel,
+}: QuestPreviewModalProps) => {
+  const completionPercentage =
+    subtopic.totalQuestions > 0 ? (subtopic.completedQuestions / subtopic.totalQuestions) * 100 : 0;
+  const isCompleted = completionPercentage === 100;
+  const isInProgress = completionPercentage > 0 && completionPercentage < 100;
+
+  // Quest Stat Icons
+  const deathsIcon = require('@/assets/icons/questStats/deaths.png');
+  const enemiesSlainIcon = require('@/assets/icons/questStats/enemiesSlain.png');
+  const playThroughsIcon = require('@/assets/icons/questStats/playThroughs.png');
+
+  // Environment Icons
+  const forestIcon = require('@/assets/icons/environments/temperate_forest.png');
+  const pyramidIcon = require('@/assets/icons/environments/desert_pyramids.png');
+  const environmentIcon = forestIcon;
+
+  const paperTexture = require('@/assets/textures/paper_scroll.png');
+  const screenHeight = Dimensions.get('window').height;
+
+  return (
+    <Modal
+      visible={visible}
+      transparent={true}
+      animationType="slide"
+      onRequestClose={onClose}
+      onDismiss={onModalHide}>
+      <View className="flex-1 justify-end bg-black/50">
+        <Pressable className="absolute inset-0" onPress={onClose} />
+        <View
+          className="mx-4 mb-8 overflow-hidden rounded-2xl p-4"
+          style={{ height: screenHeight * 0.7 }}>
+          <ImageBackground source={paperTexture} className="absolute inset-0 flex-1" />
+          <View className="absolute inset-0 bg-black/20" />
+          {/* Header */}
+          <View className="border-b border-white/20">
+            <View className="flex-row justify-end">
+              <SquareBtn icon="close" onPress={onClose} />
+            </View>
+
+            <View className="flex-col gap-2 pb-4">
+              <View className="flex-row items-center gap-2">
+                <Image source={environmentIcon} className="h-6 w-6" />
+                <Text className="font-pixelify text-sm text-white/70">Desert Oasis</Text>
+              </View>
+              <Text className="font-kenney text-xl text-white">{subtopic.subtopicTitle}</Text>
+            </View>
+          </View>
+
+          <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+            {/* Quest Description */}
+            <Text className="mb-4 font-pixelify text-base text-white">{subtopic.description}</Text>
+
+            {/* Progress Section */}
+            <View className="mb-6">
+              <View className="mb-2 flex-row items-center justify-between">
+                <Text className="font-kenney text-lg text-white">Progress</Text>
+                <Text className="font-kenney text-lg text-white">
+                  {completionPercentage.toFixed(0)}%
+                </Text>
+              </View>
+              <View className="h-3 rounded-full bg-white/20">
+                <View
+                  className={`h-full rounded-full ${
+                    isCompleted ? 'bg-green-500' : isInProgress ? 'bg-yellow-500' : 'bg-gray-500'
+                  }`}
+                  style={{ width: `${completionPercentage}%` }}
+                />
+              </View>
+              <Text className="mt-1 font-pixelify text-sm text-white/70">
+                {subtopic.completedQuestions} of {subtopic.totalQuestions} questions completed
+              </Text>
+            </View>
+
+            {/* Quest Statistics */}
+            <View className="mb-6">
+              <Text className="mb-3 font-kenney text-lg text-white">Quest Statistics</Text>
+              <View className="flex-row justify-around">
+                <View className="flex-col items-center gap-1">
+                  <View className="flex-row items-center gap-2">
+                    <Image source={playThroughsIcon} className="h-6 w-6" />
+                    <Text className="font-kenney text-base text-white">0</Text>
+                  </View>
+
+                  <Text className="font-pixelify text-sm text-white/70">Attempts</Text>
+                </View>
+                <View className="flex-col items-center gap-1">
+                  <View className="flex-row items-center gap-2">
+                    <Image source={enemiesSlainIcon} className="h-6 w-6" />
+                    <Text className="font-kenney text-base text-white">0</Text>
+                  </View>
+                  <Text className="font-pixelify text-sm text-white/70">Enemies Slain</Text>
+                </View>
+                <View className="flex-col items-center gap-1">
+                  <View className="flex-row items-center gap-2">
+                    <Image source={deathsIcon} className="h-6 w-6" />
+                    <Text className="font-kenney text-base text-white">0</Text>
+                  </View>
+                  <Text className="font-pixelify text-sm text-white/70">Deaths</Text>
+                </View>
+              </View>
+            </View>
+          </ScrollView>
+
+          {/* Action Buttons */}
+          <View className="pb-4">
+            <PrimaryBtn
+              onPress={onStartQuest}
+              label={isCompleted ? 'Replay Quest' : 'Start Quest'}
+            />
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+export default QuestPreviewModal;

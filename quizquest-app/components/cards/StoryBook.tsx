@@ -1,5 +1,6 @@
 import { View, Text, Image, ImageBackground, Pressable } from 'react-native';
 import React from 'react';
+import { router } from 'expo-router';
 import { SubjectDoc } from '@/lib/types/curriculum/Curriculum';
 import { capitaliseWord } from '@/lib/utils/textUtils';
 
@@ -74,10 +75,17 @@ const StoryBook = ({ subject }: StoryBookProps) => {
     }
   };
 
+  const handlePress = () => {
+    router.push({
+      pathname: '/(app)/(story)/storyDetail',
+      params: { subjectSlug: subject.subjectSlug },
+    } as any);
+  };
+
   return (
     <Pressable
       className="relative h-[150px] w-[224px] items-center justify-center"
-      onPress={() => console.log('Story Book Pressed')}>
+      onPress={handlePress}>
       <Image source={bookColour()} className="absolute h-full w-full" resizeMode="contain" />
       <View className="absolute mb-6 items-center justify-center">
         <Text className="font-pixelify mx-4 text-center text-sm text-white opacity-60">
