@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  KeyboardAvoidingView,
-  ImageBackground,
-  ImageSourcePropType,
-} from 'react-native';
+import { View, KeyboardAvoidingView, ImageBackground, ImageSourcePropType } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 
