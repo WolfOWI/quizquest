@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, Pressable, Alert, Image } from 'react-native';
 import { router } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
@@ -75,7 +75,7 @@ const TopicInputScreen = () => {
             placeholder="E.g. Space exploration, Squirrels, Japan..."
             value={capitaliseAllWords(subject)}
             onChangeText={setSubject}
-            className="font-pixelify border-white/20 text-white"
+            className="border-white/20 font-pixelify text-white"
             autoCapitalize="none"
             autoCorrect={false}
           />
@@ -85,7 +85,7 @@ const TopicInputScreen = () => {
           <Label className="mb-3 font-kenney text-lg text-white">Difficulty</Label>
           <View className="gap-2">
             {levels.map((level) => (
-              <TouchableOpacity
+              <Pressable
                 key={level.value}
                 onPress={() => setSelectedLevel(level.value)}
                 className={`rounded-lg border-2 p-4 ${
@@ -110,7 +110,7 @@ const TopicInputScreen = () => {
                     />
                   </View>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             ))}
           </View>
         </View>

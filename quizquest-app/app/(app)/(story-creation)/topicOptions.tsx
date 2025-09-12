@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, Pressable, ScrollView, Image } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
@@ -85,7 +85,7 @@ const TopicOptionsScreen = () => {
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           <View className="gap-2">
             {options.map((option, index) => (
-              <TouchableOpacity
+              <Pressable
                 key={option.slug}
                 onPress={() => setSelectedOption(option)}
                 className={`rounded-lg border-2 p-4 ${
@@ -114,7 +114,7 @@ const TopicOptionsScreen = () => {
                     />
                   </View>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             ))}
           </View>
         </ScrollView>

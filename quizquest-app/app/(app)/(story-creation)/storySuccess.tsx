@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import { Button } from '@/components/ui/button';
@@ -50,7 +50,7 @@ const StorySuccessScreen = () => {
         {/* Success Header */}
         <View className="items-center gap-2">
           <BannerFolded text="Story Created" textBottomMargin={24} />
-          <Text className="font-pixelify mx-8 text-center text-lg text-gray-300">
+          <Text className="mx-8 text-center font-pixelify text-lg text-gray-300">
             Your personalised quiz story is ready to explore!
           </Text>
         </View>
@@ -67,7 +67,7 @@ const StorySuccessScreen = () => {
                 source: 'generated',
               }}
             />
-            <Text className="font-pixelify text-center text-lg text-gray-300">
+            <Text className="text-center font-pixelify text-lg text-gray-300">
               {selectedDescription}
             </Text>
             {/* <Text className="mb-3 text-sm text-gray-300">{selectedDescription}</Text> */}
@@ -77,9 +77,9 @@ const StorySuccessScreen = () => {
           <View className="gap-4">
             <PrimaryBtn onPress={handleStartStory} label="Start Your Story" />
 
-            <TouchableOpacity onPress={handleBackToStories} className="py-3">
+            <Pressable onPress={handleBackToStories} className="py-3">
               <Text className="text-center font-kenney text-xl text-gray-300">Back to Stories</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </View>
