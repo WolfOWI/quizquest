@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ImageBackground, Dimensions, Image } from 'react-native';
 import { router } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
@@ -9,11 +9,11 @@ import { SquareBtn } from '@/components/buttons/square/SquareBtn';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import BattleArena from '@/components/battle/BattleArena';
 import BattleArenaCounter from '@/components/battle/BattleArenaCounter';
+import QuizOption from '@/components/quiz/QuizOption';
 // import { LinearGradient } from 'expo-linear-gradient';
 
 const QuestRunScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
-  const healthIcon = require('@/assets/icons/health/heartFull.png');
   const knowledgeScrollIcon = require('@/assets/icons/navigation/blueScroll.png');
   const inventoryIcon = require('@/assets/icons/navigation/sackBrown.png');
 
@@ -33,11 +33,69 @@ const QuestRunScreen = () => {
     router.back();
   };
 
-  const fakeQuestion = {
-    question: 'Which animal classification do squirrels belong to?',
-    answers: ['Reptilia', 'Pisces', 'Aves', 'Mammalia'],
-    correctAnswer: 3,
+  const questionBank = [
+    {
+      question: 'Which animal classification do squirrels belong to?',
+      answers: ['Reptilia', 'Pisces', 'Aves', 'Mammalia'],
+      correctAnswer: 3,
+    },
+    {
+      question: 'What is the largest planet in our solar system?',
+      answers: ['Earth', 'Saturn', 'Jupiter', 'Neptune'],
+      correctAnswer: 2,
+    },
+    {
+      question: 'Who painted the Mona Lisa?',
+      answers: ['Vincent van Gogh', 'Pablo Picasso', 'Leonardo da Vinci', 'Michelangelo'],
+      correctAnswer: 2,
+    },
+    {
+      question: 'What is the chemical symbol for gold?',
+      answers: ['Go', 'Gd', 'Au', 'Ag'],
+      correctAnswer: 2,
+    },
+    {
+      question: 'Which programming language was created by Brendan Eich?',
+      answers: ['Python', 'Java', 'JavaScript', 'C++'],
+      correctAnswer: 2,
+    },
+  ];
+
+  // State for quiz feedback and navigation
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
+
+  const currentQuestion = questionBank[currentQuestionIndex];
+
+  const handleAnswerSelect = (index: number) => {
+    if (selectedAnswer !== null) return; // Prevent multiple selections
+
+    setSelectedAnswer(index);
+    const correct = index === currentQuestion.correctAnswer;
+    setIsCorrect(correct);
+    setShowFeedback(true);
+
+    setTimeout(() => {
+      setShowFeedback(false);
+      setSelectedAnswer(null);
+      setIsCorrect(false);
+
+      // Move to next question if not the last one
+      if (currentQuestionIndex < questionBank.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        // If it's the last question, complete the quest
+        handleCompleteQuest();
+      }
+    }, 2500);
   };
+
+  // On mount, set the current question index to 0
+  useEffect(() => {
+    setCurrentQuestionIndex(0);
+  }, []);
 
   const screenHeight = Dimensions.get('window').height;
   const combatSceneHeight = screenHeight * 0.35;
@@ -74,8 +132,8 @@ const QuestRunScreen = () => {
           <BattleArenaCounter
             leftHealth={32} // Enemy Health
             rightHealth={5} // Player Health
-            currentQuestion={16}
-            totalQuestions={20}
+            currentQuestion={currentQuestionIndex + 1}
+            totalQuestions={questionBank.length}
           />
         </SafeAreaView>
       </View>
@@ -94,18 +152,23 @@ const QuestRunScreen = () => {
             {/* Question */}
             <View className="mb-4 rounded-xl bg-black/50 p-4">
               <Text className="text-center font-pixelify text-base text-white">
-                {fakeQuestion.question}
+                {currentQuestion.question}
               </Text>
             </View>
 
             {/* Answer Options */}
             <View className="flex-1 flex-col gap-2">
-              {fakeQuestion.answers.map((answer, index) => (
-                <Pressable
+              {currentQuestion.answers.map((answer, index) => (
+                <QuizOption
                   key={index}
-                  className="min-h-12 items-center justify-center rounded-xl border border-white/20 bg-black/30 px-4">
-                  <Text className="text-center font-pixelify text-base text-white">{answer}</Text>
-                </Pressable>
+                  index={index}
+                  option={answer}
+                  isSelected={selectedAnswer === index}
+                  isCorrect={isCorrect}
+                  showFeedback={showFeedback}
+                  correctAnswerIndex={currentQuestion.correctAnswer}
+                  onPress={() => handleAnswerSelect(index)}
+                />
               ))}
             </View>
           </View>
