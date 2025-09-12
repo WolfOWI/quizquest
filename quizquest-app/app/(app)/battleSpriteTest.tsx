@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { router } from 'expo-router';
 import TopAppBar from '@/components/navigation/TopAppBar';
@@ -281,16 +281,16 @@ const BattleSpriteTestScreen = () => {
                   Distance: {spriteDistance}px
                 </Text>
                 <View className="flex-row gap-2">
-                  <TouchableOpacity
+                  <Pressable
                     className="rounded bg-gray-600 px-3 py-1"
                     onPress={() => setSpriteDistance(Math.min(400, spriteDistance + 25))}>
                     <Text className="text-xs text-white">+25</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                  </Pressable>
+                  <Pressable
                     className="rounded bg-gray-600 px-3 py-1"
                     onPress={() => setSpriteDistance(Math.max(50, spriteDistance - 25))}>
                     <Text className="text-xs text-white">-25</Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               </View>
               <View className="flex-1">
@@ -298,16 +298,16 @@ const BattleSpriteTestScreen = () => {
                   Scale: {spriteScale.toFixed(1)}x
                 </Text>
                 <View className="flex-row gap-2">
-                  <TouchableOpacity
+                  <Pressable
                     className="rounded bg-gray-600 px-3 py-1"
                     onPress={() => setSpriteScale(Math.max(0.5, spriteScale - 0.1))}>
                     <Text className="text-xs text-white">-0.1</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                  </Pressable>
+                  <Pressable
                     className="rounded bg-gray-600 px-3 py-1"
                     onPress={() => setSpriteScale(Math.min(2.0, spriteScale + 0.1))}>
                     <Text className="text-xs text-white">+0.1</Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               </View>
             </View>
@@ -317,16 +317,16 @@ const BattleSpriteTestScreen = () => {
                   Enemy Size: {enemySize}px
                 </Text>
                 <View className="flex-row gap-2">
-                  <TouchableOpacity
+                  <Pressable
                     className="rounded bg-yellow-600 px-3 py-1"
                     onPress={() => setEnemySize(Math.max(50, enemySize - 25))}>
                     <Text className="text-xs text-white">-25</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                  </Pressable>
+                  <Pressable
                     className="rounded bg-yellow-600 px-3 py-1"
                     onPress={() => setEnemySize(Math.min(300, enemySize + 25))}>
                     <Text className="text-xs text-white">+25</Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               </View>
               <View className="flex-1">
@@ -334,16 +334,16 @@ const BattleSpriteTestScreen = () => {
                   Player Size: {playerSize}px
                 </Text>
                 <View className="flex-row gap-2">
-                  <TouchableOpacity
+                  <Pressable
                     className="rounded bg-blue-600 px-3 py-1"
                     onPress={() => setPlayerSize(Math.max(50, playerSize - 25))}>
                     <Text className="text-xs text-white">-25</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
+                  </Pressable>
+                  <Pressable
                     className="rounded bg-blue-600 px-3 py-1"
                     onPress={() => setPlayerSize(Math.min(300, playerSize + 25))}>
                     <Text className="text-xs text-white">+25</Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </View>
               </View>
             </View>
@@ -417,43 +417,41 @@ const BattleSpriteTestScreen = () => {
           {/* Animation Controls */}
           <View className="w-full">
             <Text className="mb-4 text-lg font-bold text-white">3. Animation Controls</Text>
-            <TouchableOpacity
+            <Pressable
               className="rounded bg-yellow-600 px-3 py-2"
               onPress={() => handleEnemyAttackPlayer()}>
               <Text className="text-xs font-semibold capitalize text-white">
                 Enemy Attack Player
               </Text>
-            </TouchableOpacity>
+            </Pressable>
 
-            <TouchableOpacity
+            <Pressable
               className="rounded bg-yellow-600 px-3 py-2"
               onPress={() => handlePlayerAttackEnemy()}>
               <Text className="text-xs font-semibold capitalize text-white">
                 Player Attack Enemy
               </Text>
-            </TouchableOpacity>
+            </Pressable>
 
-            <TouchableOpacity
+            <Pressable
               className="rounded bg-yellow-600 px-3 py-2"
               onPress={() => handleEnemyDefeatPlayer()}>
               <Text className="text-xs font-semibold capitalize text-white">
                 Enemy Defeat Player
               </Text>
-            </TouchableOpacity>
+            </Pressable>
 
-            <TouchableOpacity
+            <Pressable
               className="rounded bg-yellow-600 px-3 py-2"
               onPress={() => handlePlayerDefeatEnemy()}>
               <Text className="text-xs font-semibold capitalize text-white">
                 Player Defeat Enemy
               </Text>
-            </TouchableOpacity>
+            </Pressable>
 
-            <TouchableOpacity
-              className="rounded bg-yellow-600 px-3 py-2"
-              onPress={() => resetBattle()}>
+            <Pressable className="rounded bg-yellow-600 px-3 py-2" onPress={() => resetBattle()}>
               <Text className="text-xs font-semibold capitalize text-white">Reset Battle</Text>
-            </TouchableOpacity>
+            </Pressable>
 
             {/* Enemy Controls */}
             <View className="mb-6">
@@ -462,40 +460,38 @@ const BattleSpriteTestScreen = () => {
               </Text>
               <View className="mb-3 flex-row flex-wrap gap-2">
                 {currentEnemyData.animations.map((animation: string) => (
-                  <TouchableOpacity
+                  <Pressable
                     key={animation}
                     className="rounded bg-yellow-600 px-3 py-2"
                     onPress={() => handleEnemyAnimation(animation, true)}>
                     <Text className="text-xs font-semibold capitalize text-white">
                       {animation.replace('_', ' ')}
                     </Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 ))}
               </View>
               <View className="flex-row flex-wrap gap-2">
-                <TouchableOpacity
+                <Pressable
                   className="rounded bg-green-600 px-3 py-2"
                   onPress={() => handleEnemyAnimation('idle', true)}>
                   <Text className="text-xs font-semibold text-white">Idle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </Pressable>
+                <Pressable
                   className="rounded bg-purple-600 px-3 py-2"
                   onPress={handleEnemyAttackSequence}>
                   <Text className="text-xs font-semibold text-white">Attack → Idle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </Pressable>
+                <Pressable
                   className="rounded bg-orange-600 px-3 py-2"
                   onPress={handleEnemyHitSequence}>
                   <Text className="text-xs font-semibold text-white">Hit → Idle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity className="rounded bg-red-800 px-3 py-2" onPress={handleEnemyDie}>
+                </Pressable>
+                <Pressable className="rounded bg-red-800 px-3 py-2" onPress={handleEnemyDie}>
                   <Text className="text-xs font-semibold text-white">Die</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="rounded bg-gray-600 px-3 py-2"
-                  onPress={stopEnemyAnimation}>
+                </Pressable>
+                <Pressable className="rounded bg-gray-600 px-3 py-2" onPress={stopEnemyAnimation}>
                   <Text className="text-xs font-semibold text-white">Stop</Text>
-                </TouchableOpacity>
+                </Pressable>
               </View>
             </View>
 
@@ -506,37 +502,35 @@ const BattleSpriteTestScreen = () => {
               </Text>
               <View className="mb-3 flex-row flex-wrap gap-2">
                 {currentPlayerData.animations.map((animation: string) => (
-                  <TouchableOpacity
+                  <Pressable
                     key={animation}
                     className="rounded bg-blue-600 px-3 py-2"
                     onPress={() => handlePlayerAnimation(animation, true)}>
                     <Text className="text-xs font-semibold capitalize text-white">
                       {animation.replace('_', ' ')}
                     </Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 ))}
               </View>
               <View className="flex-row flex-wrap gap-2">
-                <TouchableOpacity
+                <Pressable
                   className="rounded bg-green-600 px-3 py-2"
                   onPress={() => handlePlayerAnimation('idle', true)}>
                   <Text className="text-xs font-semibold text-white">Idle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </Pressable>
+                <Pressable
                   className="rounded bg-purple-600 px-3 py-2"
                   onPress={handlePlayerAttackSequence}>
                   <Text className="text-xs font-semibold text-white">Attack → Idle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </Pressable>
+                <Pressable
                   className="rounded bg-orange-600 px-3 py-2"
                   onPress={handlePlayerHurtSequence}>
                   <Text className="text-xs font-semibold text-white">Block Hit → Idle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  className="rounded bg-gray-600 px-3 py-2"
-                  onPress={stopPlayerAnimation}>
+                </Pressable>
+                <Pressable className="rounded bg-gray-600 px-3 py-2" onPress={stopPlayerAnimation}>
                   <Text className="text-xs font-semibold text-white">Stop</Text>
-                </TouchableOpacity>
+                </Pressable>
               </View>
             </View>
           </View>

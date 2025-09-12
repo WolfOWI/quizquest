@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { router } from 'expo-router';
 import TopAppBar from '@/components/navigation/TopAppBar';
@@ -91,7 +91,7 @@ const EnemySpriteTestScreen = () => {
                   </Text>
                   <View className="flex-row flex-wrap gap-2">
                     {skins.map((enemyId: string) => (
-                      <TouchableOpacity
+                      <Pressable
                         key={enemyId}
                         className={`rounded px-3 py-2 ${
                           selectedEnemyId === enemyId ? 'bg-yellow-600' : 'bg-gray-600'
@@ -100,7 +100,7 @@ const EnemySpriteTestScreen = () => {
                         <Text className="text-xs text-white">
                           {enemyId.replace(`${enemyType}_`, '')}
                         </Text>
-                      </TouchableOpacity>
+                      </Pressable>
                     ))}
                   </View>
                 </View>
@@ -132,40 +132,40 @@ const EnemySpriteTestScreen = () => {
             </Text>
             <View className="mb-4 flex-row flex-wrap justify-center gap-2">
               {currentEnemyData.animations.map((animation: string) => (
-                <TouchableOpacity
+                <Pressable
                   key={animation}
                   className="rounded bg-blue-600 px-3 py-2"
                   onPress={() => handlePlayAnimation(animation, true)}>
                   <Text className="text-xs font-semibold capitalize text-white">
                     {animation.replace('_', ' ')}
                   </Text>
-                </TouchableOpacity>
+                </Pressable>
               ))}
             </View>
 
             {/* Special Controls */}
             <View className="flex-row flex-wrap justify-center gap-2">
-              <TouchableOpacity
+              <Pressable
                 className="rounded bg-green-600 px-4 py-2"
                 onPress={() => handlePlayAnimation('idle', true)}>
                 <Text className="text-sm font-semibold text-white">Start Idle</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
+              </Pressable>
+              <Pressable
                 className="rounded bg-purple-600 px-4 py-2"
                 onPress={handleAttackIdleSequence}>
                 <Text className="text-sm font-semibold text-white">Attack → Idle</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
+              </Pressable>
+              <Pressable
                 className="rounded bg-orange-600 px-4 py-2"
                 onPress={handleHitIdleSequence}>
                 <Text className="text-sm font-semibold text-white">Hit → Idle</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="rounded bg-red-800 px-4 py-2" onPress={handleDieOnce}>
+              </Pressable>
+              <Pressable className="rounded bg-red-800 px-4 py-2" onPress={handleDieOnce}>
                 <Text className="text-sm font-semibold text-white">Die (Once)</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="rounded bg-gray-600 px-4 py-2" onPress={stopAnimation}>
+              </Pressable>
+              <Pressable className="rounded bg-gray-600 px-4 py-2" onPress={stopAnimation}>
                 <Text className="text-sm font-semibold text-white">Stop</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </View>
