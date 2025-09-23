@@ -5,67 +5,70 @@ import { Domain } from './Domain';
 export type AudienceLevel = 'novice' | 'apprentice' | 'master';
 export type SourceType = 'generated' | 'document';
 
-// subjects/{id}
-export interface SubjectDoc {
-  /** doc id :
-   *  generated => "gen:<domain>:<subjectSlug>:<level>"
-   *  document  => "doc:<docDataId>:<level>"
-   */
-  subjectTitle: string;
-  subjectSlug: string;
-  description?: string;
+// Flattened hierarchy, but hierarchy can be seen as:
+// Domains -> Subjects -> Stories -> Chapters -> QuizChunks (Questions & Answers)
+
+// Subjects / Topics (e.g. Squirrels, React Native) - grouping stories of different levels
+// subjects/{subjectId}
+export interface Subject {
+  subjectId?: string; // <src>:<domain-slug>:<subject-slug>
+  domainId: string; // Catalog key
+  title: string;
+  titleLower: string;
+  slug: string;
+  description: string;
+  levelsAvailable: AudienceLevel[];
+  latestStoryUpdatedAt: Timestamp;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+// Selectable level variant under a subject (e.g. React Native) with difficulty level & author
+// stories/{storyId}
+export interface Story {
+  storyId?: string; // <subjectId>__<level>__gen_v1
+  subjectId: string; // Foreign key to subjects/{subjectId}
+  subjectTitle: string; // Denormalised from subjects/{subjectId}
+  subjectDescription: string; // Denormalised from subjects/{subjectId}
   level: AudienceLevel;
+  source: 'generated' | 'url' | 'uploaded' | 'written';
+  authorUid: string; // Foreign key to users/{uid}
+  chapterCount: number;
+  questionCount: number;
   createdAt: Timestamp;
-  source: SourceType;
-
-  // Only for generated subjects
-  domain?: Domain;
-
-  // Only for uploaded document subjects
-  ownerUid?: string;
-  docDataId?: string; // points to the stored doc data /docData/<docDataId>
+  updatedAt: Timestamp;
 }
 
-// subjects/{id}/subtopics/{id}
-export interface SubtopicDoc {
-  /** doc id: subtopicSlug */
-  subtopicTitle: string;
-  subtopicSlug: string;
-  description?: string;
+// The chapters inside a story (e.g. React Native Terminology, React Native Hooks)
+// chapters/{chapterId}
+export interface Chapter {
+  chapterId?: string; // <storyId>__<chapter-slug>
+  storyId: string; // Foreign key to stories/{storyId}
+  title: string;
+  description: string;
+  seq: number;
+  environmentId: string; // Catalog key
+  questionCount: number;
   createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
-// subjects/{id}/subtopics/{id}/pages/{id}
-export interface QuestionPageDoc {
-  /** doc id: "1", "2", ... (string) */
-  pageNumber: number;
-  items: QuestionItem[]; // Always contains 10 items
+// A chunk of the actual quiz questions inside a chapter (max 10 questions per chunk)
+// quizChunks/{quizChunkId}
+export interface QuizChunk {
+  quizChunkId?: string; // <chapterId>__ck<seq>
+  chapterId: string; // Foreign key to chapters/{chapterId}
+  chunkSeq: number;
+  items: QuestionItem[];
   createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
 
-export type QuestionKind = 'single_select' | 'multi_select' | 'true_false';
-
-export type QuestionItem =
-  | {
-      kind: 'single_select';
-      question: string;
-      choices: string[];
-      answer: number;
-      hint: string;
-      explanation: string;
-    }
-  | {
-      kind: 'multi_select';
-      question: string;
-      choices: string[];
-      answers: number[];
-      hint: string;
-      explanation: string;
-    }
-  | {
-      kind: 'true_false';
-      question: string;
-      answerBool: boolean;
-      hint: string;
-      explanation: string;
-    };
+export interface QuestionItem {
+  kind: 'singleSelect' | 'multiSelect' | 'trueFalse';
+  question: string;
+  choices: string[];
+  correctAnswerIndex: number | number[];
+  hint: string;
+  explanation: string;
+}
