@@ -24,7 +24,7 @@ export interface User {
 }
 
 // users/{uid}/unlocks/{unlockId}
-export interface UserUnlocks {
+export interface UserUnlock {
   unlockId?: string; // TODO: Catalog key composite (e.g. character_blue_mage)
   type: 'character' | 'pet';
   targetId: string; // TODO: Reference catalog key
@@ -44,7 +44,7 @@ export interface UserInventory {
 }
 
 // users/{uid}/ownedStories/{storyId}
-export interface UserOwnedStories {
+export interface UserOwnedStory {
   storyId?: string; // TODO: Foreign key to stories/{storyId}
   acquiredAt: Timestamp;
   lastPlayedAt?: Timestamp;
@@ -153,7 +153,7 @@ export interface UserGlobalStats {
 }
 
 // users/{uid}/slayStats/{enemyId}
-export interface UserSlayStats {
+export interface UserSlayStat {
   enemyId?: string; // TODO: Catalog key to content/enemies
   battles: {
     total: number;
