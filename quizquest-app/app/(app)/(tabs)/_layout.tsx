@@ -27,7 +27,10 @@ export default function TabLayout() {
                 shadowOpacity: focused ? 0.5 : 0,
                 shadowRadius: 8,
               }}>
-              <Image className="h-12 w-12" source={UI_ICONS.nav.library} />
+              <Image
+                className="h-12 w-12"
+                source={focused ? UI_ICONS.nav.library_active : UI_ICONS.nav.library}
+              />
             </View>
           ),
           tabBarShowLabel: false,

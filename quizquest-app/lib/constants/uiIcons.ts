@@ -6,6 +6,7 @@ export const UI_ICONS = {
   // Navigation icons
   nav: {
     library: Image.resolveAssetSource(require('@/assets/icons/ui/nav/library.png')),
+    library_active: Image.resolveAssetSource(require('@/assets/icons/ui/nav/library_active.png')),
     shop: Image.resolveAssetSource(require('@/assets/icons/ui/nav/shop.png')),
     achievements: Image.resolveAssetSource(require('@/assets/icons/ui/nav/achievements.png')),
     profile: Image.resolveAssetSource(require('@/assets/icons/ui/nav/profile.png')),
