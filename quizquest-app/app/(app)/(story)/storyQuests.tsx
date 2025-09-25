@@ -11,7 +11,7 @@ import { useAppStore } from '@/lib/state/appStore';
 import QuestListItem from '@/components/cards/QuestListItem';
 import QuestPreviewModal from '@/components/modals/QuestPreviewModal';
 
-const StoryDetailScreen = () => {
+const StoryQuestsScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
   const { userDoc } = useAppStore();
 
@@ -183,4 +183,4 @@ const StoryDetailScreen = () => {
   );
 };
 
-export default StoryDetailScreen;
+export default StoryQuestsScreen;

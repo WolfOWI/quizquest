@@ -4,7 +4,7 @@ export default function StoryLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="storyDetail"
+        name="storyQuests"
         options={{
           title: 'Story Details',
           headerShown: false,

@@ -14,7 +14,7 @@ const QuestResultScreen = () => {
 
   const handleBackToStory = () => {
     router.dismissTo({
-      pathname: '/(app)/(story)/storyDetail',
+      pathname: '/(app)/(story)/storyQuests',
       params: { chapterId },
     } as any);
   };
