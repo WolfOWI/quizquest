@@ -5,7 +5,7 @@ import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
 import { AudienceLevel } from '@/lib/types/general/General';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
-import { getDifficultyIcon } from '@/lib/utils/iconUtils';
+import { getDifficultyIcon } from '@/lib/constants/uiIcons';
 
 interface StoryOption {
   title: string;

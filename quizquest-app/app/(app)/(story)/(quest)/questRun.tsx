@@ -8,11 +8,12 @@ import BattleArena from '@/components/battle/BattleArena';
 import BattleArenaCounter from '@/components/battle/BattleArenaCounter';
 import QuizOption from '@/components/quiz/QuizOption';
 import { getCharacter, getEnemy } from '@/lib/content';
+import { UI_ICONS } from '@/lib/constants/uiIcons';
 
 const QuestRunScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
-  const knowledgeScrollIcon = require('@/assets/icons/navigation/blueScroll.png');
-  const inventoryIcon = require('@/assets/icons/navigation/sackBrown.png');
+  const knowledgeScrollIcon = UI_ICONS.nav.achievements;
+  const inventoryIcon = UI_ICONS.nav.inventory;
 
   const { chapterId } = useLocalSearchParams<{
     chapterId: string;

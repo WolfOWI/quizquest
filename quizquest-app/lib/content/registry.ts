@@ -23,25 +23,33 @@ export const getSpriteSheet = (spriteKey: string) => {
 export const ICONS: Record<string, any> = {
   // Player characters
   //   pc_heavyKnight_red_icon: Image.resolveAssetSource(
-  //     require('@/assets/icons/characters/heavyKnight_red.png')
+  //     require('@/assets/icons/content/characters/heavyKnight_red.png')
   //   ),
   //   pc_samurai_blue_icon: Image.resolveAssetSource(
-  //     require('@/assets/icons/characters/samurai_blue.png')
+  //     require('@/assets/icons/content/characters/samurai_blue.png')
   //   ),
   //   pc_mage_purple_icon: Image.resolveAssetSource(
-  //     require('@/assets/icons/characters/mage_purple.png')
+  //     require('@/assets/icons/content/characters/mage_purple.png')
   //   ),
   // Enemies
-  //   enemy_goblin_icon: Image.resolveAssetSource(require('@/assets/icons/enemies/goblin.png')),
+  //   enemy_goblin_icon: Image.resolveAssetSource(require('@/assets/icons/content/enemies/goblin.png')),
   // Items
-  //   it_red_apple: Image.resolveAssetSource(require('@/assets/icons/items/hp_potion_s.png')),
+  //   it_red_apple: Image.resolveAssetSource(require('@/assets/icons/content/items/hp_potion_s.png')),
   // Environments
   //   env_castle_dungeon_icon: Image.resolveAssetSource(
-  //     require('../../assets/icons/environments/castle_dungeon.png')
+  //     require('../../assets/icons/content/environments/castle_dungeon.png')
   //   ),
   //   env_desert_oasis_icon: Image.resolveAssetSource(
-  //     require('../../assets/icons/environments/desert_oasis.png')
+  //     require('../../assets/icons/content/environments/desert_oasis.png')
   //   ),
+
+  // Content Icons - Environment icons
+  env_temperate_forest: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/temperate_forest.png')
+  ),
+  env_desert_pyramids: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/desert_pyramids.png')
+  ),
 };
 
 export const getIcon = (iconKey: string) => {

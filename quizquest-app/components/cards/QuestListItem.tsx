@@ -1,6 +1,8 @@
 import { Pressable, View, Text, Image, ImageBackground } from 'react-native';
 import { Chapter } from '@/lib/types/curriculum/Curriculum';
 import { UserChapterProgress } from '@/lib/types/user/User';
+import { UI_ICONS } from '@/lib/constants/uiIcons';
+import { getIcon } from '@/lib/content/registry';
 
 // Quest list item component
 interface QuestListItemProps {
@@ -17,17 +19,17 @@ const QuestListItem = ({ chapterAndProgress, onPress }: QuestListItemProps) => {
   const isInProgress = completionPercentage > 0 && completionPercentage < 100;
 
   //   TODO: Temporary hard-coded icon & background texture
-  const forestIcon = require('@/assets/icons/environments/temperate_forest.png');
-  const pyramidIcon = require('@/assets/icons/environments/desert_pyramids.png');
+  const forestIcon = getIcon('env_temperate_forest');
+  const pyramidIcon = getIcon('env_desert_pyramids');
   const environmentIcon = forestIcon;
 
   const grassTexture = require('@/assets/textures/grass_green.png');
   const backgroundTexture = grassTexture;
 
   // Quest Stat Icons
-  const deathsIcon = require('@/assets/icons/questStats/deaths.png');
-  const enemiesSlainIcon = require('@/assets/icons/questStats/enemiesSlain.png');
-  const playThroughsIcon = require('@/assets/icons/questStats/playThroughs.png');
+  const deathsIcon = UI_ICONS.stats.deaths;
+  const enemiesSlainIcon = UI_ICONS.stats.slain;
+  const playThroughsIcon = UI_ICONS.stats.runs;
 
   return (
     <Pressable onPress={onPress} className={`p-4`}>

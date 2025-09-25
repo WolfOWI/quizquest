@@ -1,6 +1,7 @@
 import { addLeadingZero } from '@/lib/utils/textUtils';
 import React from 'react';
 import { View, Text, Image, ImageSourcePropType } from 'react-native';
+import { UI_ICONS } from '@/lib/constants/uiIcons';
 
 interface BattleArenaCounterProps {
   leftHealth: number;
@@ -17,7 +18,7 @@ const BattleArenaCounter: React.FC<BattleArenaCounterProps> = ({
   totalQuestions,
   className = '',
 }) => {
-  const healthIcon = require('@/assets/icons/health/heartFull.png');
+  const healthIcon = UI_ICONS.health.default;
 
   return (
     <View className={`flex-row items-center px-4 ${className}`}>

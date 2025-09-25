@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { AudienceLevel } from '@/lib/types/general/General';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { capitaliseAllWords } from '@/lib/utils/textUtils';
-import { getDifficultyIcon } from '@/lib/utils/iconUtils';
+import { getDifficultyIcon } from '@/lib/constants/uiIcons';
 
 const SubjectInputScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_smallplanks.png');

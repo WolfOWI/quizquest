@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import { BookOpen, Store, Scroll, User } from 'lucide-react-native';
 import { Image, View } from 'react-native';
+import { UI_ICONS } from '@/lib/constants/uiIcons';
 
 export default function TabLayout() {
   return (
@@ -26,10 +27,7 @@ export default function TabLayout() {
                 shadowOpacity: focused ? 0.5 : 0,
                 shadowRadius: 8,
               }}>
-              <Image
-                className="h-12 w-12"
-                source={require('@/assets/icons/navigation/purpleBook.png')}
-              />
+              <Image className="h-12 w-12" source={UI_ICONS.nav.library} />
             </View>
           ),
           tabBarShowLabel: false,
@@ -47,10 +45,7 @@ export default function TabLayout() {
                 shadowOpacity: focused ? 0.5 : 0,
                 shadowRadius: 8,
               }}>
-              <Image
-                className="h-12 w-12"
-                source={require('@/assets/icons/navigation/trade.png')}
-              />
+              <Image className="h-12 w-12" source={UI_ICONS.nav.shop} />
             </View>
           ),
           tabBarShowLabel: false,
@@ -68,10 +63,7 @@ export default function TabLayout() {
                 shadowOpacity: focused ? 0.5 : 0,
                 shadowRadius: 8,
               }}>
-              <Image
-                className="h-12 w-12"
-                source={require('@/assets/icons/navigation/blueScroll.png')}
-              />
+              <Image className="h-12 w-12" source={UI_ICONS.nav.achievements} />
             </View>
           ),
           tabBarShowLabel: false,
@@ -89,10 +81,7 @@ export default function TabLayout() {
                 shadowOpacity: focused ? 0.5 : 0,
                 shadowRadius: 8,
               }}>
-              <Image
-                className="h-12 w-12"
-                source={require('@/assets/icons/navigation/armour.png')}
-              />
+              <Image className="h-12 w-12" source={UI_ICONS.nav.profile} />
             </View>
           ),
           tabBarShowLabel: false,
