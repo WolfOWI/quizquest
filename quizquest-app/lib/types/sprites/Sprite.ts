@@ -2,7 +2,7 @@ import { AnimatedSpriteType } from '@darrench3140/react-native-sprite-sheet';
 import { StyleProp, ViewStyle } from 'react-native';
 
 export interface SpriteProps {
-  characterId: string;
+  variantId: string;
   defaultAnimation?: string;
   loop?: boolean;
   fps?: number;
@@ -18,7 +18,7 @@ export interface SpriteAnimationHook {
   playAnimation: (animation: string, loop?: boolean, fps?: number) => void;
   play2AnimationSequence: (
     animations: string[],
-    characterId: string,
+    variantId: string,
     loopLast?: boolean,
     fps?: number
   ) => void;

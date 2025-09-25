@@ -1,0 +1,58 @@
+{
+  "heavyKnight_red": {
+    "id": "heavyKnight_red",
+    "name": "Heavy Knight (Red)",
+    "spriteKey": "pc_heavyKnight_v1",
+    "iconKey": "pc_heavyKnight_red_icon",
+    "goldPrice": 600
+  },
+  "heavyKnight_blue": {
+    "id": "heavyKnight_blue",
+    "name": "Heavy Knight (Blue)",
+    "spriteKey": "pc_heavyKnight_v1",
+    "iconKey": "pc_heavyKnight_blue_icon",
+    "goldPrice": 600
+  },
+  "heavyKnight_green": {
+    "id": "heavyKnight_green",
+    "name": "Heavy Knight (Green)",
+    "spriteKey": "pc_heavyKnight_v1",
+    "iconKey": "pc_heavyKnight_green_icon",
+    "goldPrice": 600
+  },
+  "heavyKnight_yellow": {
+    "id": "heavyKnight_yellow",
+    "name": "Heavy Knight (Yellow)",
+    "spriteKey": "pc_heavyKnight_v1",
+    "iconKey": "pc_heavyKnight_yellow_icon",
+    "goldPrice": 600
+  },
+  "heavyKnight_purple": {
+    "id": "heavyKnight_purple",
+    "name": "Heavy Knight (Purple)",
+    "spriteKey": "pc_heavyKnight_v1",
+    "iconKey": "pc_heavyKnight_purple_icon",
+    "goldPrice": 600
+  },
+  "heavyKnight_black": {
+    "id": "heavyKnight_black",
+    "name": "Heavy Knight (Black)",
+    "spriteKey": "pc_heavyKnight_v1",
+    "iconKey": "pc_heavyKnight_black_icon",
+    "goldPrice": 600
+  },
+  "heavyKnight_white": {
+    "id": "heavyKnight_white",
+    "name": "Heavy Knight (White)",
+    "spriteKey": "pc_heavyKnight_v1",
+    "iconKey": "pc_heavyKnight_white_icon",
+    "goldPrice": 600
+  },
+  "heavyKnight_brown": {
+    "id": "heavyKnight_brown",
+    "name": "Heavy Knight (Brown)",
+    "spriteKey": "pc_heavyKnight_v1",
+    "iconKey": "pc_heavyKnight_brown_icon",
+    "goldPrice": 600
+  }
+}

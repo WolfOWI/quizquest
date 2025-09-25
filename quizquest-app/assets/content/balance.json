@@ -1,0 +1,26 @@
+{
+  "player": { "baseHealth": 5 },
+  "enemy": { "baseHealth": 5 },
+  "powerAttack": {
+    "pFive": { "sec": 1, "hearts": 8 },
+    "pFour": { "sec": 2, "hearts": 5 },
+    "pThree": { "sec": 3, "hearts": 3 },
+    "pTwo": { "sec": 4, "hearts": 2 },
+    "pOne": { "sec": 5, "hearts": 1 }
+  },
+  "pricing": {
+    "story": {
+      "novice": { "gold": 300, "gems": 3 },
+      "apprentice": { "gold": 500, "gems": 5 },
+      "master": { "gold": 800, "gems": 8 }
+    }
+  },
+  "profileDefaults": {
+    "equipped": {
+      "characterId": "heavyKnight_red",
+      "petId": ""
+    },
+    "economy": { "gold": 0, "gems": 0 },
+    "xpTotal": 0
+  }
+}

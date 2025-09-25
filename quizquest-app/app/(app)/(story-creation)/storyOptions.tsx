@@ -3,17 +3,17 @@ import { View, Text, Pressable, ScrollView, Image } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
-import { AudienceLevel } from '@/lib/types/curriculum/Curriculum';
+import { AudienceLevel } from '@/lib/types/general/General';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { getDifficultyIcon } from '@/lib/utils/iconUtils';
 
-interface TopicOption {
+interface StoryOption {
   title: string;
   description: string;
   slug: string;
 }
 
-const TopicOptionsScreen = () => {
+const StoryOptionsScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_smallplanks.png');
   const params = useLocalSearchParams();
   const subject = params.subject as string;
@@ -21,9 +21,9 @@ const TopicOptionsScreen = () => {
   const isValid = params.isValid as string;
   const optionsParam = params.options as string;
 
-  const [selectedOption, setSelectedOption] = useState<TopicOption | null>(null);
+  const [selectedOption, setSelectedOption] = useState<StoryOption | null>(null);
 
-  const options: TopicOption[] = optionsParam ? JSON.parse(optionsParam) : [];
+  const options: StoryOption[] = optionsParam ? JSON.parse(optionsParam) : [];
 
   const handleContinue = () => {
     if (!selectedOption) {
@@ -31,7 +31,7 @@ const TopicOptionsScreen = () => {
     }
 
     router.push({
-      pathname: '/(app)/(story-creation)/contentGeneration' as any,
+      pathname: '/(app)/(story-creation)/loadingAiGen' as any,
       params: {
         subject,
         level,
@@ -59,7 +59,7 @@ const TopicOptionsScreen = () => {
         <View className="mb-6">
           {isValid == 'true' ? (
             <>
-              {/* Valid Topic */}
+              {/* Valid Subject Matter */}
               <Text className="mb-2 font-kenney text-2xl font-bold text-white">
                 A Noble Choice!
               </Text>
@@ -70,7 +70,7 @@ const TopicOptionsScreen = () => {
             </>
           ) : (
             <>
-              {/* Invalid Topic */}
+              {/* Invalid Subject Matter */}
               <Text className="mb-2 font-kenney text-2xl font-bold text-white">
                 Unworthy Subject
               </Text>
@@ -134,4 +134,4 @@ const TopicOptionsScreen = () => {
   );
 };
 
-export default TopicOptionsScreen;
+export default StoryOptionsScreen;

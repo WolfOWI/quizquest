@@ -1,21 +1,18 @@
 import { Pressable, View, Text, Image, ImageBackground } from 'react-native';
-import { SubtopicDoc } from '@/lib/types/curriculum/Curriculum';
+import { Chapter } from '@/lib/types/curriculum/Curriculum';
+import { UserChapterProgress } from '@/lib/types/user/User';
 
 // Quest list item component
 interface QuestListItemProps {
-  subtopic: SubtopicDoc;
-  completedQuestions: number;
-  totalQuestions: number;
+  chapterAndProgress: Chapter & UserChapterProgress;
   onPress: () => void;
 }
 
-const QuestListItem = ({
-  subtopic,
-  completedQuestions,
-  totalQuestions,
-  onPress,
-}: QuestListItemProps) => {
-  const completionPercentage = totalQuestions > 0 ? (completedQuestions / totalQuestions) * 100 : 0;
+const QuestListItem = ({ chapterAndProgress, onPress }: QuestListItemProps) => {
+  const completionPercentage =
+    chapterAndProgress.questions.total > 0
+      ? (chapterAndProgress.questions.correct / chapterAndProgress.questions.total) * 100
+      : 0;
   const isCompleted = completionPercentage === 100;
   const isInProgress = completionPercentage > 0 && completionPercentage < 100;
 
@@ -41,7 +38,7 @@ const QuestListItem = ({
       {/* Quest Icon & Title */}
       <View className="flex-1 flex-row items-center gap-4">
         <Image source={environmentIcon} className="h-12 w-12" />
-        <Text className="font-kenney text-lg text-white">{subtopic.subtopicTitle}</Text>
+        <Text className="font-kenney text-lg text-white">{chapterAndProgress.title}</Text>
       </View>
 
       {/* Progress & Stats */}

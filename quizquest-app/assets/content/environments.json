@@ -1,0 +1,14 @@
+{
+  "castle_dungeon": {
+    "id": "castle_dungeon",
+    "name": "Castle Dungeon",
+    "imgKey": "env_castle_dungeon_img",
+    "iconKey": "env_castle_dungeon_icon"
+  },
+  "desert_oasis": {
+    "id": "desert_oasis",
+    "name": "Desert Oasis",
+    "imgKey": "env_desert_oasis_img",
+    "iconKey": "env_desert_oasis_icon"
+  }
+}

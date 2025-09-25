@@ -1,9 +1,6 @@
 // Curriculum Types
 import { Timestamp } from 'firebase/firestore';
-import { Domain } from './Domain';
-
-export type AudienceLevel = 'novice' | 'apprentice' | 'master';
-export type SourceType = 'generated' | 'document';
+import { AudienceLevel } from '../general/General';
 
 // Flattened hierarchy, but hierarchy can be seen as:
 // Domains -> Subjects -> Stories -> Chapters -> QuizChunks (Questions & Answers)
@@ -11,7 +8,7 @@ export type SourceType = 'generated' | 'document';
 // Subjects / Topics (e.g. Squirrels, React Native) - grouping stories of different levels
 // subjects/{subjectId}
 export interface Subject {
-  subjectId?: string; // <src>:<domain-slug>:<subject-slug>
+  subjectId?: string; // <src>:<domainSlug>:<subjectSlug>
   domainId: string; // Catalog key
   title: string;
   titleLower: string;
@@ -42,7 +39,7 @@ export interface Story {
 // The chapters inside a story (e.g. React Native Terminology, React Native Hooks)
 // chapters/{chapterId}
 export interface Chapter {
-  chapterId?: string; // <storyId>__<chapter-slug>
+  chapterId?: string; // <storyId>__ch<seq>
   storyId: string; // Foreign key to stories/{storyId}
   title: string;
   description: string;
@@ -58,7 +55,7 @@ export interface Chapter {
 export interface QuizChunk {
   quizChunkId?: string; // <chapterId>__ck<seq>
   chapterId: string; // Foreign key to chapters/{chapterId}
-  chunkSeq: number;
+  chunkSeqNum: number;
   items: QuestionItem[];
   createdAt: Timestamp;
   updatedAt: Timestamp;
@@ -68,7 +65,7 @@ export interface QuestionItem {
   kind: 'singleSelect' | 'multiSelect' | 'trueFalse';
   question: string;
   choices: string[];
-  correctAnswerIndex: number | number[];
+  correctAnswerIndex: number[];
   hint: string;
   explanation: string;
 }

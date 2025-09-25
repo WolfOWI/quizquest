@@ -1,11 +1,10 @@
-import React, { useRef } from 'react';
-import { AnimatedSprite, type AnimatedSpriteType } from '@darrench3140/react-native-sprite-sheet';
+import React from 'react';
+import { AnimatedSprite } from '@darrench3140/react-native-sprite-sheet';
 import { SpriteProps } from '@/lib/types/sprites/Sprite';
-import { getSpriteData } from '@/lib/utils/spriteUtils';
-import { calculateProportionalWidth } from '@/lib/utils/spriteUtils';
+import { getSpriteData, calculateProportionalWidth } from '@/lib/utils/spriteUtils';
 
 const PlayerSprite: React.FC<SpriteProps> = ({
-  characterId,
+  variantId,
   defaultAnimation = 'idle',
   loop = true,
   fps = 10,
@@ -17,28 +16,27 @@ const PlayerSprite: React.FC<SpriteProps> = ({
 }) => {
   const ref = spriteRef;
 
-  // Get character data from characterId
-  const characterData = getSpriteData(characterId);
+  const data = getSpriteData(variantId);
 
   // Calculate sprite size
   const spriteSize = size
     ? {
-        width: calculateProportionalWidth(size, characterData.frameSize),
+        width: calculateProportionalWidth(size, data.frameSize),
         height: size,
       }
-    : characterData.frameSize;
+    : data.frameSize;
 
   return (
     <AnimatedSprite
       ref={ref}
-      source={characterData.getSpriteSource(characterId)}
-      spriteSheetSize={characterData.spriteSheetSize}
+      source={data.source}
+      spriteSheetSize={data.spriteSheetSize}
       size={spriteSize}
-      offset={characterData.offset}
-      columnRowMapping={characterData.columnRowMapping}
-      frameSize={characterData.frameSize}
+      offset={data.offset}
+      columnRowMapping={data.columnRowMapping}
+      frameSize={data.frameSize}
       defaultAnimationName={defaultAnimation}
-      animations={characterData.animationFrames}
+      animations={data.animations}
       inLoop={loop}
       fps={fps}
       autoPlay={autoPlay}

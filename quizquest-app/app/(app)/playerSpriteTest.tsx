@@ -5,7 +5,7 @@ import TopAppBar from '@/components/navigation/TopAppBar';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import PlayerSprite from '@/components/sprites/PlayerSprite';
 import { useSpriteAnimation } from '@/lib/hooks/useSpriteAnimation';
-import { CharacterData } from '@/lib/constants/sprites/PlayerSpriteData';
+import { getCharacterGroups } from '@/lib/content';
 import { getSpriteData } from '@/lib/utils/spriteUtils';
 
 const PlayerSpriteTestScreen = () => {
@@ -16,11 +16,8 @@ const PlayerSpriteTestScreen = () => {
 
   const backgroundTexture = require('@/assets/textures/bricks_castle.png');
 
-  const characterGroups = {
-    heavyKnight: CharacterData.heavyKnight.skins,
-    samurai: CharacterData.samurai.skins,
-    mage: CharacterData.mage.skins,
-  };
+  // Get character variants from content using proper content utilities
+  const characterGroups = getCharacterGroups();
 
   const handleCharacterChange = (characterId: string) => {
     setSelectedCharacterId(characterId);
@@ -84,21 +81,21 @@ const PlayerSpriteTestScreen = () => {
           <View className="w-full">
             <Text className="mb-2 text-lg font-bold text-white">1. Select Character Skin</Text>
             <ScrollView className="max-h-40">
-              {Object.entries(characterGroups).map(([characterType, skins]) => (
+              {Object.entries(characterGroups).map(([characterType, characters]) => (
                 <View key={characterType} className="mb-4">
                   <Text className="mb-2 text-sm font-semibold capitalize text-yellow-400">
                     {characterType.replace('_', ' ')}
                   </Text>
                   <View className="flex-row flex-wrap gap-2">
-                    {skins.map((characterId) => (
+                    {characters.map((character) => (
                       <Pressable
-                        key={characterId}
+                        key={character.id}
                         className={`rounded px-3 py-2 ${
-                          selectedCharacterId === characterId ? 'bg-yellow-600' : 'bg-gray-600'
+                          selectedCharacterId === character.id ? 'bg-yellow-600' : 'bg-gray-600'
                         }`}
-                        onPress={() => handleCharacterChange(characterId)}>
+                        onPress={() => handleCharacterChange(character.id)}>
                         <Text className="text-xs text-white">
-                          {characterId.replace(`${characterType}_`, '')}
+                          {character.id.replace(`${characterType}_`, '')}
                         </Text>
                       </Pressable>
                     ))}
@@ -116,7 +113,7 @@ const PlayerSpriteTestScreen = () => {
             </Text>
             <PlayerSprite
               key={selectedCharacterId} // Rerender when character changes
-              characterId={selectedCharacterId}
+              variantId={selectedCharacterId}
               defaultAnimation="idle"
               autoPlay={false}
               spriteRef={spriteRef}
@@ -128,10 +125,10 @@ const PlayerSpriteTestScreen = () => {
           <View className="w-full">
             <Text className="mb-2 text-lg font-bold text-white">3. Animation Controls</Text>
             <Text className="mb-4 text-sm text-white">
-              Available animations for {currentCharacterData.name}:
+              Available animations for {selectedCharacterId}:
             </Text>
             <View className="mb-4 flex-row flex-wrap justify-center gap-2">
-              {currentCharacterData.animations.map((animation) => (
+              {Object.keys(currentCharacterData.animations).map((animation) => (
                 <Pressable
                   key={animation}
                   className="rounded bg-blue-600 px-3 py-2"

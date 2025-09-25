@@ -5,12 +5,12 @@ import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AudienceLevel } from '@/lib/types/curriculum/Curriculum';
+import { AudienceLevel } from '@/lib/types/general/General';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { capitaliseAllWords } from '@/lib/utils/textUtils';
 import { getDifficultyIcon } from '@/lib/utils/iconUtils';
 
-const TopicInputScreen = () => {
+const SubjectInputScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_smallplanks.png');
 
   const [subject, setSubject] = useState('');
@@ -41,7 +41,7 @@ const TopicInputScreen = () => {
     }
 
     router.push({
-      pathname: '/(app)/(story-creation)/aiValidation' as any,
+      pathname: '/(app)/(story-creation)/loadingAiValidate' as any,
       params: {
         subject: subject.trim(),
         level: selectedLevel,
@@ -123,4 +123,4 @@ const TopicInputScreen = () => {
   );
 };
 
-export default TopicInputScreen;
+export default SubjectInputScreen;

@@ -28,7 +28,7 @@ const ProfileScreen = () => {
             {/* Character Display */}
             <View className="mb-6">
               <PlayerSprite
-                characterId={userDoc.selections.characterId ?? 'heavyKnight_red'}
+                variantId={userDoc.equipped.characterId ?? 'heavyKnight_red'}
                 defaultAnimation="idle"
                 autoPlay={true}
                 spriteRef={spriteRef}
@@ -36,7 +36,7 @@ const ProfileScreen = () => {
             </View>
 
             <Text className="text-center text-gray-600 dark:text-gray-400">
-              Character: {userDoc.selections.characterId}
+              Character: {userDoc.equipped.characterId}
             </Text>
           </>
         )}

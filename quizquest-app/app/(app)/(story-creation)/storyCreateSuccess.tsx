@@ -2,15 +2,13 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
-import { Button } from '@/components/ui/button';
-import { AudienceLevel } from '@/lib/types/curriculum/Curriculum';
+import { AudienceLevel } from '@/lib/types/general/General';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import BannerFolded from '@/components/banner/BannerFolded';
-import { capitaliseWord } from '@/lib/utils/textUtils';
 import StoryBook from '@/components/cards/StoryBook';
 import { Timestamp } from 'firebase/firestore';
 
-const StorySuccessScreen = () => {
+const StoryCreateSuccessScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
 
   // Params
@@ -21,22 +19,11 @@ const StorySuccessScreen = () => {
   const selectedSlug = params.selectedSlug as string;
   const selectedDescription = params.selectedDescription as string;
 
-  // TODO: Get actual values from the story
-  // Fake values for now
-  const subtopics = 3;
-  const totalQuestions = 30;
-
   const handleStartStory = () => {
     // TODO: Navigate to the story content (actual story/quiz screen)
     // For now, navigate back to stories tab
     router.dismissAll();
     router.push('/(app)/(tabs)/stories');
-  };
-
-  const handleCreateAnother = () => {
-    // Navigate back to the beginning of the flow
-    router.dismissAll();
-    router.push('/(app)/(story-creation)/topicInput' as any);
   };
 
   const handleBackToStories = () => {
@@ -87,4 +74,4 @@ const StorySuccessScreen = () => {
   );
 };
 
-export default StorySuccessScreen;
+export default StoryCreateSuccessScreen;

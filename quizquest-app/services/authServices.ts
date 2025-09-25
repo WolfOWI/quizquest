@@ -8,12 +8,14 @@ import { SignUpFormData } from '@/lib/types/auth/SignUpFormData';
 import { createUserInDb, getUserFromDb } from './userServices';
 import { User } from '@/lib/types/user/User';
 import { Timestamp } from 'firebase/firestore';
-import { userDefaults } from '@/lib/constants/user/UserDefaults';
+import { getProfileDefaults } from '@/lib/content';
 
 // User Registration (Firebase Auth + Firestore)
 export const registerUser = async (data: SignUpFormData) => {
   try {
     const firebaseUser = await signUp(data);
+
+    const pDefault = getProfileDefaults();
 
     // Default values for newly created user
     const userForDb: User = {
@@ -21,23 +23,16 @@ export const registerUser = async (data: SignUpFormData) => {
       username: data.username,
       email: data.email,
       createdAt: Timestamp.now(),
-      selections: {
-        characterId: userDefaults.selections.characterId,
-        petId: userDefaults.selections.petId,
+      updatedAt: Timestamp.now(),
+      equipped: {
+        characterId: pDefault.equipped.characterId,
+        petId: pDefault.equipped.petId,
       },
       economy: {
-        gold: userDefaults.economy.gold,
-        gems: userDefaults.economy.gems,
+        gold: pDefault.economy.gold,
+        gems: pDefault.economy.gems,
       },
-      stats: {
-        level: 0,
-        xp: 0,
-        totalRuns: 0,
-        totalWins: 0,
-        totalEnemiesDefeated: 0,
-        totalQuestionsAnswered: 0,
-        totalCorrectAnswers: 0,
-      },
+      xpTotal: pDefault.xpTotal,
     };
 
     await createUserInDb(userForDb);

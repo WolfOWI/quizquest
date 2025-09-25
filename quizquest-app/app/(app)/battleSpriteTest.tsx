@@ -5,7 +5,6 @@ import TopAppBar from '@/components/navigation/TopAppBar';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import EnemySprite from '@/components/sprites/EnemySprite';
 import { useSpriteAnimation } from '@/lib/hooks/useSpriteAnimation';
-import { EnemyData } from '@/lib/constants/sprites/EnemySpriteData';
 import { getAnimationDuration, getSpriteData } from '@/lib/utils/spriteUtils';
 import {
   Select,
@@ -16,8 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { CharacterData } from '@/lib/constants/sprites/PlayerSpriteData';
 import PlayerSprite from '@/components/sprites/PlayerSprite';
+import { getCharacterGroups, getEnemyGroups } from '@/lib/content';
 
 const BattleSpriteTestScreen = () => {
   const {
@@ -46,17 +45,9 @@ const BattleSpriteTestScreen = () => {
 
   const backgroundTexture = require('@/assets/textures/bricks_castle.png');
 
-  const enemyGroups = {
-    bushMonster: EnemyData.bushMonster.skins,
-    skeleton: EnemyData.skeleton.skins,
-    goblin: EnemyData.goblin.skins,
-  };
-
-  const playerGroups = {
-    heavyKnight: CharacterData.heavyKnight.skins,
-    samurai: CharacterData.samurai.skins,
-    mage: CharacterData.mage.skins,
-  };
+  // Get character variants from content using proper content utilities
+  const enemyGroups = getEnemyGroups();
+  const playerGroups = getCharacterGroups();
 
   // Enemy animation handlers
   const handleEnemyAnimation = (animation: string, loop: boolean = true) => {
@@ -229,11 +220,13 @@ const BattleSpriteTestScreen = () => {
                   className="h-10 w-[180px] flex-row items-center justify-between rounded-md border border-gray-600 bg-gray-800 px-3 py-2"
                   onPress={() => {
                     console.log('Enemy trigger pressed');
-                    // Cycle through enemy types
-                    const enemyTypes = Object.keys(enemyGroups);
-                    const currentIndex = enemyTypes.indexOf(selectedEnemyId);
-                    const nextIndex = (currentIndex + 1) % enemyTypes.length;
-                    setSelectedEnemyId(enemyTypes[nextIndex]);
+                    // Cycle through all enemy variants
+                    const allEnemies = Object.values(enemyGroups).flat();
+                    const currentIndex = allEnemies.findIndex(
+                      (enemy) => enemy.id === selectedEnemyId
+                    );
+                    const nextIndex = (currentIndex + 1) % allEnemies.length;
+                    setSelectedEnemyId(allEnemies[nextIndex].id);
                   }}>
                   <Text className="text-sm text-white">{selectedEnemyId.replace('_', ' ')}</Text>
                   <Text className="text-gray-400">▼</Text>
@@ -247,11 +240,13 @@ const BattleSpriteTestScreen = () => {
                   className="h-10 w-[180px] flex-row items-center justify-between rounded-md border border-gray-600 bg-gray-800 px-3 py-2"
                   onPress={() => {
                     console.log('Player trigger pressed');
-                    // Cycle through player types
-                    const playerTypes = Object.keys(playerGroups);
-                    const currentIndex = playerTypes.indexOf(selectedPlayerId);
-                    const nextIndex = (currentIndex + 1) % playerTypes.length;
-                    setSelectedPlayerId(playerTypes[nextIndex]);
+                    // Cycle through all player variants
+                    const allPlayers = Object.values(playerGroups).flat();
+                    const currentIndex = allPlayers.findIndex(
+                      (player) => player.id === selectedPlayerId
+                    );
+                    const nextIndex = (currentIndex + 1) % allPlayers.length;
+                    setSelectedPlayerId(allPlayers[nextIndex].id);
                   }}>
                   <Text className="text-sm text-white">{selectedPlayerId.replace('_', ' ')}</Text>
                   <Text className="text-gray-400">▼</Text>
@@ -373,7 +368,7 @@ const BattleSpriteTestScreen = () => {
               }}>
               <EnemySprite
                 key={selectedEnemyId}
-                characterId={selectedEnemyId}
+                variantId={selectedEnemyId}
                 defaultAnimation="idle"
                 autoPlay={false}
                 spriteRef={enemySpriteRef}
@@ -396,7 +391,7 @@ const BattleSpriteTestScreen = () => {
               }}>
               <PlayerSprite
                 key={selectedPlayerId}
-                characterId={selectedPlayerId}
+                variantId={selectedPlayerId}
                 defaultAnimation="idle"
                 autoPlay={false}
                 spriteRef={playerSpriteRef}
@@ -452,10 +447,10 @@ const BattleSpriteTestScreen = () => {
             {/* Enemy Controls */}
             <View className="mb-6">
               <Text className="mb-2 text-sm font-semibold text-yellow-400">
-                Enemy ({currentEnemyData.name}) Animations:
+                Enemy ({selectedEnemyId}) Animations:
               </Text>
               <View className="mb-3 flex-row flex-wrap gap-2">
-                {currentEnemyData.animations.map((animation: string) => (
+                {Object.keys(currentEnemyData.animations).map((animation: string) => (
                   <Pressable
                     key={animation}
                     className="rounded bg-yellow-600 px-3 py-2"
@@ -494,10 +489,10 @@ const BattleSpriteTestScreen = () => {
             {/* Player Controls */}
             <View>
               <Text className="mb-2 text-sm font-semibold text-blue-400">
-                Player ({currentPlayerData.name}) Animations:
+                Player ({selectedPlayerId}) Animations:
               </Text>
               <View className="mb-3 flex-row flex-wrap gap-2">
-                {currentPlayerData.animations.map((animation: string) => (
+                {Object.keys(currentPlayerData.animations).map((animation: string) => (
                   <Pressable
                     key={animation}
                     className="rounded bg-blue-600 px-3 py-2"

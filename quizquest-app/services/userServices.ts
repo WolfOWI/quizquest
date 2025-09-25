@@ -11,7 +11,7 @@ import { setDoc, doc, getDoc } from 'firebase/firestore';
  */
 export const createUserInDb = async (userData: User) => {
   try {
-    const userDocRef = doc(db, 'users', userData.uid as string);
+    const userDocRef = doc(db, 'users', userData.uid);
     await setDoc(userDocRef, userData);
     return userDocRef;
   } catch (error) {

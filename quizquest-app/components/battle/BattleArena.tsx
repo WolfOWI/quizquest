@@ -132,7 +132,7 @@ const BattleArena: React.FC<BattleArenaProps> = ({
         }}>
         <EnemySprite
           key={enemyId}
-          characterId={enemyId}
+          variantId={enemyId}
           defaultAnimation={enemyDefaultAnimation}
           autoPlay={autoPlay}
           spriteRef={enemySpriteRef}
@@ -160,7 +160,7 @@ const BattleArena: React.FC<BattleArenaProps> = ({
         }}>
         <PlayerSprite
           key={playerId}
-          characterId={playerId}
+          variantId={playerId}
           defaultAnimation={playerDefaultAnimation}
           autoPlay={autoPlay}
           spriteRef={playerSpriteRef}

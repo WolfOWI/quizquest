@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
 import StoryBook from '@/components/cards/StoryBook';
-import { SubjectDoc } from '@/lib/types/curriculum/Curriculum';
+import { UserOwnedStory } from '@/lib/types/user/User';
 import { Timestamp } from 'firebase/firestore';
 import CurrencyDisplay from '@/components/counters/CurrencyDisplay';
 import { useAppStore } from '@/lib/state/appStore';
@@ -18,27 +18,30 @@ const StoriesScreen = () => {
   }
 
   // TODO: Temporary Fake data (replace with real data)
-  const subjects: SubjectDoc[] = [
+  const userOwnedStories: UserOwnedStory[] = [
     {
+      acquiredAt: Timestamp.now(),
+      lastPlayedAt: Timestamp.now(),
+      domainId: 'animal',
+      subjectId: 'gen:animals:snakes-on-a-plane',
       subjectTitle: 'Snakes on a plane',
-      subjectSlug: 'snakes-on-a-plane',
       level: 'novice',
-      createdAt: Timestamp.now(),
-      source: 'generated',
     },
     {
       subjectTitle: 'The 1988 battle of Manhattan Heights',
-      subjectSlug: 'the-1988-battle-of-manhattan-heights',
+      subjectId: 'gen:history:the-1988-battle-of-manhattan-heights',
       level: 'apprentice',
-      createdAt: Timestamp.now(),
-      source: 'generated',
+      acquiredAt: Timestamp.now(),
+      lastPlayedAt: Timestamp.now(),
+      domainId: 'history',
     },
     {
       subjectTitle: 'Lions',
-      subjectSlug: 'lions',
+      subjectId: 'gen:animals:lions',
       level: 'master',
-      createdAt: Timestamp.now(),
-      source: 'generated',
+      acquiredAt: Timestamp.now(),
+      lastPlayedAt: Timestamp.now(),
+      domainId: 'animal',
     },
   ];
 
@@ -50,7 +53,7 @@ const StoriesScreen = () => {
           title="Stories"
           titleSize="large"
           rightButtonIcon="plus"
-          rightButtonPress={() => router.push('/(app)/(story-creation)/topicInput' as any)}
+          rightButtonPress={() => router.push('/(app)/(story-creation)/subjectInput' as any)}
           buttonVariant="wood"
         />
       </View>
@@ -64,8 +67,8 @@ const StoriesScreen = () => {
             paddingHorizontal: 24,
           }}
           className="flex-1">
-          {subjects.map((subject) => (
-            <StoryBook key={subject.subjectSlug} subject={subject} />
+          {userOwnedStories.map((story) => (
+            <StoryBook key={story.subjectId} subject={story} />
           ))}
         </ScrollView>
       </View>

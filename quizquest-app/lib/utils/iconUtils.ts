@@ -1,5 +1,5 @@
 // Icon Utilities
-import { AudienceLevel } from '@/lib/types/curriculum/Curriculum';
+import { AudienceLevel } from '@/lib/types/general/General';
 
 /**
  * Get the difficulty icon for a given audience level

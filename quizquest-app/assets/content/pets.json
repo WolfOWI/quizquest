@@ -1,0 +1,9 @@
+{
+  "fox_red": {
+    "id": "fox_red",
+    "name": "Red Fox",
+    "spriteKey": "fox_red_v1",
+    "iconKey": "pet_fox_red_icon",
+    "goldPrice": 400
+  }
+}

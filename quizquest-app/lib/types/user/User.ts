@@ -1,25 +1,22 @@
 import { Timestamp } from 'firebase/firestore';
-import { AudienceLevel } from '../curriculum/Curriculum';
+import { AudienceLevel } from '../general/General';
 
 // Users/{uid}
 export interface User {
-  uid?: string;
+  uid: string;
   username: string;
   email: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
-
-  // Currently Equipped
   equipped: {
-    characterId: string; // TODO: Reference catalog key
-    petId: string; // TODO: Reference catalog key
+    characterId: string; // Catalog key
+    petId?: string; // Catalog key (optional)
+    petNickname?: string;
   };
-
   economy: {
     gold: number;
     gems: number;
   };
-
   xpTotal: number;
 }
 

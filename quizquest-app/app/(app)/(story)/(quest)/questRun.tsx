@@ -1,31 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, ImageBackground, Dimensions, Image } from 'react-native';
 import { router } from 'expo-router';
-import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
-import TopAppBar from '@/components/navigation/TopAppBar';
 import { useLocalSearchParams } from 'expo-router';
-import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { SquareBtn } from '@/components/buttons/square/SquareBtn';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import BattleArena from '@/components/battle/BattleArena';
 import BattleArenaCounter from '@/components/battle/BattleArenaCounter';
 import QuizOption from '@/components/quiz/QuizOption';
-// import { LinearGradient } from 'expo-linear-gradient';
+import { getCharacter, getEnemy } from '@/lib/content';
 
 const QuestRunScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
   const knowledgeScrollIcon = require('@/assets/icons/navigation/blueScroll.png');
   const inventoryIcon = require('@/assets/icons/navigation/sackBrown.png');
 
-  const { subjectSlug, subtopicSlug } = useLocalSearchParams<{
-    subjectSlug: string;
-    subtopicSlug: string;
+  const { chapterId } = useLocalSearchParams<{
+    chapterId: string;
   }>();
+
+  const userCharacterId = 'heavyKnight_green';
+  const userEnemyId = 'bushMonster_default';
+
+  const character = getCharacter(userCharacterId);
+  const enemy = getEnemy(userEnemyId);
 
   const handleCompleteQuest = () => {
     router.push({
       pathname: '/(app)/(story)/(quest)/questResult',
-      params: { subjectSlug, subtopicSlug },
+      params: { chapterId },
     } as any);
   };
 
@@ -33,6 +35,7 @@ const QuestRunScreen = () => {
     router.back();
   };
 
+  // TODO: Fake data here (get from chapterId in params)
   const questionBank = [
     {
       question: 'Which animal classification do squirrels belong to?',
@@ -108,8 +111,8 @@ const QuestRunScreen = () => {
         <BattleArena
           height={combatSceneHeight}
           width="100%"
-          playerId="heavyKnight_blue"
-          enemyId="goblin_default"
+          playerId={userCharacterId}
+          enemyId={userEnemyId}
           playerSize={200}
           enemySize={200}
           spriteDistance={400}

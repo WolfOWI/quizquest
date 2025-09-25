@@ -39,7 +39,7 @@ const StartScreen = () => {
         <View className="mb-6 items-center justify-center">
           <Text className="-mb-12 font-kenney text-2xl text-white">{userDoc?.username}</Text>
           <PlayerSprite
-            characterId={userDoc?.selections.characterId ?? 'heavyKnight_red'}
+            variantId={userDoc?.equipped?.characterId ?? 'heavyKnight_green'}
             defaultAnimation="idle"
             autoPlay={true}
             spriteRef={spriteRef}

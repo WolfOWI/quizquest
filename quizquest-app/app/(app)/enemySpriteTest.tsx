@@ -5,7 +5,7 @@ import TopAppBar from '@/components/navigation/TopAppBar';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import EnemySprite from '@/components/sprites/EnemySprite';
 import { useSpriteAnimation } from '@/lib/hooks/useSpriteAnimation';
-import { EnemyData } from '@/lib/constants/sprites/EnemySpriteData';
+import { getEnemyGroups } from '@/lib/content';
 import { getSpriteData } from '@/lib/utils/spriteUtils';
 
 const EnemySpriteTestScreen = () => {
@@ -16,11 +16,8 @@ const EnemySpriteTestScreen = () => {
 
   const backgroundTexture = require('@/assets/textures/bricks_castle.png');
 
-  const enemyGroups = {
-    bushMonster: EnemyData.bushMonster.skins,
-    skeleton: EnemyData.skeleton.skins,
-    goblin: EnemyData.goblin.skins,
-  };
+  // Get enemy variants from content using proper content utilities
+  const enemyGroups = getEnemyGroups();
 
   const handleEnemyChange = (enemyId: string) => {
     setSelectedEnemyId(enemyId);
@@ -84,21 +81,21 @@ const EnemySpriteTestScreen = () => {
           <View className="w-full">
             <Text className="mb-2 text-lg font-bold text-white">1. Select Enemy Skin</Text>
             <ScrollView className="max-h-40">
-              {Object.entries(enemyGroups).map(([enemyType, skins]) => (
+              {Object.entries(enemyGroups).map(([enemyType, enemies]) => (
                 <View key={enemyType} className="mb-4">
                   <Text className="mb-2 text-sm font-semibold capitalize text-yellow-400">
                     {enemyType.replace('_', ' ')}
                   </Text>
                   <View className="flex-row flex-wrap gap-2">
-                    {skins.map((enemyId: string) => (
+                    {enemies.map((enemy) => (
                       <Pressable
-                        key={enemyId}
+                        key={enemy.id}
                         className={`rounded px-3 py-2 ${
-                          selectedEnemyId === enemyId ? 'bg-yellow-600' : 'bg-gray-600'
+                          selectedEnemyId === enemy.id ? 'bg-yellow-600' : 'bg-gray-600'
                         }`}
-                        onPress={() => handleEnemyChange(enemyId)}>
+                        onPress={() => handleEnemyChange(enemy.id)}>
                         <Text className="text-xs text-white">
-                          {enemyId.replace(`${enemyType}_`, '')}
+                          {enemy.id.replace(`${enemyType}_`, '')}
                         </Text>
                       </Pressable>
                     ))}
@@ -116,7 +113,7 @@ const EnemySpriteTestScreen = () => {
             </Text>
             <EnemySprite
               key={selectedEnemyId} // Rerender when enemy changes
-              characterId={selectedEnemyId}
+              variantId={selectedEnemyId}
               defaultAnimation="idle"
               autoPlay={false}
               spriteRef={spriteRef}
@@ -128,10 +125,10 @@ const EnemySpriteTestScreen = () => {
           <View className="w-full">
             <Text className="mb-2 text-lg font-bold text-white">3. Animation Controls</Text>
             <Text className="mb-4 text-sm text-white">
-              Available animations for {currentEnemyData.name}:
+              Available animations for {selectedEnemyId}:
             </Text>
             <View className="mb-4 flex-row flex-wrap justify-center gap-2">
-              {currentEnemyData.animations.map((animation: string) => (
+              {Object.keys(currentEnemyData.animations).map((animation: string) => (
                 <Pressable
                   key={animation}
                   className="rounded bg-blue-600 px-3 py-2"

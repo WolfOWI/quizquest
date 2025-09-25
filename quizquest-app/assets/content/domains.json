@@ -1,0 +1,22 @@
+{
+  "animals": {
+    "id": "animals",
+    "title": "Animals",
+    "slug": "animals",
+    "chapterTemplates": {
+      "novice": ["Basics & traits of {subject}", "Habitat & range", "Diet & foraging"],
+      "apprentice": ["Behavior & social", "Reproduction & lifecycle", "Predators & defenses"],
+      "master": ["Conservation status", "Similar species & identification", "Advanced case studies"]
+    }
+  },
+  "programming": {
+    "id": "programming",
+    "title": "Programming",
+    "slug": "programming",
+    "chapterTemplates": {
+      "novice": ["Language/framework basics", "Syntax & data types", "Core APIs"],
+      "apprentice": ["Debugging & testing", "Idioms & anti-patterns", "Exercises"],
+      "master": ["Architecture patterns", "Performance & tooling", "Advanced exercises"]
+    }
+  }
+}

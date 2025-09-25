@@ -2,13 +2,13 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
-import { AudienceLevel } from '@/lib/types/curriculum/Curriculum';
+import { AudienceLevel } from '@/lib/types/general/General';
 import PlayerSprite from '@/components/sprites/PlayerSprite';
 import { useAppStore } from '@/lib/state/appStore';
 import { capitaliseWord } from '@/lib/utils/textUtils';
 import Heading from '@/components/typography/Heading';
 
-const ContentGenerationScreen = () => {
+const LoadingAiGenScreen = () => {
   const backgroundTexture = require('@/assets/textures/chainmail_grey.png');
   const { userDoc } = useAppStore();
   const params = useLocalSearchParams();
@@ -45,7 +45,7 @@ const ContentGenerationScreen = () => {
       clearInterval(messageInterval);
 
       router.replace({
-        pathname: '/(app)/(story-creation)/storySuccess' as any,
+        pathname: '/(app)/(story-creation)/storyCreateSuccess' as any,
         params: {
           subject,
           level,
@@ -67,8 +67,8 @@ const ContentGenerationScreen = () => {
       <View className="flex-1 items-center justify-center">
         <View className="mb-8 items-center">
           <PlayerSprite
-            key={userDoc?.selections.characterId}
-            characterId={userDoc?.selections.characterId ?? 'heavyKnight_blue'}
+            key={userDoc?.equipped?.characterId}
+            variantId={userDoc?.equipped?.characterId ?? 'heavyKnight_blue'}
             defaultAnimation="walk"
             autoPlay={true}
             size={250}
@@ -77,14 +77,14 @@ const ContentGenerationScreen = () => {
             }}
           />
           <Heading>Crafting Your Story</Heading>
-          <Text className="font-pixelify text-center text-lg text-gray-300">
+          <Text className="text-center font-pixelify text-lg text-gray-300">
             {selectedTitle} • {capitaliseWord(level)} Level
           </Text>
         </View>
 
         <View className="h-32 items-center">
           <View className="flex-row items-center rounded-lg bg-zinc-800/50 p-4">
-            <Text className="font-pixelify text-center text-lg text-white">
+            <Text className="text-center font-pixelify text-lg text-white">
               {loadingMessages[currentMessageIndex]}
             </Text>
           </View>
@@ -94,4 +94,4 @@ const ContentGenerationScreen = () => {
   );
 };
 
-export default ContentGenerationScreen;
+export default LoadingAiGenScreen;

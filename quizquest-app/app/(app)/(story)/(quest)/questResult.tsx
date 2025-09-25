@@ -8,25 +8,25 @@ import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 
 const QuestResultScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
-  const { subjectSlug, subtopicSlug } = useLocalSearchParams<{
-    subjectSlug: string;
-    subtopicSlug: string;
+  const { chapterId } = useLocalSearchParams<{
+    chapterId: string;
   }>();
 
   const handleBackToStory = () => {
     router.dismissTo({
       pathname: '/(app)/(story)/storyDetail',
-      params: { subjectSlug },
+      params: { chapterId },
     } as any);
   };
 
   const handleRetryQuest = () => {
     router.dismissTo({
       pathname: '/(app)/(story)/(quest)/questRun',
-      params: { subjectSlug, subtopicSlug },
+      params: { chapterId },
     } as any);
   };
 
+  // TODO: Split into victory and defeat screen
   return (
     <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4} noHorizontalPadding>
       <View className="mx-4">
@@ -37,10 +37,7 @@ const QuestResultScreen = () => {
         <View className="mb-6 rounded-lg bg-white/10 p-6">
           <Text className="text-center font-pixelify text-xl text-white">Quest Complete!</Text>
           <Text className="mt-2 text-center font-pixelify text-sm text-white/70">
-            Subject: {subjectSlug}
-          </Text>
-          <Text className="text-center font-pixelify text-sm text-white/70">
-            Quest: {subtopicSlug}
+            Quest Completed: {chapterId}
           </Text>
         </View>
 

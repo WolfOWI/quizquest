@@ -1,0 +1,10 @@
+{
+  "red_apple": {
+    "id": "red_apple",
+    "name": "Red Apple",
+    "iconKey": "it_red_apple",
+    "description": "Restores 1 heart of health.",
+    "goldPrice": 10,
+    "effect": { "type": "heal", "amount": 1 }
+  }
+}

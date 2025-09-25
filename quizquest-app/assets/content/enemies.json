@@ -1,0 +1,10 @@
+{
+  "bushMonster_default": {
+    "id": "bushMonster_default",
+    "name": "Bush Monster",
+    "spriteKey": "enemy_bushMonster_v1",
+    "iconKey": "enemy_bushMonster_icon",
+    "hp": 30,
+    "drops": { "gold": 10, "xp": 8 }
+  }
+}

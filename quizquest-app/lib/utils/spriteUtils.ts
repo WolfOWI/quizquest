@@ -1,70 +1,59 @@
-// General Sprite Utilities
-import { CharacterData } from '@/lib/constants/sprites/PlayerSpriteData';
-import { EnemyData } from '@/lib/constants/sprites/EnemySpriteData';
+import { CONTENT } from '@/lib/content';
+import { getSpriteSheet } from '@/lib/content/registry';
+import type { SpriteSheetConfig } from '@/lib/types/sprites/SpriteConfig';
 
-/**
- * Calculate the width of a sprite with a desired height and a frame size (in ratio)
- * @param desiredHeight - The height you want the sprite to be
- * @param frameSize - The original frame dimensions {width, height}
- * @returns The calculated width that maintains the original aspect ratio
- */
+export function getSpriteData(variantId: string) {
+  // Find the catalog entry for this variant
+  const catalogEntry =
+    CONTENT.characters[variantId] ?? CONTENT.enemies[variantId] ?? CONTENT.pets[variantId];
+
+  if (!catalogEntry) {
+    throw new Error(`No catalog entry for variantId "${variantId}" in JSON.`);
+  }
+
+  // Get the sheet by spriteKey
+  const sheet: SpriteSheetConfig | undefined = getSpriteSheet(catalogEntry.spriteKey);
+  if (!sheet) throw new Error(`No sheet registered for spriteKey "${catalogEntry.spriteKey}".`);
+
+  // Pick the PNG for this variant (fallback to first)
+  const source = sheet.variants[variantId] ?? Object.values(sheet.variants)[0];
+  if (!source)
+    throw new Error(
+      `No variant image for "${variantId}" on spriteKey "${catalogEntry.spriteKey}".`
+    );
+
+  return {
+    source,
+    frameSize: sheet.frameSize,
+    spriteSheetSize: sheet.sheetSize, // Renamed to "spriteSheetSize" for AnimatedSprite prop
+    offset: sheet.offset,
+    columnRowMapping: sheet.columnRowMapping,
+    animations: sheet.animations,
+    defaultAnimation: sheet.defaultAnimation ?? 'idle',
+  };
+}
+
 export const calculateProportionalWidth = (
   desiredHeight: number,
   frameSize: { width: number; height: number }
-) => {
-  // console.log('The frame size is', frameSize);
-  // console.log('This is the wanted height', wantedHeight);
-  // console.log('This would make the width', wantedHeight * (frameSize.width / frameSize.height));
-  return desiredHeight * (frameSize.width / frameSize.height);
-};
+) => desiredHeight * (frameSize.width / frameSize.height);
 
 /**
- * Get character type from character ID
- * @param characterId - The full character ID (e.g., 'heavyKnight_red', 'bushMonster_default')
- * @returns The character type key
- */
-export const getCharacterType = (characterId: string): string => {
-  return characterId.split('_')[0];
-};
-
-/**
- * Get sprite data from character ID (works for both players and enemies)
- * @param characterId - The full character ID
- * @returns The sprite data object
- */
-export const getSpriteData = (characterId: string) => {
-  const characterType = getCharacterType(characterId);
-
-  // Check if it's a player character
-  if (CharacterData[characterType as keyof typeof CharacterData]) {
-    return CharacterData[characterType as keyof typeof CharacterData];
-  }
-
-  // Check if it's an enemy character
-  if (EnemyData[characterType as keyof typeof EnemyData]) {
-    return EnemyData[characterType as keyof typeof EnemyData];
-  }
-
-  // Fallback to heavy knight
-  return CharacterData.heavyKnight;
-};
-
-/**
- * Get animation duration for a character ID and animation name
- * @param characterId - The full character ID (e.g., 'heavyKnight_red', 'bushMonster_default')
+ * Get animation duration for a variant ID and animation name
+ * @param variantId - The variant ID (e.g., 'heavyKnight_red', 'bushMonster_default')
  * @param animationName - The name of the animation
  * @param fps - Frames per second (default: 10)
  * @returns Duration in milliseconds
  */
 export const getAnimationDuration = (
-  characterId: string,
+  variantId: string,
   animationName: string,
   fps: number = 10
 ): number => {
-  const spriteData = getSpriteData(characterId);
+  const spriteData = getSpriteData(variantId);
   if (!spriteData) return 1000;
 
-  const animationFrames = (spriteData.animationFrames as Record<string, number[]>)[animationName];
+  const animationFrames = (spriteData.animations as Record<string, number[]>)[animationName];
   if (!animationFrames) return 1000;
 
   // Calculate duration: (frameCount / fps) * 1000ms

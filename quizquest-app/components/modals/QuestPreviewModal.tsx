@@ -9,18 +9,17 @@ import {
   Modal,
   Dimensions,
 } from 'react-native';
-import { SubtopicDoc } from '@/lib/types/curriculum/Curriculum';
+import { Chapter } from '@/lib/types/curriculum/Curriculum';
 import { PrimaryBtn } from '../buttons/standard/PrimaryBtn';
 import { SquareBtn } from '../buttons/square/SquareBtn';
+import { UserChapterProgress } from '@/lib/types/user/User';
 
 interface QuestPreviewModalProps {
   visible: boolean;
   onClose: () => void;
   onModalHide: () => void;
   onStartQuest: () => void;
-  subtopic: SubtopicDoc & { completedQuestions: number; totalQuestions: number };
-  subjectTitle: string;
-  subjectLevel: string;
+  chapterAndProgress: Chapter & UserChapterProgress;
 }
 
 const QuestPreviewModal = ({
@@ -28,12 +27,12 @@ const QuestPreviewModal = ({
   onClose,
   onModalHide,
   onStartQuest,
-  subtopic,
-  subjectTitle,
-  subjectLevel,
+  chapterAndProgress,
 }: QuestPreviewModalProps) => {
   const completionPercentage =
-    subtopic.totalQuestions > 0 ? (subtopic.completedQuestions / subtopic.totalQuestions) * 100 : 0;
+    chapterAndProgress.questions.total > 0
+      ? (chapterAndProgress.questions.correct / chapterAndProgress.questions.total) * 100
+      : 0;
   const isCompleted = completionPercentage === 100;
   const isInProgress = completionPercentage > 0 && completionPercentage < 100;
 
@@ -75,13 +74,15 @@ const QuestPreviewModal = ({
                 <Image source={environmentIcon} className="h-6 w-6" />
                 <Text className="font-pixelify text-sm text-white/70">Desert Oasis</Text>
               </View>
-              <Text className="font-kenney text-xl text-white">{subtopic.subtopicTitle}</Text>
+              <Text className="font-kenney text-xl text-white">{chapterAndProgress.title}</Text>
             </View>
           </View>
 
           <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
             {/* Quest Description */}
-            <Text className="mb-4 font-pixelify text-base text-white">{subtopic.description}</Text>
+            <Text className="mb-4 font-pixelify text-base text-white">
+              {chapterAndProgress.description}
+            </Text>
 
             {/* Progress Section */}
             <View className="mb-6">
@@ -100,7 +101,8 @@ const QuestPreviewModal = ({
                 />
               </View>
               <Text className="mt-1 font-pixelify text-sm text-white/70">
-                {subtopic.completedQuestions} of {subtopic.totalQuestions} questions completed
+                {chapterAndProgress.questions.correct} of {chapterAndProgress.questions.total}{' '}
+                questions completed
               </Text>
             </View>
 
