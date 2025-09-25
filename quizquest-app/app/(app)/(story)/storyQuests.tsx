@@ -10,6 +10,8 @@ import CurrencyDisplay from '@/components/counters/CurrencyDisplay';
 import { useAppStore } from '@/lib/state/appStore';
 import QuestListItem from '@/components/cards/QuestListItem';
 import QuestPreviewModal from '@/components/modals/QuestPreviewModal';
+import Subheading from '@/components/typography/Subheading';
+import { UI_ICONS } from '@/lib/constants/uiIcons';
 
 const StoryQuestsScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
@@ -23,6 +25,11 @@ const StoryQuestsScreen = () => {
     return null;
   }
 
+  // Quest Stat Icons
+  const deathsIcon = UI_ICONS.stats.deaths;
+  const enemiesSlainIcon = UI_ICONS.stats.slain;
+  const playThroughsIcon = UI_ICONS.stats.runs;
+
   // TODO: Fake data here
   // For now, using mock data
   const story: Story = {
@@ -34,9 +41,25 @@ const StoryQuestsScreen = () => {
     source: 'generated',
     authorUid: '123',
     chapterCount: 3,
-    questionCount: 60,
+    questionCount: 200,
     createdAt: Timestamp.now(),
     updatedAt: Timestamp.now(),
+  };
+
+  const storyProgress: UserStoryProgress = {
+    storyId: story.storyId,
+    runs: {
+      total: 150,
+      won: 135,
+    },
+    battles: {
+      total: 160,
+      won: 128,
+    },
+    questions: {
+      total: story.questionCount,
+      correct: 35,
+    },
   };
 
   // Generate fake quests (chapters) with user progress data
@@ -90,7 +113,7 @@ const StoryQuestsScreen = () => {
     {
       chapterId: `${story.storyId}__ch3`,
       storyId: 'gen:animals:snakes__novice__gen_v1',
-      title: 'Food & nutrition',
+      title: 'Food & nutrition of the great Japanese snake in the war of 1938',
       description: 'Learn about what snakes eat and how they survive',
       seq: 3,
       environmentId: 'desert-oasis',
@@ -111,6 +134,13 @@ const StoryQuestsScreen = () => {
       },
     },
   ];
+
+  const completionPercentage =
+    storyProgress.questions.total > 0
+      ? (storyProgress.questions.correct / storyProgress.questions.total) * 100
+      : 0;
+  const isCompleted = completionPercentage === 100;
+  const isInProgress = completionPercentage > 0 && completionPercentage < 100;
 
   const handleQuestPress = (quest: Chapter & UserChapterProgress) => {
     setSelectedQuest(quest);
@@ -142,24 +172,68 @@ const StoryQuestsScreen = () => {
   };
 
   return (
-    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4} noHorizontalPadding>
-      <View className="mx-4">
-        {/* <CurrencyDisplay gemCount={userDoc.economy.gems} goldCount={userDoc.economy.gold} /> */}
-        <TopAppBar leftButtonIcon="back" leftButtonPress={handleBackPress} buttonVariant="wood" />
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
+      {/* <CurrencyDisplay gemCount={userDoc.economy.gems} goldCount={userDoc.economy.gold} /> */}
+      <TopAppBar
+        leftButtonIcon="back"
+        leftButtonPress={handleBackPress}
+        buttonVariant="wood"
+        title="Story"
+        titleSize="large"
+        titleCenter
+        titleClassName="opacity-50"
+      />
 
-        {/* Subject Header */}
-        <View className="mb-6 mt-2 rounded-lg bg-white/10 p-4">
-          <Text className="text-center font-jacquard text-4xl text-white">
-            {story.subjectTitle}
+      {/* Subject Header */}
+      <View className="mb-4 mt-2 px-4">
+        <Text className="text-center font-jacquard text-4xl text-white">{story.subjectTitle}</Text>
+      </View>
+      {/* Progress & Stats */}
+      <View className="mb-6 gap-2">
+        <View className="flex flex-row items-center justify-between">
+          <Text className="w-1/3 text-left font-kenney text-sm text-white">
+            {storyProgress.questions.correct}/{storyProgress.questions.total}
           </Text>
-          <Text className="text-center font-pixelify text-sm capitalize text-white/70">
+          <Text className="w-1/3 text-center font-pixelify text-sm capitalize text-white">
             {story.level} Level
           </Text>
+          <Text className="w-1/3 text-right font-kenney text-sm text-white">Info</Text>
+        </View>
+        {/* Progress Bar */}
+        <View className="h-2 rounded-full bg-black">
+          <View
+            className={`h-full rounded-full ${
+              storyProgress.questions.correct === storyProgress.questions.total
+                ? 'bg-green-500'
+                : 'bg-yellow-500'
+            }`}
+            style={{
+              width: `${(storyProgress.questions.correct / storyProgress.questions.total) * 100}%`,
+            }}
+          />
+        </View>
+        {/* Stats */}
+        <View className="flex w-full flex-row items-center justify-center gap-4">
+          <View className="flex-row items-center gap-1">
+            <Image source={playThroughsIcon} className="h-6 w-6" />
+            <Text className="font-kenney text-lg text-white">{storyProgress.runs.total}</Text>
+          </View>
+          <View className="flex-row items-center gap-1">
+            <Image source={enemiesSlainIcon} className="h-6 w-6" />
+            <Text className="font-kenney text-lg text-white">{storyProgress.battles.won}</Text>
+          </View>
+          <View className="flex-row items-center gap-1">
+            <Image source={deathsIcon} className="h-6 w-6" />
+            <Text className="font-kenney text-lg text-white">
+              {storyProgress.runs.total - storyProgress.runs.won}
+            </Text>
+          </View>
         </View>
       </View>
 
       {/* Quests List */}
-      <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+      <Subheading className="w-full text-center">Quests</Subheading>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: 16 }}>
         {quests.map((quest) => (
           <QuestListItem
             key={quest.chapterId}

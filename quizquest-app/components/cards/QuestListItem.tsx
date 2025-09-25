@@ -16,7 +16,6 @@ const QuestListItem = ({ chapterAndProgress, onPress }: QuestListItemProps) => {
       ? (chapterAndProgress.questions.correct / chapterAndProgress.questions.total) * 100
       : 0;
   const isCompleted = completionPercentage === 100;
-  const isInProgress = completionPercentage > 0 && completionPercentage < 100;
 
   //   TODO: Temporary hard-coded icon & background texture
   const forestIcon = getIcon('env_temperate_forest');
@@ -26,51 +25,28 @@ const QuestListItem = ({ chapterAndProgress, onPress }: QuestListItemProps) => {
   const grassTexture = require('@/assets/textures/grass_green.png');
   const backgroundTexture = grassTexture;
 
-  // Quest Stat Icons
-  const deathsIcon = UI_ICONS.stats.deaths;
-  const enemiesSlainIcon = UI_ICONS.stats.slain;
-  const playThroughsIcon = UI_ICONS.stats.runs;
-
   return (
-    <Pressable onPress={onPress} className={`p-4`}>
+    <Pressable onPress={onPress} className="overflow-hidden rounded-2xl">
       {/* Background Texture */}
-      <ImageBackground source={backgroundTexture} className="absolute inset-0" />
-      <View className="absolute inset-0 bg-black/20" />
+      <ImageBackground source={backgroundTexture}>
+        <View className="inset-0 bg-black/20" />
 
-      {/* Quest Icon & Title */}
-      <View className="flex-1 flex-row items-center gap-4">
-        <Image source={environmentIcon} className="h-12 w-12" />
-        <Text className="font-kenney text-lg text-white">{chapterAndProgress.title}</Text>
-      </View>
-
-      {/* Progress & Stats */}
-      <View className="mt-4 flex flex-row items-center justify-between">
-        <View className="flex flex-row items-center gap-4">
-          <View className="flex flex-row items-center gap-1">
-            <Image source={playThroughsIcon} className="h-6 w-6" />
-            <Text className="font-kenney text-lg text-white">0</Text>
+        {/* Quest Icon & Title */}
+        <View className="min-h-24 flex-1 flex-row items-center p-4">
+          <View className="min-w-0 flex-1 flex-row items-center gap-2">
+            <Image source={environmentIcon} className="h-12 w-12" />
+            <Text
+              className="line-clamp-1 flex-1 font-pixelify text-base text-white"
+              numberOfLines={2}
+              ellipsizeMode="tail">
+              {chapterAndProgress.title}
+            </Text>
           </View>
-          <View className="flex flex-row items-center gap-1">
-            <Image source={enemiesSlainIcon} className="h-6 w-6" />
-            <Text className="font-kenney text-lg text-white">0</Text>
-          </View>
-          <View className="flex flex-row items-center gap-1">
-            <Image source={deathsIcon} className="h-6 w-6" />
-            <Text className="font-kenney text-lg text-white">0</Text>
+          <View className="ml-4 flex-shrink-0">
+            <Text className="font-kenney text-base text-white">{completionPercentage}%</Text>
           </View>
         </View>
-
-        <Text className="font-kenney text-lg text-white">{completionPercentage}%</Text>
-      </View>
-      {/* Progress Bar */}
-      <View className="mt-2 h-2 rounded-full bg-white/20">
-        <View
-          className={`h-full rounded-full ${
-            isCompleted ? 'bg-green-500' : isInProgress ? 'bg-yellow-500' : 'bg-gray-500'
-          }`}
-          style={{ width: `${completionPercentage}%` }}
-        />
-      </View>
+      </ImageBackground>
     </Pressable>
   );
 };

@@ -11,6 +11,7 @@ type Props = {
   pretitle?: string;
   titleCenter?: boolean;
   titleSize?: 'standard' | 'large';
+  titleClassName?: string;
   rightButtonIcon?: SquareBtnIcons;
   rightButtonPress?: () => void;
   buttonVariant?: BtnMaterialVariants;
@@ -23,6 +24,7 @@ const TopAppBar = ({
   pretitle,
   titleCenter = false,
   titleSize = 'standard',
+  titleClassName,
   rightButtonIcon,
   rightButtonPress,
   buttonVariant = 'stone',
@@ -34,7 +36,7 @@ const TopAppBar = ({
       )}
 
       <View
-        className={`flex-col items-center ${titleCenter && `absolute left-1/2 -translate-x-1/2`}`}>
+        className={`flex-col items-center ${titleCenter && `absolute left-1/2 -translate-x-1/2`} ${titleClassName}`}>
         {pretitle && <Text className="font-pixelify text-white">{pretitle}</Text>}
         {title && <Heading size={titleSize}>{title}</Heading>}
       </View>

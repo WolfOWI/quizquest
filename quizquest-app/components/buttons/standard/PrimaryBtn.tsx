@@ -32,7 +32,7 @@ export function PrimaryBtn({ onPress, disabled, label, variant = 'wood' }: Props
           alignItems: 'center',
           opacity: disabled ? 0.6 : 1,
         }}>
-        <Text className="font-kenney mb-2 text-center text-2xl text-white">{label}</Text>
+        <Text className="mb-2 text-center font-kenney text-2xl text-white">{label}</Text>
       </ImageBackground>
     </Pressable>
   );

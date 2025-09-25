@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import React from 'react';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { router } from 'expo-router';
@@ -33,6 +33,12 @@ const StartScreen = () => {
 
   return (
     <StandardSafeLayout bgImage={backgroundImage}>
+      {/* Test Button */}
+      <PrimaryBtn
+        label="Sprite Tests"
+        variant="stone"
+        onPress={() => router.push('/(app)/spriteTests')}
+      />
       <View className="h-32"></View>
       <View className="flex-1 items-center justify-end">
         {/* Character Display */}
@@ -53,16 +59,34 @@ const StartScreen = () => {
           variant="wood"
           onPress={() => router.push('/(app)/(tabs)/library' as any)}
         />
-
-        {/* Test Button */}
-        <PrimaryBtn
-          label="Sprite Tests"
-          variant="stone"
-          onPress={() => router.push('/(app)/spriteTests')}
-        />
-
-        {/* Logout Button */}
-        <PrimaryBtn label="Logout" variant="stone" onPress={handleLogout} />
+        <View className="mt-4 flex flex-row gap-12">
+          <Pressable onPress={() => router.push('/(app)/credits')}>
+            <View className="items-center justify-center rounded-lg bg-black/30 px-4 py-2">
+              <Text
+                className="text-center font-kenney text-2xl text-white"
+                style={{
+                  textShadowColor: 'rgba(0, 0, 0, 0.8)',
+                  textShadowOffset: { width: 2, height: 2 },
+                  textShadowRadius: 4,
+                }}>
+                Credits
+              </Text>
+            </View>
+          </Pressable>
+          <Pressable onPress={handleLogout}>
+            <View className="items-center justify-center rounded-lg bg-black/30 px-4 py-2">
+              <Text
+                className="text-center font-kenney text-2xl text-white"
+                style={{
+                  textShadowColor: 'rgba(0, 0, 0, 0.8)',
+                  textShadowOffset: { width: 2, height: 2 },
+                  textShadowRadius: 4,
+                }}>
+                Log Out
+              </Text>
+            </View>
+          </Pressable>
+        </View>
       </View>
     </StandardSafeLayout>
   );

@@ -9,6 +9,7 @@ import { Timestamp } from 'firebase/firestore';
 import CurrencyDisplay from '@/components/counters/CurrencyDisplay';
 import { useAppStore } from '@/lib/state/appStore';
 import SearchBar from '@/components/ui/search-bar';
+import Subheading from '@/components/typography/Subheading';
 
 const LibraryScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
@@ -60,7 +61,7 @@ const LibraryScreen = () => {
           />
         </View>
         <View className="mb-6 overflow-visible">
-          <Text className="mb-2 ps-4 font-kenney text-lg text-white">Stories</Text>
+          <Subheading className="ps-4">Stories</Subheading>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}

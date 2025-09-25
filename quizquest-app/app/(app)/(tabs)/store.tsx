@@ -16,6 +16,7 @@ import { router } from 'expo-router';
 import { Image } from 'react-native';
 import { UI_ICONS } from '@/lib/constants/uiIcons';
 import { Subject } from '@/lib/types/curriculum/Curriculum';
+import Subheading from '@/components/typography/Subheading';
 
 const StoreScreen = () => {
   const { userDoc } = useAppStore();
@@ -84,7 +85,7 @@ const StoreScreen = () => {
 
             {/* Popular Categories */}
             <View className="mb-6 overflow-visible">
-              <Text className="mb-2 ps-4 font-kenney text-lg text-white">Popular Categories</Text>
+              <Subheading className="ps-4">Popular Categories</Subheading>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} className="ps-4">
                 {Object.values(contentPack.domains).map((domain) => (
                   <DomainCategory key={domain.id} domain={domain} onPress={onDomainPress} />
@@ -94,7 +95,7 @@ const StoreScreen = () => {
 
             {/* You Might Like Section */}
             <View className="mb-6 px-4">
-              <Text className="mb-2 font-kenney text-lg text-white">You Might Like</Text>
+              <Subheading>You Might Like</Subheading>
               {recommendedSubjects.map((subject) => (
                 <SubjectListItem
                   key={subject.subjectId}
@@ -106,7 +107,7 @@ const StoreScreen = () => {
 
             {/* Create Your Own Section */}
             <View className="px-4">
-              <Text className="mb-2 font-kenney text-lg text-white">Create Your Own</Text>
+              <Subheading>Create Your Own</Subheading>
               <Pressable
                 onPress={() => router.push('/(app)/(story-creation)/subjectInput' as any)}
                 className="relative h-32 overflow-hidden rounded-2xl">
