@@ -39,6 +39,13 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
+        name="credits"
+        options={{
+          title: 'Credits',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="battleSpriteTest"
         options={{
           title: 'Battle Sprite Test',
