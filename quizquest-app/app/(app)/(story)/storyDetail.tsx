@@ -138,7 +138,7 @@ const StoryDetailScreen = () => {
   };
 
   const handleBackPress = () => {
-    router.dismissTo('/(app)/(tabs)/stories');
+    router.dismissTo('/(app)/(tabs)/library' as any);
   };
 
   return (

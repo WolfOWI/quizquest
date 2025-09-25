@@ -51,7 +51,7 @@ const StartScreen = () => {
         <PrimaryBtn
           label="Start"
           variant="wood"
-          onPress={() => router.push('/(app)/(tabs)/stories')}
+          onPress={() => router.push('/(app)/(tabs)/library' as any)}
         />
 
         {/* Test Button */}

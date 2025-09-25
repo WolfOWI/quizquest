@@ -21,14 +21,14 @@ const StoryCreateSuccessScreen = () => {
 
   const handleStartStory = () => {
     // TODO: Navigate to the story content (actual story/quiz screen)
-    // For now, navigate back to stories tab
+    // For now, navigate back to library tab
     router.dismissAll();
-    router.push('/(app)/(tabs)/stories');
+    router.push('/(app)/(tabs)/library' as any);
   };
 
-  const handleBackToStories = () => {
+  const handleBackToLibrary = () => {
     router.dismissAll();
-    router.push('/(app)/(tabs)/stories');
+    router.push('/(app)/(tabs)/library' as any);
   };
 
   return (
@@ -64,8 +64,8 @@ const StoryCreateSuccessScreen = () => {
           <View className="gap-4">
             <PrimaryBtn onPress={handleStartStory} label="Start Your Story" />
 
-            <Pressable onPress={handleBackToStories} className="py-3">
-              <Text className="text-center font-kenney text-xl text-gray-300">Back to Stories</Text>
+            <Pressable onPress={handleBackToLibrary} className="py-3">
+              <Text className="text-center font-kenney text-xl text-gray-300">Back to Library</Text>
             </Pressable>
           </View>
         </View>

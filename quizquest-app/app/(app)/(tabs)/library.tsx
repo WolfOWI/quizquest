@@ -9,7 +9,7 @@ import { Timestamp } from 'firebase/firestore';
 import CurrencyDisplay from '@/components/counters/CurrencyDisplay';
 import { useAppStore } from '@/lib/state/appStore';
 
-const StoriesScreen = () => {
+const LibraryScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
   const { userDoc } = useAppStore();
 
@@ -50,7 +50,7 @@ const StoriesScreen = () => {
       <View className="mx-4">
         <CurrencyDisplay gemCount={userDoc.economy.gems} goldCount={userDoc.economy.gold} />
         <TopAppBar
-          title="Stories"
+          title="Library"
           titleSize="large"
           rightButtonIcon="plus"
           rightButtonPress={() => router.push('/(app)/(story-creation)/subjectInput' as any)}
@@ -76,4 +76,4 @@ const StoriesScreen = () => {
   );
 };
 
-export default StoriesScreen;
+export default LibraryScreen;
