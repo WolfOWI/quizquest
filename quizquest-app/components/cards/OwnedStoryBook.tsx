@@ -1,14 +1,14 @@
 import { View, Text, Image, ImageBackground, Pressable } from 'react-native';
 import React from 'react';
 import { router } from 'expo-router';
-import { SubjectDoc } from '@/lib/types/curriculum/Curriculum';
 import { capitaliseWord } from '@/lib/utils/textUtils';
+import { UserOwnedStory } from '@/lib/types/user/User';
 
-interface StoryBookProps {
-  subject: SubjectDoc;
+interface OwnedStoryBookProps {
+  story: UserOwnedStory;
 }
 
-const StoryBook = ({ subject }: StoryBookProps) => {
+const OwnedStoryBook = ({ story }: OwnedStoryBookProps) => {
   // Book Colours
   const bookPurple = require('@/assets/ui-assets/cards/storybooks/book_purple.png');
   const bookNavy = require('@/assets/ui-assets/cards/storybooks/book_navy.png');
@@ -24,52 +24,52 @@ const StoryBook = ({ subject }: StoryBookProps) => {
   const bookColour = () => {
     // If subject title starts with A-E, return bookPurple
     if (
-      subject.subjectTitle.startsWith('A') ||
-      subject.subjectTitle.startsWith('B') ||
-      subject.subjectTitle.startsWith('C') ||
-      subject.subjectTitle.startsWith('D') ||
-      subject.subjectTitle.startsWith('E')
+      story.subjectTitle.startsWith('A') ||
+      story.subjectTitle.startsWith('B') ||
+      story.subjectTitle.startsWith('C') ||
+      story.subjectTitle.startsWith('D') ||
+      story.subjectTitle.startsWith('E')
     ) {
       return bookPurple;
     }
     // If subject title starts with F-J, return bookNavy
     if (
-      subject.subjectTitle.startsWith('F') ||
-      subject.subjectTitle.startsWith('G') ||
-      subject.subjectTitle.startsWith('H') ||
-      subject.subjectTitle.startsWith('I') ||
-      subject.subjectTitle.startsWith('J')
+      story.subjectTitle.startsWith('F') ||
+      story.subjectTitle.startsWith('G') ||
+      story.subjectTitle.startsWith('H') ||
+      story.subjectTitle.startsWith('I') ||
+      story.subjectTitle.startsWith('J')
     ) {
       return bookNavy;
     }
     // If subject title starts with K-O, return bookCyan
     if (
-      subject.subjectTitle.startsWith('K') ||
-      subject.subjectTitle.startsWith('L') ||
-      subject.subjectTitle.startsWith('M') ||
-      subject.subjectTitle.startsWith('N') ||
-      subject.subjectTitle.startsWith('O')
+      story.subjectTitle.startsWith('K') ||
+      story.subjectTitle.startsWith('L') ||
+      story.subjectTitle.startsWith('M') ||
+      story.subjectTitle.startsWith('N') ||
+      story.subjectTitle.startsWith('O')
     ) {
       return bookCyan;
     }
     // If subject title starts with P-T, return bookRed
     if (
-      subject.subjectTitle.startsWith('P') ||
-      subject.subjectTitle.startsWith('Q') ||
-      subject.subjectTitle.startsWith('R') ||
-      subject.subjectTitle.startsWith('S') ||
-      subject.subjectTitle.startsWith('T')
+      story.subjectTitle.startsWith('P') ||
+      story.subjectTitle.startsWith('Q') ||
+      story.subjectTitle.startsWith('R') ||
+      story.subjectTitle.startsWith('S') ||
+      story.subjectTitle.startsWith('T')
     ) {
       return bookRed;
     }
     // If subject title starts with U-Z, return bookGreen
     if (
-      subject.subjectTitle.startsWith('U') ||
-      subject.subjectTitle.startsWith('V') ||
-      subject.subjectTitle.startsWith('W') ||
-      subject.subjectTitle.startsWith('X') ||
-      subject.subjectTitle.startsWith('Y') ||
-      subject.subjectTitle.startsWith('Z')
+      story.subjectTitle.startsWith('U') ||
+      story.subjectTitle.startsWith('V') ||
+      story.subjectTitle.startsWith('W') ||
+      story.subjectTitle.startsWith('X') ||
+      story.subjectTitle.startsWith('Y') ||
+      story.subjectTitle.startsWith('Z')
     ) {
       return bookGreen;
     }
@@ -78,7 +78,7 @@ const StoryBook = ({ subject }: StoryBookProps) => {
   const handlePress = () => {
     router.push({
       pathname: '/(app)/(story)/storyDetail',
-      params: { subjectSlug: subject.subjectSlug },
+      params: { subjectId: story.subjectId },
     } as any);
   };
 
@@ -88,19 +88,19 @@ const StoryBook = ({ subject }: StoryBookProps) => {
       onPress={handlePress}>
       <Image source={bookColour()} className="absolute h-full w-full" resizeMode="contain" />
       <View className="absolute mb-6 items-center justify-center">
-        <Text className="font-pixelify mx-4 text-center text-sm text-white opacity-60">
-          {capitaliseWord(subject.level)}
+        <Text className="mx-4 text-center font-pixelify text-sm text-white opacity-60">
+          {capitaliseWord(story.level)}
         </Text>
-        <Text className="font-pixelify mx-4 text-center text-lg text-white">
-          {subject.subjectTitle}
+        <Text className="mx-4 text-center font-pixelify text-lg text-white">
+          {story.subjectTitle}
         </Text>
       </View>
       {/* Bookmark */}
       <Image
         source={
-          subject.level === 'novice'
+          story.level === 'novice'
             ? markNovice
-            : subject.level === 'apprentice'
+            : story.level === 'apprentice'
               ? markApprentice
               : markMaster
         }
@@ -111,4 +111,4 @@ const StoryBook = ({ subject }: StoryBookProps) => {
   );
 };
 
-export default StoryBook;
+export default OwnedStoryBook;

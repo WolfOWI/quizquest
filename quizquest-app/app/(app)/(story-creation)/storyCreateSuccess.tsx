@@ -5,7 +5,7 @@ import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import { AudienceLevel } from '@/lib/types/general/General';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import BannerFolded from '@/components/banner/BannerFolded';
-import StoryBook from '@/components/cards/StoryBook';
+import OwnedStoryBook from '@/components/cards/OwnedStoryBook';
 import { Timestamp } from 'firebase/firestore';
 
 const StoryCreateSuccessScreen = () => {
@@ -45,13 +45,13 @@ const StoryCreateSuccessScreen = () => {
           {/* Story Details */}
 
           <View className="items-center gap-4 rounded-2xl bg-zinc-900/40 px-4 pb-6 pt-4">
-            <StoryBook
-              subject={{
+            <OwnedStoryBook
+              story={{
                 subjectTitle: selectedTitle,
-                subjectSlug: selectedSlug,
+                subjectId: subject,
                 level,
-                createdAt: Timestamp.now(),
-                source: 'generated',
+                acquiredAt: Timestamp.now(),
+                domainId: 'animal',
               }}
             />
             <Text className="text-center font-pixelify text-lg text-gray-300">

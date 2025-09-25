@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
-import StoryBook from '@/components/cards/StoryBook';
+import OwnedStoryBook from '@/components/cards/OwnedStoryBook';
 import { UserOwnedStory } from '@/lib/types/user/User';
 import { Timestamp } from 'firebase/firestore';
 import CurrencyDisplay from '@/components/counters/CurrencyDisplay';
@@ -68,7 +68,7 @@ const LibraryScreen = () => {
           }}
           className="flex-1">
           {userOwnedStories.map((story) => (
-            <StoryBook key={story.subjectId} subject={story} />
+            <OwnedStoryBook key={story.subjectId} story={story} />
           ))}
         </ScrollView>
       </View>

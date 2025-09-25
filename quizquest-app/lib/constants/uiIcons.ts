@@ -11,12 +11,18 @@ export const UI_ICONS = {
     achievements: Image.resolveAssetSource(require('@/assets/icons/ui/nav/achievements.png')),
     profile: Image.resolveAssetSource(require('@/assets/icons/ui/nav/profile.png')),
     inventory: Image.resolveAssetSource(require('@/assets/icons/ui/nav/inventory.png')),
+    ai_generate: Image.resolveAssetSource(require('@/assets/icons/ui/nav/ai_generate.png')),
   },
 
   // Currency icons
   currency: {
     gem: Image.resolveAssetSource(require('@/assets/icons/ui/currency/gem.png')),
     gold: Image.resolveAssetSource(require('@/assets/icons/ui/currency/gold.png')),
+  },
+
+  // Curriculum icons
+  curriculum: {
+    subjectBook: Image.resolveAssetSource(require('@/assets/icons/ui/curriculum/subjectbook.png')),
   },
 
   // Difficulty level icons

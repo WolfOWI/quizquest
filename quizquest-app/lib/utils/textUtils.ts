@@ -15,3 +15,9 @@ export const capitaliseAllWords = (string: string) => {
 export const addLeadingZero = (number: number) => {
   return number.toString().padStart(2, '0');
 };
+
+// Capitalise the first letter of a string and remove underscores / hyphens
+export const capitaliseWordAndRemoveUnderscores = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1).replace(/_/g, ' ').replace(/-/g, ' ');
+};
+//
