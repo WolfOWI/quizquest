@@ -55,9 +55,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="knowledgeScroll"
+        name="achievements"
         options={{
-          title: 'Knowledge',
+          title: 'Achievements',
           tabBarIcon: ({ color, size, focused }) => (
             <View
               style={{

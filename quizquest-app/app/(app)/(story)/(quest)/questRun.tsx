@@ -12,7 +12,6 @@ import { UI_ICONS } from '@/lib/constants/uiIcons';
 
 const QuestRunScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
-  const knowledgeScrollIcon = UI_ICONS.nav.achievements;
   const inventoryIcon = UI_ICONS.nav.inventory;
 
   const { chapterId } = useLocalSearchParams<{
@@ -180,14 +179,9 @@ const QuestRunScreen = () => {
           {/* Bottom Navigation */}
           <View className="flex-row items-center justify-between px-4 pb-4">
             <SquareBtn onPress={handleQuitQuest} icon="pause" />
-            <View className="flex-row gap-4">
-              <Pressable onPress={() => console.log('Knowledge Scroll')}>
-                <Image source={knowledgeScrollIcon} className="h-12 w-12" />
-              </Pressable>
-              <Pressable onPress={() => console.log('Inventory')}>
-                <Image source={inventoryIcon} className="h-12 w-12" />
-              </Pressable>
-            </View>
+            <Pressable onPress={() => console.log('Inventory')}>
+              <Image source={inventoryIcon} className="h-12 w-12" />
+            </Pressable>
           </View>
         </SafeAreaView>
       </View>
