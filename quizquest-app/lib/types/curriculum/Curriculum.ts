@@ -26,7 +26,7 @@ export interface Story {
   storyId?: string; // <subjectId>__<level>__gen_v1
   subjectId: string; // Foreign key to subjects/{subjectId}
   subjectTitle: string; // Denormalised from subjects/{subjectId}
-  subjectDescription: string; // Denormalised from subjects/{subjectId}
+  description: string; // Story's own description
   level: AudienceLevel;
   source: 'generated' | 'url' | 'uploaded' | 'written';
   authorUid: string; // Foreign key to users/{uid}

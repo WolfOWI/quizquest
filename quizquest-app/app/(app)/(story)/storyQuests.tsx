@@ -36,7 +36,7 @@ const StoryQuestsScreen = () => {
     storyId: 'gen:animals:snakes__novice__gen_v1',
     subjectId: 'gen:animals:snakes',
     subjectTitle: 'Snakes on a plane',
-    subjectDescription: 'Snakes on a plane is very scary',
+    description: 'Snakes on a plane is very scary',
     level: 'novice',
     source: 'generated',
     authorUid: '123',
