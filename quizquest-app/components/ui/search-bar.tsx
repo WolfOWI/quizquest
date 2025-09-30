@@ -8,28 +8,28 @@ interface SearchBarProps {
   value: string;
   onChangeText: (text: string) => void;
   className?: string;
+  editable?: boolean;
 }
 
 const SearchBar = ({
-  placeholder = 'Search by Name or Category',
+  placeholder = 'Search',
   value,
   onChangeText,
   className,
+  editable = true,
 }: SearchBarProps) => {
   return (
-    <View className={cn('relative flex-row items-center', className)}>
+    <View className="relative h-16 flex-row items-center">
       <TextInput
         value={value}
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor="#9CA3AF"
-        className={cn(
-          'h-12 flex-1 rounded-lg border border-white/20 bg-white/10 px-4 pr-12 font-pixelify text-base text-white',
-          'focus:border-white/40 focus:bg-white/15'
-        )}
+        editable={editable}
+        className={`w-full ${className} h-12 rounded-lg border border-white/20 bg-white/10 px-4 pb-1 pr-12 font-pixelify text-base text-white focus:border-white/40 focus:bg-white/15`}
       />
       <View className="absolute right-4">
-        <Search size={20} color="#9CA3AF" />
+        <Search size={24} color="#9CA3AF" />
       </View>
     </View>
   );
