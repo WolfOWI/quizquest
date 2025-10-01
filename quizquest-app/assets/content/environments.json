@@ -4,181 +4,181 @@
     "name": "Abandoned Mine",
     "imgKey": "env_abandoned_mine_img",
     "iconKey": "env_abandoned_mine_icon",
-    "textureKey": "env_abandoned_mine_texture"
+    "textureKey": "rock_rough"
   },
   "ancient_library": {
     "id": "ancient_library",
     "name": "Ancient Library",
     "imgKey": "env_ancient_library_img",
     "iconKey": "env_ancient_library_icon",
-    "textureKey": "env_ancient_library_texture"
+    "textureKey": "wood_planks"
   },
   "autumn_woods": {
     "id": "autumn_woods",
     "name": "Autumn Woods",
     "imgKey": "env_autumn_woods_img",
     "iconKey": "env_autumn_woods_icon",
-    "textureKey": "env_autumn_woods_texture"
+    "textureKey": "leaves_autumn"
   },
   "bamboo_grove": {
     "id": "bamboo_grove",
     "name": "Bamboo Grove",
     "imgKey": "env_bamboo_grove_img",
     "iconKey": "env_bamboo_grove_icon",
-    "textureKey": "env_bamboo_grove_texture"
+    "textureKey": "dirt_plain"
   },
   "beach_lighthouse": {
     "id": "beach_lighthouse",
     "name": "Beach Lighthouse",
     "imgKey": "env_beach_lighthouse_img",
     "iconKey": "env_beach_lighthouse_icon",
-    "textureKey": "env_beach_lighthouse_texture"
+    "textureKey": "sand_pale"
   },
   "castle_courtyard": {
     "id": "castle_courtyard",
     "name": "Castle Courtyard",
     "imgKey": "env_castle_courtyard_img",
     "iconKey": "env_castle_courtyard_icon",
-    "textureKey": "env_castle_courtyard_texture"
+    "textureKey": "bricks_grey"
   },
   "castle_dungeon": {
     "id": "castle_dungeon",
     "name": "Castle Dungeon",
     "imgKey": "env_castle_dungeon_img",
     "iconKey": "env_castle_dungeon_icon",
-    "textureKey": "env_castle_dungeon_texture"
+    "textureKey": "bricks_castle"
   },
   "crystal_cavern": {
     "id": "crystal_cavern",
     "name": "Crystal Cavern",
     "imgKey": "env_crystal_cavern_img",
     "iconKey": "env_crystal_cavern_icon",
-    "textureKey": "env_crystal_cavern_texture"
+    "textureKey": "wood_magic"
   },
   "dark_swamp": {
     "id": "dark_swamp",
     "name": "Dark Swamp",
     "imgKey": "env_dark_swamp_img",
     "iconKey": "env_dark_swamp_icon",
-    "textureKey": "env_dark_swamp_texture"
+    "textureKey": "dirt_cracked"
   },
   "desert_oasis": {
     "id": "desert_oasis",
     "name": "Desert Oasis",
     "imgKey": "env_desert_oasis_img",
     "iconKey": "env_desert_oasis_icon",
-    "textureKey": "env_desert_oasis_texture"
+    "textureKey": "sand_yellow"
   },
   "desert_pyramids": {
     "id": "desert_pyramids",
     "name": "Desert Pyramids",
     "imgKey": "env_desert_pyramids_img",
     "iconKey": "env_desert_pyramids_icon",
-    "textureKey": "env_desert_pyramids_texture"
+    "textureKey": "sand_dunes"
   },
   "desert_wastelands": {
     "id": "desert_wastelands",
     "name": "Desert Wastelands",
     "imgKey": "env_desert_wastelands_img",
     "iconKey": "env_desert_wastelands_icon",
-    "textureKey": "env_desert_wastelands_texture"
+    "textureKey": "sand_rough"
   },
   "dwarven_ruins": {
     "id": "dwarven_ruins",
     "name": "Dwarven Ruins",
     "imgKey": "env_dwarven_ruins_img",
     "iconKey": "env_dwarven_ruins_icon",
-    "textureKey": "env_dwarven_ruins_texture"
+    "textureKey": "tiles_royalgrey"
   },
   "forgotten_graveyard": {
     "id": "forgotten_graveyard",
     "name": "Forgotten Graveyard",
     "imgKey": "env_forgotten_graveyard_img",
     "iconKey": "env_forgotten_graveyard_icon",
-    "textureKey": "env_forgotten_graveyard_texture"
+    "textureKey": "tiles_grey"
   },
   "frozen_glaciers": {
     "id": "frozen_glaciers",
     "name": "Frozen Glaciers",
     "imgKey": "env_frozen_glaciers_img",
     "iconKey": "env_frozen_glaciers_icon",
-    "textureKey": "env_frozen_glaciers_texture"
+    "textureKey": "ice_rocks"
   },
   "grassy_meadows": {
     "id": "grassy_meadows",
     "name": "Grassy Meadows",
     "imgKey": "env_grassy_meadows_img",
     "iconKey": "env_grassy_meadows_icon",
-    "textureKey": "env_grassy_meadows_texture"
+    "textureKey": "grass_green"
   },
   "green_forest": {
     "id": "green_forest",
     "name": "Green Forest",
     "imgKey": "env_green_forest_img",
     "iconKey": "env_green_forest_icon",
-    "textureKey": "env_green_forest_texture"
+    "textureKey": "grass_pale"
   },
   "jungle_temple": {
     "id": "jungle_temple",
     "name": "Jungle Temple",
     "imgKey": "env_jungle_temple_img",
     "iconKey": "env_jungle_temple_icon",
-    "textureKey": "env_jungle_temple_texture"
+    "textureKey": "bricks_moss"
   },
   "medieval_village": {
     "id": "medieval_village",
     "name": "Medieval Village",
     "imgKey": "env_medieval_village_img",
     "iconKey": "env_medieval_village_icon",
-    "textureKey": "env_medieval_village_texture"
+    "textureKey": "tiles_orange"
   },
   "mushroom_biome": {
     "id": "mushroom_biome",
     "name": "Mushroom Biome",
     "imgKey": "env_mushroom_biome_img",
     "iconKey": "env_mushroom_biome_icon",
-    "textureKey": "env_mushroom_biome_texture"
+    "textureKey": "dirt_purple"
   },
   "mystic_forest": {
     "id": "mystic_forest",
     "name": "Mystic Forest",
     "imgKey": "env_mystic_forest_img",
     "iconKey": "env_mystic_forest_icon",
-    "textureKey": "env_mystic_forest_texture"
+    "textureKey": "dirt_rough"
   },
   "sandy_island": {
     "id": "sandy_island",
     "name": "Sandy Island",
     "imgKey": "env_sandy_island_img",
     "iconKey": "env_sandy_island_icon",
-    "textureKey": "env_sandy_island_texture"
+    "textureKey": "water_blue"
   },
   "snowy_mountains": {
     "id": "snowy_mountains",
     "name": "Snowy Mountains",
     "imgKey": "env_snowy_mountains_img",
     "iconKey": "env_snowy_mountains_icon",
-    "textureKey": "env_snowy_mountains_texture"
+    "textureKey": "snow_white"
   },
   "tropical_rainforest": {
     "id": "tropical_rainforest",
     "name": "Tropical Rainforest",
     "imgKey": "env_tropical_rainforest_img",
     "iconKey": "env_tropical_rainforest_icon",
-    "textureKey": "env_tropical_rainforest_texture"
+    "textureKey": "leaves_green"
   },
   "tundra_forest": {
     "id": "tundra_forest",
     "name": "Tundra Forest",
     "imgKey": "env_tundra_forest_img",
     "iconKey": "env_tundra_forest_icon",
-    "textureKey": "env_tundra_forest_texture"
+    "textureKey": "snow_grass"
   },
   "volcanic_caldera": {
     "id": "volcanic_caldera",
     "name": "Volcanic Caldera",
     "imgKey": "env_volcanic_caldera_img",
     "iconKey": "env_volcanic_caldera_icon",
-    "textureKey": "env_volcanic_caldera_texture"
+    "textureKey": "obsidian_purple"
   }
 }

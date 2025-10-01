@@ -8,7 +8,7 @@ import {
   Balance,
 } from '@/lib/types/content/ContentTypes';
 import { loadContentPack } from './loader';
-import { getIcon, getBackground } from './registry';
+import { getIcon, getBackground, getTexture } from './registry';
 
 export const CONTENT = loadContentPack();
 
@@ -41,6 +41,13 @@ export const getEnvironmentBackground = (environmentId: string) => {
   if (!environment) return null;
   return getBackground(environment.imgKey);
 };
+
+// Texture utility function
+export const getTextureResource = (textureKey: string) => {
+  return getTexture(textureKey);
+};
+
+// Domain utility function
 export const getDomain = (id: string): Domain => {
   return CONTENT.domains[id];
 };

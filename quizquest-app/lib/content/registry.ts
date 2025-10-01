@@ -207,3 +207,76 @@ export const BACKGROUNDS: Record<string, any> = {
 export const getBackground = (imgKey: string) => {
   return BACKGROUNDS[imgKey];
 };
+
+// Texture registry for UI backgrounds and patterns
+export const TEXTURES: Record<string, any> = {
+  // Brick textures
+  bricks_castle: Image.resolveAssetSource(require('@/assets/textures/bricks_castle.png')),
+  bricks_grey: Image.resolveAssetSource(require('@/assets/textures/bricks_grey.png')),
+  bricks_moss: Image.resolveAssetSource(require('@/assets/textures/bricks_moss.png')),
+
+  // Chainmail textures
+  chainmail_grey: Image.resolveAssetSource(require('@/assets/textures/chainmail_grey.png')),
+
+  // Cobblestone textures
+  cobblestone_brown: Image.resolveAssetSource(require('@/assets/textures/cobblestone_brown.png')),
+
+  // Dirt textures
+  dirt_cracked: Image.resolveAssetSource(require('@/assets/textures/dirt_cracked.png')),
+  dirt_plain: Image.resolveAssetSource(require('@/assets/textures/dirt_plain.png')),
+  dirt_purple: Image.resolveAssetSource(require('@/assets/textures/dirt_purple.png')),
+  dirt_rough: Image.resolveAssetSource(require('@/assets/textures/dirt_rough.png')),
+
+  // Grass textures
+  grass_green: Image.resolveAssetSource(require('@/assets/textures/grass_green.png')),
+  grass_pale: Image.resolveAssetSource(require('@/assets/textures/grass_pale.png')),
+
+  // Ice textures
+  ice_rocks: Image.resolveAssetSource(require('@/assets/textures/ice_rocks.png')),
+
+  // Leather textures
+  leather_purple: Image.resolveAssetSource(require('@/assets/textures/leather_purple.png')),
+
+  // Leaves textures
+  leaves_autumn: Image.resolveAssetSource(require('@/assets/textures/leaves_autumn.png')),
+  leaves_green: Image.resolveAssetSource(require('@/assets/textures/leaves_green.png')),
+
+  // Obsidian textures
+  obsidian_purple: Image.resolveAssetSource(require('@/assets/textures/obsidian_purple.png')),
+
+  // Paper textures
+  paper_scroll: Image.resolveAssetSource(require('@/assets/textures/paper_scroll.png')),
+
+  // Rock textures
+  rock_rough: Image.resolveAssetSource(require('@/assets/textures/rock_rough.png')),
+
+  // Sand textures
+  sand_dunes: Image.resolveAssetSource(require('@/assets/textures/sand_dunes.png')),
+  sand_pale: Image.resolveAssetSource(require('@/assets/textures/sand_pale.png')),
+  sand_rough: Image.resolveAssetSource(require('@/assets/textures/sand_rough.png')),
+  sand_yellow: Image.resolveAssetSource(require('@/assets/textures/sand_yellow.png')),
+
+  // Snow textures
+  snow_grass: Image.resolveAssetSource(require('@/assets/textures/snow_grass.png')),
+  snow_white: Image.resolveAssetSource(require('@/assets/textures/snow_white.png')),
+
+  // Stone textures
+  stone_path: Image.resolveAssetSource(require('@/assets/textures/stone_path.png')),
+
+  // Tile textures
+  tiles_grey: Image.resolveAssetSource(require('@/assets/textures/tiles_grey.png')),
+  tiles_orange: Image.resolveAssetSource(require('@/assets/textures/tiles_orange.png')),
+  tiles_royalgrey: Image.resolveAssetSource(require('@/assets/textures/tiles_royalgrey.png')),
+
+  // Water textures
+  water_blue: Image.resolveAssetSource(require('@/assets/textures/water_blue.png')),
+
+  // Wood textures
+  wood_magic: Image.resolveAssetSource(require('@/assets/textures/wood_magic.png')),
+  wood_planks: Image.resolveAssetSource(require('@/assets/textures/wood_planks.png')),
+  wood_smallplanks: Image.resolveAssetSource(require('@/assets/textures/wood_smallplanks.png')),
+};
+
+export const getTexture = (textureKey: string) => {
+  return TEXTURES[textureKey];
+};
