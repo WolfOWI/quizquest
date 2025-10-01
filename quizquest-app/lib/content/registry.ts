@@ -37,11 +37,83 @@ export const ICONS: Record<string, any> = {
   //   it_red_apple: Image.resolveAssetSource(require('@/assets/icons/content/items/hp_potion_s.png')),
 
   // Environment icons
+  env_abandoned_mine_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/abandoned_mine.png')
+  ),
+  env_ancient_library_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/ancient_library.png')
+  ),
+  env_autumn_woods_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/autumn_woods.png')
+  ),
+  env_bamboo_grove_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/bamboo_grove.png')
+  ),
+  env_beach_lighthouse_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/beach_lighthouse.png')
+  ),
+  env_castle_courtyard_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/castle_courtyard.png')
+  ),
+  env_castle_dungeon_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/castle_dungeon.png')
+  ),
+  env_crystal_cavern_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/crystal_cavern.png')
+  ),
+  env_dark_swamp_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/dark_swamp.png')
+  ),
+  env_desert_oasis_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/desert_oasis.png')
+  ),
   env_desert_pyramids_icon: Image.resolveAssetSource(
     require('@/assets/icons/content/environments/desert_pyramids.png')
   ),
+  env_desert_wastelands_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/desert_wastelands.png')
+  ),
+  env_dwarven_ruins_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/dwarven_ruins.png')
+  ),
+  env_forgotten_graveyard_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/forgotten_graveyard.png')
+  ),
+  env_frozen_glaciers_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/frozen_glaciers.png')
+  ),
+  env_grassy_meadows_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/grassy_meadows.png')
+  ),
   env_green_forest_icon: Image.resolveAssetSource(
     require('@/assets/icons/content/environments/green_forest.png')
+  ),
+  env_jungle_temple_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/jungle_temple.png')
+  ),
+  env_medieval_village_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/medieval_village.png')
+  ),
+  env_mushroom_biome_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/mushroom_biome.png')
+  ),
+  env_mystic_forest_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/mystic_forest.png')
+  ),
+  env_sandy_island_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/sandy_island.png')
+  ),
+  env_snowy_mountains_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/snowy_mountains.png')
+  ),
+  env_tropical_rainforest_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/tropical_rainforest.png')
+  ),
+  env_tundra_forest_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/tundra_forest.png')
+  ),
+  env_volcanic_caldera_icon: Image.resolveAssetSource(
+    require('@/assets/icons/content/environments/volcanic_caldera.png')
   ),
 };
 
