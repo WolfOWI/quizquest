@@ -51,6 +51,7 @@ export interface Environment {
   name: string;
   imgKey: string;
   iconKey: string;
+  textureKey: string;
 }
 
 export interface Domain {

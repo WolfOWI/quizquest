@@ -8,6 +8,7 @@ import {
   Balance,
 } from '@/lib/types/content/ContentTypes';
 import { loadContentPack } from './loader';
+import { getIcon, getBackground } from './registry';
 
 export const CONTENT = loadContentPack();
 
@@ -27,6 +28,19 @@ export const getPet = (id: string): Pet => {
 export const getEnvironment = (id: string): Environment => {
   return CONTENT.environments[id];
 };
+
+// Environment utility functions
+export const getEnvironmentIcon = (environmentId: string) => {
+  const environment = getEnvironment(environmentId);
+  if (!environment) return null;
+  return getIcon(environment.iconKey);
+};
+
+export const getEnvironmentBackground = (environmentId: string) => {
+  const environment = getEnvironment(environmentId);
+  if (!environment) return null;
+  return getBackground(environment.imgKey);
+};
 export const getDomain = (id: string): Domain => {
   return CONTENT.domains[id];
 };
@@ -38,6 +52,10 @@ export const getBalance = (): Balance => {
 
 export const getProfileDefaults = () => {
   return CONTENT.balance.profileDefaults;
+};
+
+export const getContentRegistry = () => {
+  return CONTENT;
 };
 
 // Content grouping utilities

@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ScrollView } from 'react-native';
+import { View, Text, Pressable, ScrollView, Image } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { router } from 'expo-router';
 import TopAppBar from '@/components/navigation/TopAppBar';
@@ -16,7 +16,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import PlayerSprite from '@/components/sprites/PlayerSprite';
-import { getCharacterGroups, getEnemyGroups } from '@/lib/content';
+import BattleArena from '@/components/battle/BattleArena';
+import {
+  getCharacterGroups,
+  getEnemyGroups,
+  getEnvironment,
+  getEnvironmentBackground,
+  getEnvironmentIcon,
+  CONTENT,
+} from '@/lib/content';
 
 const BattleSpriteTestScreen = () => {
   const {
@@ -34,6 +42,7 @@ const BattleSpriteTestScreen = () => {
 
   const [selectedEnemyId, setSelectedEnemyId] = useState('bushMonster_default');
   const [selectedPlayerId, setSelectedPlayerId] = useState('heavyKnight_red');
+  const [selectedEnvironmentId, setSelectedEnvironmentId] = useState('castle_dungeon');
   const [currentEnemyAnimation, setCurrentEnemyAnimation] = useState('idle');
   const [currentPlayerAnimation, setCurrentPlayerAnimation] = useState('idle');
 
@@ -43,11 +52,19 @@ const BattleSpriteTestScreen = () => {
   const [enemySize, setEnemySize] = useState(150); // Individual enemy size
   const [playerSize, setPlayerSize] = useState(150); // Individual player size
 
+  // Get the selected environment's background and icon
+  const selectedEnvironment = getEnvironment(selectedEnvironmentId);
+  const environmentBackground = getEnvironmentBackground(selectedEnvironmentId);
+  const environmentIcon = getEnvironmentIcon(selectedEnvironmentId);
+
   const backgroundTexture = require('@/assets/textures/bricks_castle.png');
 
   // Get character variants from content using proper content utilities
   const enemyGroups = getEnemyGroups();
   const playerGroups = getCharacterGroups();
+
+  // Get all available environments
+  const allEnvironments = Object.values(CONTENT.environments);
 
   // Enemy animation handlers
   const handleEnemyAnimation = (animation: string, loop: boolean = true) => {
@@ -200,18 +217,49 @@ const BattleSpriteTestScreen = () => {
   }, [selectedEnemyId, selectedPlayerId, playEnemyAnimation, playPlayerAnimation]);
 
   return (
-    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4}>
+    <StandardSafeLayout bgTexture={backgroundTexture} textureScale={4} noHorizontalPadding={true}>
       <TopAppBar
         title="Battle"
         titleCenter
         leftButtonIcon="back"
         leftButtonPress={() => router.back()}
       />
-      <ScrollView className="flex-1 p-4">
+      <ScrollView className="flex-1">
         <View className="items-center space-y-6">
+          {/* Environment Selection */}
+          <View className="w-full">
+            <Text className="mb-4 text-lg font-bold text-white">1. Select Environment</Text>
+            <View className="mb-4">
+              <Text className="mb-2 text-sm font-semibold text-green-400">
+                Background Environment ({allEnvironments.length} available)
+              </Text>
+              <Pressable
+                className="h-10 w-full flex-row items-center justify-between rounded-md border border-gray-600 bg-gray-800 px-3 py-2"
+                onPress={() => {
+                  console.log('Environment trigger pressed');
+                  // Cycle through all environments
+                  const currentIndex = allEnvironments.findIndex(
+                    (env) => env.id === selectedEnvironmentId
+                  );
+                  const nextIndex = (currentIndex + 1) % allEnvironments.length;
+                  setSelectedEnvironmentId(allEnvironments[nextIndex].id);
+                }}>
+                <View className="flex-row items-center gap-2">
+                  {environmentIcon && (
+                    <Image source={environmentIcon} className="h-6 w-6" resizeMode="contain" />
+                  )}
+                  <Text className="text-sm text-white">
+                    {selectedEnvironment?.name || 'Unknown Environment'}
+                  </Text>
+                </View>
+                <Text className="text-gray-400">▼</Text>
+              </Pressable>
+            </View>
+          </View>
+
           {/* Character Selection */}
           <View className="w-full">
-            <Text className="mb-4 text-lg font-bold text-white">1. Select Characters</Text>
+            <Text className="mb-4 text-lg font-bold text-white">2. Select Characters</Text>
             <View className="flex-row gap-4">
               {/* Enemy Selection */}
               <View className="flex-1">
@@ -255,17 +303,18 @@ const BattleSpriteTestScreen = () => {
             </View>
           </View>
           <Text className="mb-2 text-xs text-white">
+            Environment: {selectedEnvironment?.name} - {selectedEnvironmentId}
+          </Text>
+          <Text className="mb-2 text-xs text-white">
             {selectedEnemyId} - {currentEnemyAnimation}
           </Text>
           <Text className="mb-2 text-xs text-white">
             {selectedPlayerId} - {currentPlayerAnimation}
           </Text>
 
-          {/* -------------------- Battle Component -------------------- */}
-
           {/* Battle Container Controls */}
           <View className="w-full">
-            <Text className="mb-4 text-lg font-bold text-white">2. Battle Container Settings</Text>
+            <Text className="mb-4 text-lg font-bold text-white">3. Battle Container Settings</Text>
             <View className="mb-4 flex-row gap-4">
               <View className="flex-1">
                 <Text className="mb-2 text-sm font-semibold text-white">
@@ -341,73 +390,28 @@ const BattleSpriteTestScreen = () => {
           </View>
 
           {/* Battle Arena Container */}
-          <View
-            className="relative w-full items-center justify-end"
-            style={{
-              height: 250, // Fixed height
-              minHeight: 250,
-            }}>
-            {/* Battle Arena Background (optional visual aid) */}
-            <View
-              className="absolute rounded-lg border-2 border-gray-500 bg-gray-800/30"
-              style={{
-                width: spriteDistance + Math.max(enemySize, playerSize) * spriteScale,
-                height: 250, // Fixed height to match container
-                bottom: 0,
-              }}
-            />
-
-            {/* Enemy Sprite (Left side) */}
-            <View
-              className="absolute items-center justify-end"
-              style={{
-                left: 0,
-                bottom: 0,
-                width: spriteDistance / 2,
-                height: 250, // Fixed height container
-              }}>
-              <EnemySprite
-                key={selectedEnemyId}
-                variantId={selectedEnemyId}
-                defaultAnimation="idle"
-                autoPlay={false}
-                spriteRef={enemySpriteRef}
-                size={enemySize * spriteScale}
-                styles={{
-                  // backgroundColor: 'red',
-                  position: 'relative',
-                }}
-              />
-            </View>
-
-            {/* Player Sprite (Right side) */}
-            <View
-              className="absolute items-center justify-end"
-              style={{
-                right: 0,
-                bottom: 0,
-                width: spriteDistance / 2,
-                height: 250, // Fixed height container
-              }}>
-              <PlayerSprite
-                key={selectedPlayerId}
-                variantId={selectedPlayerId}
-                defaultAnimation="idle"
-                autoPlay={false}
-                spriteRef={playerSpriteRef}
-                size={playerSize * spriteScale}
-                styles={{
-                  // backgroundColor: 'blue',
-                  position: 'relative',
-                }}
-              />
-            </View>
-          </View>
+          <BattleArena
+            height={250}
+            playerId={selectedPlayerId}
+            enemyId={selectedEnemyId}
+            playerSize={playerSize}
+            enemySize={enemySize}
+            spriteDistance={spriteDistance}
+            spriteScale={spriteScale}
+            backgroundImage={environmentBackground}
+            showGradientOverlay={true}
+            autoPlay={false}
+            playerSpriteRef={playerSpriteRef}
+            enemySpriteRef={enemySpriteRef}
+            containerStyle={{
+              alignSelf: 'center',
+            }}
+          />
           {/* -------------------- Battle Component -------------------- */}
 
           {/* Animation Controls */}
           <View className="w-full">
-            <Text className="mb-4 text-lg font-bold text-white">3. Animation Controls</Text>
+            <Text className="mb-4 text-lg font-bold text-white">4. Animation Controls</Text>
             <Pressable
               className="rounded bg-yellow-600 px-3 py-2"
               onPress={() => handleEnemyAttackPlayer()}>
