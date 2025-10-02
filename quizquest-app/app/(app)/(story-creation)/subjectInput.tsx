@@ -9,23 +9,26 @@ import { AudienceLevel } from '@/lib/types/general/General';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { capitaliseAllWords } from '@/lib/utils/textUtils';
 import { getDifficultyIcon } from '@/lib/constants/uiIcons';
+import { getTextureResource } from '@/lib/content';
 
 const SubjectInputScreen = () => {
-  const backgroundTexture = require('@/assets/textures/wood_smallplanks.png');
+  const backgroundTexture = getTextureResource('wood_smallplanks');
 
+  // Input field states
   const [subject, setSubject] = useState('');
   const [selectedLevel, setSelectedLevel] = useState<AudienceLevel>('novice');
 
-  const levels: { value: AudienceLevel; label: string; description: string }[] = [
+  // Difficulty levels explained (for display)
+  const difficultyLevels: { value: AudienceLevel; label: string; description: string }[] = [
     {
       value: 'novice',
       label: 'Novice',
-      description: 'A light quest for casual learners',
+      description: 'An introductory quest for casual learners',
     },
     {
       value: 'apprentice',
       label: 'Apprentice',
-      description: 'A worthy challenge, school/college level',
+      description: 'A school/college level challenge',
     },
     {
       value: 'master',
@@ -36,7 +39,7 @@ const SubjectInputScreen = () => {
 
   const handleContinue = () => {
     if (!subject.trim()) {
-      Alert.alert('Error', 'Please enter a subject for your story.');
+      Alert.alert('No Subject Entered', 'Please enter a subject for your story.');
       return;
     }
 
@@ -72,7 +75,7 @@ const SubjectInputScreen = () => {
         <View>
           <Label className="mb-3 font-kenney text-lg text-white">Subject</Label>
           <Input
-            placeholder="E.g. Space exploration, Squirrels, Japan..."
+            placeholder="Spaceships, Squirrels, Japan..."
             value={capitaliseAllWords(subject)}
             onChangeText={setSubject}
             className="border-white/20 font-pixelify text-white"
@@ -84,7 +87,7 @@ const SubjectInputScreen = () => {
         <View>
           <Label className="mb-3 font-kenney text-lg text-white">Difficulty</Label>
           <View className="gap-2">
-            {levels.map((level) => (
+            {difficultyLevels.map((level) => (
               <Pressable
                 key={level.value}
                 onPress={() => setSelectedLevel(level.value)}
