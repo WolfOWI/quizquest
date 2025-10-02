@@ -7,6 +7,10 @@ import PlayerSprite from '@/components/sprites/PlayerSprite';
 import { useAppStore } from '@/lib/state/appStore';
 import { capitaliseWord } from '@/lib/utils/textUtils';
 import Heading from '@/components/typography/Heading';
+import { validateSubject } from '@/services/aiValidateService';
+import { getContentRegistry } from '@/lib/content';
+import { getSubjectById, getSubjectsDocIds } from '@/services/curriculumServices';
+import { Subject } from '@/lib/types/curriculum/Curriculum';
 
 const LoadingAiValidateScreen = () => {
   const backgroundTexture = require('@/assets/textures/chainmail_grey.png');
@@ -15,15 +19,14 @@ const LoadingAiValidateScreen = () => {
   const subject = params.subject as string;
   const level = params.level as AudienceLevel;
 
-  // TODO: Temporary set isValid to a random true / false
-  const [isValid, setIsValid] = useState(Boolean(Math.round(Math.random())));
-
+  const [isValidating, setIsValidating] = useState(true);
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
   const loadingMessages = useMemo(
     () => [
       'Deciphering the runes of your subject',
       'Judging if this lore is fit for challenge',
+      'Checking the ancient archives',
       'Dusting off old scrolls',
       'Convincing a dragon to fact-check',
       'Arguing with a very stubborn wizard',
@@ -39,39 +42,74 @@ const LoadingAiValidateScreen = () => {
       });
     }, 3000); // 3 seconds per message
 
-    // TODO: Setup real AI validation
-    // Simulate AI validation process
-    const validationTimeout = setTimeout(() => {
-      clearInterval(messageInterval);
+    const performValidation = async () => {
+      try {
+        const aiRes = await validateSubject(subject, level);
+        console.log('AI Validation Response:', aiRes);
 
-      // TODO: Add a time out screen
-      router.replace({
-        pathname: '/(app)/(story-creation)/storyOptions' as any,
-        params: {
-          subject,
-          level,
-          isValid: isValid?.toString(),
-          // Fake Options
-          options: JSON.stringify([
-            {
-              title: `${subject} #1`,
-              description: `Learn the fundamentals of ${subject} with beginner-friendly questions`,
-              slug: `${subject.toLowerCase().replace(/\s+/g, '-')}-#1`,
-            },
-            {
-              title: `${subject} #2`,
-              description: `Dive deeper into ${subject} with more challenging content`,
-              slug: `${subject.toLowerCase().replace(/\s+/g, '-')}-#2`,
-            },
-            {
-              title: `${subject} #3`,
-              description: `Explore how ${subject} applies to everyday situations`,
-              slug: `${subject.toLowerCase().replace(/\s+/g, '-')}-#3`,
-            },
-          ]),
-        },
-      });
-    }, 4000);
+        clearInterval(messageInterval);
+        setIsValidating(false);
+
+        // Matched subject (storyAlreadyExists or subjectExistsDifferentLevels screens)
+        if (aiRes.subjectMatches) {
+          console.log(`AI detected ${aiRes.matchedSubjectId} as a matched subject`);
+          try {
+            // Verify if the matched subject actually exists
+            const matchedSubject: Subject = await getSubjectById(aiRes.matchedSubjectId as string);
+            console.log('Matched Subject:', matchedSubject);
+
+            // Does the matched subject have any levels available?
+            if (matchedSubject.levelsAvailable.length > 0) {
+              if (matchedSubject.levelsAvailable.includes(level)) {
+                console.log(
+                  `The matched subject already has a story at the requested level: ${level}`
+                );
+                router.replace({
+                  pathname: '/(app)/(story-creation)/storyAlreadyExists' as any,
+                  params: { subject, level, matchedSubject: JSON.stringify(matchedSubject) },
+                });
+              } else {
+                console.log(
+                  `The matched subject has ${matchedSubject.levelsAvailable.length} level(s) available, but the requested level: ${level} is not one of them`
+                );
+                router.replace({
+                  pathname: '/(app)/(story-creation)/subjectExistsDifferentLevels' as any,
+                  params: { subject, level, matchedSubject: JSON.stringify(matchedSubject) },
+                });
+              }
+            }
+          } catch (error) {
+            console.error("Couldn't find the matched subject according to AI response:", error);
+            // TODO: Navigate to error state
+            router.replace({
+              pathname: '/(app)/(story-creation)/subjectInput' as any,
+            });
+          }
+        } else if (aiRes.subjectOptions) {
+          // AI didn't match a subject, so it returned subject options
+          router.replace({
+            pathname: '/(app)/(story-creation)/storyOptions' as any,
+            params: { subject, level, aiResponse: JSON.stringify(aiRes) },
+          });
+        } else {
+          console.log(
+            "Something went wrong with AI validation, as it didn't return a matched subject or subject options"
+          );
+        }
+      } catch (error) {
+        console.error('AI: Error validating subject:', error);
+        clearInterval(messageInterval);
+        setIsValidating(false);
+
+        // TODO: Navigate to error state
+        router.replace({
+          pathname: '/(app)/(story-creation)/subjectInput' as any,
+        });
+      }
+    };
+
+    // Start validation after a short delay
+    const validationTimeout = setTimeout(performValidation, 500);
 
     return () => {
       clearInterval(messageInterval);

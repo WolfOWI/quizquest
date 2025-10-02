@@ -9,10 +9,11 @@
     "pOne": { "sec": 5, "hearts": 1 }
   },
   "pricing": {
+    "generate": { "gems": 5 },
     "story": {
-      "novice": { "gold": 300, "gems": 3 },
-      "apprentice": { "gold": 500, "gems": 5 },
-      "master": { "gold": 800, "gems": 8 }
+      "novice": { "gems": 1, "gold": 3000 },
+      "apprentice": { "gems": 2, "gold": 4000 },
+      "master": { "gems": 3, "gold": 5000 }
     }
   },
   "profileDefaults": {

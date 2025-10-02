@@ -8,6 +8,8 @@ export default function StoryCreationLayout() {
       <Stack.Screen name="storyOptions" options={{ headerShown: false }} />
       <Stack.Screen name="loadingAiGen" options={{ headerShown: false }} />
       <Stack.Screen name="storyCreateSuccess" options={{ headerShown: false }} />
+      <Stack.Screen name="storyAlreadyExists" options={{ headerShown: false }} />
+      <Stack.Screen name="subjectExistsDifferentLevels" options={{ headerShown: false }} />
     </Stack>
   );
 }

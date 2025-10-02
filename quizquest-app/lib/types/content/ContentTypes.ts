@@ -87,11 +87,15 @@ export interface Balance {
     pOne: PowerAttack;
   };
   pricing: {
+    generate: {
+      gold?: number;
+      gems?: number;
+    };
     story: Record<
       AudienceLevel,
       {
-        gold: number;
-        gems: number;
+        gold?: number;
+        gems?: number;
       }
     >;
   };
