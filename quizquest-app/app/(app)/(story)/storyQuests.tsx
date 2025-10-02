@@ -33,12 +33,12 @@ const StoryQuestsScreen = () => {
   // TODO: Fake data here
   // For now, using mock data
   const story: Story = {
-    storyId: 'gen:animals:snakes__novice__gen_v1',
-    subjectId: 'gen:animals:snakes',
+    storyId: 'animals:snakes__novice__gen',
+    subjectId: 'animals:snakes',
     subjectTitle: 'Snakes on a plane',
     description: 'Snakes on a plane is very scary',
     level: 'novice',
-    source: 'generated',
+    source: 'gen',
     authorUid: '123',
     chapterCount: 3,
     questionCount: 200,
@@ -66,7 +66,7 @@ const StoryQuestsScreen = () => {
   const quests: (Chapter & UserChapterProgress)[] = [
     {
       chapterId: `${story.storyId}__ch1`,
-      storyId: 'gen:animals:snakes__novice__gen_v1',
+      storyId: 'animals:snakes__novice__gen',
       title: 'Basics & traits of snakes',
       description: 'Learn about snake characteristics and features',
       seq: 1,
@@ -89,7 +89,7 @@ const StoryQuestsScreen = () => {
     },
     {
       chapterId: `${story.storyId}__ch2`,
-      storyId: 'gen:animals:snakes__novice__gen_v1',
+      storyId: 'animals:snakes__novice__gen',
       title: 'Habitat & range',
       description: 'Explore where snakes live and their distribution',
       seq: 2,
@@ -112,7 +112,7 @@ const StoryQuestsScreen = () => {
     },
     {
       chapterId: `${story.storyId}__ch3`,
-      storyId: 'gen:animals:snakes__novice__gen_v1',
+      storyId: 'animals:snakes__novice__gen',
       title: 'Food & nutrition of the great Japanese snake in the war of 1938',
       description: 'Learn about what snakes eat and how they survive',
       seq: 3,

@@ -1,6 +1,6 @@
 // Curriculum Types
 import { Timestamp } from 'firebase/firestore';
-import { AudienceLevel } from '../general/General';
+import { AudienceLevel, SourceType } from '../general/General';
 
 // Flattened hierarchy, but hierarchy can be seen as:
 // Domains -> Subjects -> Stories -> Chapters -> QuizChunks (Questions & Answers)
@@ -8,7 +8,7 @@ import { AudienceLevel } from '../general/General';
 // Subjects / Topics (e.g. Squirrels, React Native) - grouping stories of different levels
 // subjects/{subjectId}
 export interface Subject {
-  subjectId?: string; // <src>:<domainSlug>:<subjectSlug>
+  subjectId?: string; // <domainSlug>:<subjectSlug>
   domainId: string; // Catalog key
   title: string;
   titleLower: string;
@@ -23,12 +23,12 @@ export interface Subject {
 // Selectable level variant under a subject (e.g. React Native) with difficulty level & author
 // stories/{storyId}
 export interface Story {
-  storyId?: string; // <subjectId>__<level>__gen_v1
+  storyId?: string; // <subjectId>__<level>__<source>
   subjectId: string; // Foreign key to subjects/{subjectId}
   subjectTitle: string; // Denormalised from subjects/{subjectId}
   description: string; // Story's own description
   level: AudienceLevel;
-  source: 'generated' | 'url' | 'uploaded' | 'written';
+  source: SourceType;
   authorUid: string; // Foreign key to users/{uid}
   chapterCount: number;
   questionCount: number;
