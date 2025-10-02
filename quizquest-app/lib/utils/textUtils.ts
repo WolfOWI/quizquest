@@ -20,4 +20,12 @@ export const addLeadingZero = (number: number) => {
 export const capitaliseWordAndRemoveUnderscores = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1).replace(/_/g, ' ').replace(/-/g, ' ');
 };
-//
+
+// Slugify a string (e.g. "Hello World" -> "hello-world")
+export const slugify = (string: string) => {
+  return string
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-');
+};
