@@ -14,8 +14,8 @@ const StoryOptionsScreen = () => {
 
   // Params from loadingAiValidate
   const params = useLocalSearchParams();
-  const subject = params.subject as string;
-  const level = params.level as AudienceLevel;
+  const userInputtedSubject = params.subject as string;
+  const userInputtedLevel = params.level as AudienceLevel;
   const aiResponse = JSON.parse(params.aiResponse as string) as ValidationResponse;
 
   // AI Response details
@@ -34,11 +34,13 @@ const StoryOptionsScreen = () => {
 
     console.log('Selected Option:', selectedOption);
     // TODO: Implement story generation
-    // router.push({
-    //   pathname: '/(app)/(story-creation)/loadingAiGen' as any,
-    //   params: {
-    //   },
-    // });
+    router.push({
+      pathname: '/(app)/(story-creation)/loadingAiGen' as any,
+      params: {
+        selectedSubject: selectedOption.toString(),
+        selectedLevel: userInputtedLevel,
+      },
+    });
   };
 
   const handleBack = () => {
@@ -74,8 +76,8 @@ const StoryOptionsScreen = () => {
                 A Noble Choice!
               </Text>
               <Text className="font-pixelify text-base text-gray-300">
-                The guild has prepared three scrolls of "{subject}" at {level} rank. Choose wisely,
-                for only one shall be thine.
+                The guild has prepared three scrolls of "{userInputtedSubject}" at{' '}
+                {userInputtedLevel} rank. Choose wisely, for only one shall be thine.
               </Text>
               {/* TODO: Just temp for AI testing */}
               {validityReason && (
@@ -89,8 +91,8 @@ const StoryOptionsScreen = () => {
                 Unworthy Subject
               </Text>
               <Text className="font-pixelify text-base text-gray-300">
-                "{subject}"? A strange jest indeed. The guild refuses to waste ink... Try one of
-                these {level} quests instead.
+                "{userInputtedSubject}"? A strange jest indeed. The guild refuses to waste ink...
+                Try one of these {userInputtedLevel} quests instead.
               </Text>
               {/* TODO: Just temp for AI testing */}
               {validityReason && (
@@ -130,7 +132,7 @@ const StoryOptionsScreen = () => {
                         selectedOption?.slug === option.slug && 'bg-zinc-900/70'
                       }`}>
                       <Image
-                        source={getDifficultyIcon(level)}
+                        source={getDifficultyIcon(userInputtedLevel)}
                         className={`${
                           selectedOption?.slug === option.slug
                             ? 'h-8 w-8 opacity-100'
