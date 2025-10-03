@@ -1,13 +1,13 @@
 // AI Validation Service
-// Handles subject normalization, soft matching, existence checking, and AI validation
-
 import { AudienceLevel } from '@/lib/types/general/General';
 import { getValidationPrompt } from '@/lib/ai/subjectValidation';
 import { ValidationResponse } from '@/lib/ai/subjectValidation';
 import { createValidationModel } from '@/lib/ai/subjectValidation';
 import { getSubjectsDocIds } from './curriculumServices';
 
-// Validate Subject
+/**
+ * Validate a subject's suitability and DB existence using AI
+ */
 export const validateSubject = async (
   subject: string,
   level: AudienceLevel

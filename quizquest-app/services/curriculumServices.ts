@@ -9,6 +9,19 @@ import { setDoc, doc, getDoc, where, getDocs, query, collection } from 'firebase
 
 // ========= SUBJECT SERVICES =========
 /**
+ * Create and return a newly created subject with custom ID
+ */
+export const createSubjectWithId = async (subject: Subject, subjectId: string) => {
+  try {
+    const subjectDocRef = doc(db, 'subjects', subjectId);
+    await setDoc(subjectDocRef, subject);
+    return { ...subject, id: subjectDocRef.id };
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
  * Get a subject by id
  */
 export const getSubjectById = async (subjectId: string): Promise<Subject> => {
@@ -47,6 +60,19 @@ export const getSubjectsDocIds = async () => {
 
 // ========= STORY SERVICES =========
 /**
+ * Create and return a newly created story with custom ID
+ */
+export const createStoryWithId = async (story: Story, storyId: string) => {
+  try {
+    const storyDocRef = doc(db, 'stories', storyId);
+    await setDoc(storyDocRef, story);
+    return { ...story, id: storyDocRef.id };
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
  * Get all stories by subject ID
  */
 export const getStoriesBySubjectId = async (subjectId: string) => {
@@ -72,5 +98,29 @@ export const getStoryById = async (storyId: string): Promise<Story> => {
 };
 
 // ========= CHAPTER SERVICES =========
+/**
+ * Create and return a newly created chapter with custom ID
+ */
+export const createChapterWithId = async (chapter: Chapter, chapterId: string) => {
+  try {
+    const chapterDocRef = doc(db, 'chapters', chapterId);
+    await setDoc(chapterDocRef, chapter);
+    return { ...chapter, id: chapterDocRef.id };
+  } catch (error) {
+    throw error;
+  }
+};
 
 // ========= QUIZ CHUNK SERVICES =========
+/**
+ * Create and return a newly created quiz chunk with custom ID
+ */
+export const createQuizChunkWithId = async (quizChunk: QuizChunk, quizChunkId: string) => {
+  try {
+    const quizChunkDocRef = doc(db, 'quizChunks', quizChunkId);
+    await setDoc(quizChunkDocRef, quizChunk);
+    return { ...quizChunk, id: quizChunkDocRef.id };
+  } catch (error) {
+    throw error;
+  }
+};
