@@ -14,9 +14,8 @@ export interface ValidationResponse {
   matchedSubjectId?: string;
   subjectOptions?: Array<{
     domainId: string;
-    slug: string;
+    slug: string; // To be used for title as well
     subjectId: string; // Matched or created
-    title: string;
     description: string;
   }>;
 }
@@ -35,7 +34,6 @@ export const createValidationModel = () => {
             domainId: Schema.string(),
             slug: Schema.string(),
             subjectId: Schema.string(),
-            title: Schema.string(),
             description: Schema.string(),
           },
         }),
@@ -117,14 +115,13 @@ If subject is INVALID:
 - Terminology: Simple, clear terms (prefer single words over phrases)
 - Cleanup: Remove filler words ("about", "guide to", "fundamentals of", etc.) - only core concept
 - Slug: lowercase, dashes between words, no special characters
-- Title: Proper case with spaces, concise and direct
+- Examples: "react-native", "hunger-games", "south-african-history", "photosynthesis"
 
 ### Response Structure
 Each subject option must include:
 - domainId: Exact domain from available list
 - slug: Normalised slug (lowercase, dashes)
 - subjectId: domain:subject-slug format
-- title: Proper case title (concise, no educational filler terms)
 - description: Brief context to differentiate from homonyms or similar terms
 
 ## INPUT DATA

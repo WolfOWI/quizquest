@@ -29,3 +29,11 @@ export const slugify = (string: string) => {
     .replace(/[^a-z0-9\s-]/g, '')
     .replace(/\s+/g, '-');
 };
+
+// Convert slug back to title (e.g. "hello-world" -> "Hello World")
+export const unslugify = (slug: string) => {
+  return slug
+    .split('-')
+    .map((word) => capitaliseWord(word))
+    .join(' ');
+};

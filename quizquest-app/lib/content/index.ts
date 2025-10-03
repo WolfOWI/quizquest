@@ -98,7 +98,11 @@ export const getTextureResource = (textureKey: string) => {
 
 // ======= DOMAINS =======
 export const getDomain = (id: string): Domain => {
-  return CONTENT.domains[id];
+  try {
+    return CONTENT.domains[id.toLowerCase()];
+  } catch (error) {
+    throw new Error(`Domain not found: ${id}`);
+  }
 };
 
 export const getChapterTemplates = (id: string, level: AudienceLevel): string[] => {

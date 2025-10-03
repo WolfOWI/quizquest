@@ -8,6 +8,7 @@ import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import { getDifficultyIcon } from '@/lib/constants/uiIcons';
 import { ValidationResponse } from '@/lib/ai/subjectValidation';
 import { getDomain } from '@/lib/content';
+import { unslugify } from '@/lib/utils/textUtils';
 
 const StoryOptionsScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_smallplanks.png');
@@ -118,7 +119,7 @@ const StoryOptionsScreen = () => {
                   <View className="flex-row items-center justify-between">
                     <View className="flex-1">
                       <Text className="font-pixelifySemibold text-lg text-white">
-                        {option.title}
+                        {unslugify(option.slug)}
                       </Text>
                       <Text className="font-pixelify text-sm text-gray-300">
                         {getDomain(option.domainId).title}
