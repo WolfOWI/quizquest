@@ -2,7 +2,6 @@
   "animals": {
     "id": "animals",
     "title": "Animals",
-    "slug": "animals",
     "iconKey": "🐢",
     "hexColour": "#41a32e",
     "chapterTemplates": {
@@ -59,7 +58,6 @@
   "plants": {
     "id": "plants",
     "title": "Plants",
-    "slug": "plants",
     "iconKey": "🌱",
     "hexColour": "#2d7d32",
     "chapterTemplates": {
@@ -115,7 +113,6 @@
   "environments": {
     "id": "environments",
     "title": "Environments",
-    "slug": "environments",
     "iconKey": "🌍",
     "hexColour": "#1976d2",
     "chapterTemplates": {
@@ -169,7 +166,6 @@
   "earth-science": {
     "id": "earth-science",
     "title": "Earth Science",
-    "slug": "earth-science",
     "iconKey": "🌋",
     "hexColour": "#d84315",
     "chapterTemplates": {
@@ -223,7 +219,6 @@
   "astronomy": {
     "id": "astronomy",
     "title": "Astronomy",
-    "slug": "astronomy",
     "iconKey": "⭐",
     "hexColour": "#1a237e",
     "chapterTemplates": {
@@ -278,7 +273,6 @@
   "physics": {
     "id": "physics",
     "title": "Physics",
-    "slug": "physics",
     "iconKey": "⚛️",
     "hexColour": "#7b1fa2",
     "chapterTemplates": {
@@ -337,7 +331,6 @@
   "chemistry": {
     "id": "chemistry",
     "title": "Chemistry",
-    "slug": "chemistry",
     "iconKey": "🧪",
     "hexColour": "#c2185b",
     "chapterTemplates": {
@@ -394,7 +387,6 @@
   "biology": {
     "id": "biology",
     "title": "Biology",
-    "slug": "biology",
     "iconKey": "🧬",
     "hexColour": "#388e3c",
     "chapterTemplates": {
@@ -452,7 +444,6 @@
   "health": {
     "id": "health",
     "title": "Health",
-    "slug": "health",
     "iconKey": "🏥",
     "hexColour": "#e53935",
     "chapterTemplates": {
@@ -509,7 +500,6 @@
   "history": {
     "id": "history",
     "title": "History",
-    "slug": "history",
     "iconKey": "📜",
     "hexColour": "#8d6e63",
     "chapterTemplates": {
@@ -566,7 +556,6 @@
   "geography": {
     "id": "geography",
     "title": "Geography",
-    "slug": "geography",
     "iconKey": "🗺️",
     "hexColour": "#4caf50",
     "chapterTemplates": {
@@ -623,7 +612,6 @@
   "civics": {
     "id": "civics",
     "title": "Civics",
-    "slug": "civics",
     "iconKey": "🏛️",
     "hexColour": "#ff9800",
     "chapterTemplates": {
@@ -679,7 +667,6 @@
   "economics": {
     "id": "economics",
     "title": "Economics",
-    "slug": "economics",
     "iconKey": "💰",
     "hexColour": "#f57c00",
     "chapterTemplates": {
@@ -735,7 +722,6 @@
   "business": {
     "id": "business",
     "title": "Business",
-    "slug": "business",
     "iconKey": "💼",
     "hexColour": "#795548",
     "chapterTemplates": {
@@ -790,7 +776,6 @@
   "computer-science": {
     "id": "computer-science",
     "title": "Computer Science",
-    "slug": "computer-science",
     "iconKey": "💻",
     "hexColour": "#2196f3",
     "chapterTemplates": {
@@ -848,7 +833,6 @@
   "programming": {
     "id": "programming",
     "title": "Programming",
-    "slug": "programming",
     "iconKey": "⌨️",
     "hexColour": "#3f51b5",
     "chapterTemplates": {
@@ -907,7 +891,6 @@
   "mathematics": {
     "id": "mathematics",
     "title": "Mathematics",
-    "slug": "mathematics",
     "iconKey": "🔢",
     "hexColour": "#9c27b0",
     "chapterTemplates": {
@@ -966,7 +949,6 @@
   "literature": {
     "id": "literature",
     "title": "Literature",
-    "slug": "literature",
     "iconKey": "📚",
     "hexColour": "#673ab7",
     "chapterTemplates": {
@@ -1021,7 +1003,6 @@
   "arts": {
     "id": "arts",
     "title": "Arts",
-    "slug": "arts",
     "iconKey": "🎨",
     "hexColour": "#e91e63",
     "chapterTemplates": {
@@ -1077,7 +1058,6 @@
   "music": {
     "id": "music",
     "title": "Music",
-    "slug": "music",
     "iconKey": "🎵",
     "hexColour": "#ff5722",
     "chapterTemplates": {
@@ -1132,7 +1112,6 @@
   "philosophy": {
     "id": "philosophy",
     "title": "Philosophy",
-    "slug": "philosophy",
     "iconKey": "🤔",
     "hexColour": "#607d8b",
     "chapterTemplates": {
@@ -1186,7 +1165,6 @@
   "psychology": {
     "id": "psychology",
     "title": "Psychology",
-    "slug": "psychology",
     "iconKey": "🧠",
     "hexColour": "#ff4081",
     "chapterTemplates": {
@@ -1240,7 +1218,6 @@
   "engineering": {
     "id": "engineering",
     "title": "Engineering",
-    "slug": "engineering",
     "iconKey": "⚙️",
     "hexColour": "#455a64",
     "chapterTemplates": {
@@ -1295,7 +1272,6 @@
   "technology": {
     "id": "technology",
     "title": "Technology",
-    "slug": "technology",
     "iconKey": "📱",
     "hexColour": "#00bcd4",
     "chapterTemplates": {
@@ -1351,7 +1327,6 @@
   "religion": {
     "id": "religion",
     "title": "Religion",
-    "slug": "religion",
     "iconKey": "⛪",
     "hexColour": "#9e9e9e",
     "chapterTemplates": {
@@ -1405,7 +1380,6 @@
   "languages": {
     "id": "languages",
     "title": "Languages",
-    "slug": "languages",
     "iconKey": "🗣️",
     "hexColour": "#ffc107",
     "chapterTemplates": {

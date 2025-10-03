@@ -57,7 +57,6 @@ export interface Environment {
 export interface Domain {
   id: string;
   title: string;
-  slug: string;
   iconKey: string;
   hexColour: string;
   chapterTemplates: {

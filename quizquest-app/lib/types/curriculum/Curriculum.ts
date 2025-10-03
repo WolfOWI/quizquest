@@ -14,7 +14,7 @@ export type QuizChunkId = `${ChapterId}__ck${number}`;
 // Subjects / Topics (e.g. Squirrels, React Native) - grouping stories of different levels
 // subjects/{subjectId}
 export interface Subject {
-  subjectId?: SubjectId; // <domainSlug>:<subjectSlug>
+  subjectId?: SubjectId; // <domainId>:<subjectSlug>
   domainId: string; // Catalog key
   title: string;
   titleLower: string;

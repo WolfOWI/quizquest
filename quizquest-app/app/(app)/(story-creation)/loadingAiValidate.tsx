@@ -50,7 +50,7 @@ const LoadingAiValidateScreen = () => {
         clearInterval(messageInterval);
         setIsValidating(false);
 
-        // Matched subject (storyAlreadyExists or subjectExistsDifferentLevels screens)
+        // Matched subject (storyExists or subjectLevelsExists screens)
         if (aiRes.subjectMatches) {
           console.log(`AI detected ${aiRes.matchedSubjectId} as a matched subject`);
           try {
@@ -65,7 +65,7 @@ const LoadingAiValidateScreen = () => {
                   `The matched subject already has a story at the requested level: ${level}`
                 );
                 router.replace({
-                  pathname: '/(app)/(story-creation)/storyAlreadyExists' as any,
+                  pathname: '/(app)/(story-creation)/storyExists' as any,
                   params: { subject, level, matchedSubject: JSON.stringify(matchedSubject) },
                 });
               } else {
@@ -73,7 +73,7 @@ const LoadingAiValidateScreen = () => {
                   `The matched subject has ${matchedSubject.levelsAvailable.length} level(s) available, but the requested level: ${level} is not one of them`
                 );
                 router.replace({
-                  pathname: '/(app)/(story-creation)/subjectExistsDifferentLevels' as any,
+                  pathname: '/(app)/(story-creation)/subjectLevelsExists' as any,
                   params: { subject, level, matchedSubject: JSON.stringify(matchedSubject) },
                 });
               }

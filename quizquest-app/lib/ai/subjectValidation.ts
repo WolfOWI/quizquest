@@ -13,7 +13,7 @@ export interface ValidationResponse {
   subjectMatches: boolean;
   matchedSubjectId?: string;
   subjectOptions?: Array<{
-    domainSlug: string;
+    domainId: string;
     slug: string;
     subjectId: string; // Matched or created
     title: string;
@@ -32,7 +32,7 @@ export const createValidationModel = () => {
       subjectOptions: Schema.array({
         items: Schema.object({
           properties: {
-            domainSlug: Schema.string(),
+            domainId: Schema.string(),
             slug: Schema.string(),
             subjectId: Schema.string(),
             title: Schema.string(),
@@ -66,7 +66,7 @@ export const getValidationPrompt = (
 ) => {
   const contentRegistry = getContentRegistry();
   const domains = contentRegistry.domains;
-  const domainSlugs = Object.keys(domains);
+  const domainIds = Object.keys(domains);
 
   const prompt = `You are an expert educational content validator for a quiz-based learning app. Analyse the provided subject and return a structured JSON response with high accuracy using South African English spelling.
 
@@ -108,7 +108,7 @@ If subject is INVALID:
 
 ### Subject ID Format
 - Format: "domain:subject-slug"
-- Domain must be exact match from available domains: ${domainSlugs.join(', ')}
+- Domain must be exact match from available domains: ${domainIds.join(', ')}
 - Examples: "animals:monkeys", "programming:javascript"
 
 ### Subject Normalisation Rules
@@ -121,7 +121,7 @@ If subject is INVALID:
 
 ### Response Structure
 Each subject option must include:
-- domainSlug: Exact domain from available list
+- domainId: Exact domain from available list
 - slug: Normalised slug (lowercase, dashes)
 - subjectId: domain:subject-slug format
 - title: Proper case title (concise, no educational filler terms)
@@ -130,7 +130,7 @@ Each subject option must include:
 ## INPUT DATA
 Subject: "${subject}"
 Target Level: ${level}
-Available Domains: ${domainSlugs.join(', ')}
+Available Domains: ${domainIds.join(', ')}
 Existing Subjects: ${storedSubjects.join(', ')}
 
 ## OUTPUT FORMAT

@@ -121,7 +121,7 @@ const StoryOptionsScreen = () => {
                         {option.title}
                       </Text>
                       <Text className="font-pixelify text-sm text-gray-300">
-                        {getDomain(option.domainSlug).title}
+                        {getDomain(option.domainId).title}
                       </Text>
                       <Text className="font-pixelify text-sm text-gray-300">
                         {option.description}
