@@ -48,10 +48,16 @@ export const createValidationModel = () => {
     generationConfig: {
       responseMimeType: 'application/json',
       responseSchema: validationSchema,
+      temperature: 0.2, // Lower for less creativity
+      topP: 0.9, // "Nucleus" sampling - sampling from the smallest set of tokens whose total probability ≥ 0.9.
+      topK: 30, // "Top-K" sampling - only consider the 30 most likely next tokens; ignore the rest.
+
+      // TODO: Determine max output tokens?  maxOutputTokens: 2048,
     },
   });
 };
 
+// TODO: Make response of validity framed in a medieval way
 // Prompt
 export const getValidationPrompt = (
   subject: string,
@@ -62,53 +68,64 @@ export const getValidationPrompt = (
   const domains = contentRegistry.domains;
   const domainSlugs = Object.keys(domains);
 
-  const prompt = `You are an educational content validator for a quiz-based learning app. Analyse the provided subject and return a structured JSON response.
+  const prompt = `You are an expert educational content validator for a quiz-based learning app. Analyse the provided subject and return a structured JSON response with high accuracy using South African English spelling.
 
 ## VALIDATION TASKS
 
 ### 1. Subject Suitability Assessment
-- Evaluate if the subject is appropriate for quiz creation
-- Consider educational value and clarity.
-- Return: isValid (boolean) and validityReason (string)
+Evaluate if the subject is appropriate for quiz creation by checking:
+- Educational Value: Does it have clear learning objectives and testable knowledge?
+- Clarity: Is the subject specific enough to create focused questions?
+- Appropriateness: Is it suitable, not offensive, nor harmful or controversial?
+- Scope: Is it neither too broad nor too narrow for effective quiz generation?
+
+Return: isValid (boolean) and validityReason (string explaining your decision)
 
 ### 2. Subject Existence Check
-- Check if the subject already exists in the provided subject list
-- Use fuzzy matching for synonyms, regional variations, and minor word differences
-- Match only if it's the SAME concept (not umbrella terms or different concepts)
-- Return: subjectMatches (boolean) and matchedSubjectId (string|null)
+Check if the subject already exists via:
+- Exact matches: Direct string matches (case-insensitive)
+- Synonym matching: Different words for the same concept (e.g., "math" vs "mathematics")
+- Regional variations: Different terms used in different regions
+- Minor differences: Plural/singular, articles, slight spelling variations
+- Concept matching: Same core concept expressed differently
 
-### 3. Subject Options Generation (only if subject doesn't match)
-If subject doesn't exist, create 3 subject options:
+Important: Only match if it's the EXACT SAME concept, not related or umbrella terms.
 
-**If subject is VALID:**
-- Create 1 option for the original subject + 2 related alternatives
-- All 3 should be distinct concepts but thematically related, and categorisable into a domain from the list of available domains.
+Return: subjectMatches (boolean) and matchedSubjectId (string if match found, null otherwise)
 
-**If subject is INVALID:**
-- Create 3 alternative valid subjects that are educationally appropriate
+### 3. Subject Options Generation (only if subject doesn't match existing ones)
+Create exactly 3 subject options:
+
+If subject is VALID:
+- Option 1: The original subject (normalised)
+- Options 2 and 3: Related but distinct subjects that complement the original
+
+If subject is INVALID:
+- Create 3 completely different, educationally appropriate subjects
+- Ensure they're suitable for quiz generation and the target level
 
 ## FORMATTING REQUIREMENTS
 
 ### Subject ID Format
-- Must be: domain:subject-slug
-- Domain must be exact match from available domains
+- Format: "domain:subject-slug"
+- Domain must be exact match from available domains: ${domainSlugs.join(', ')}
 - Examples: "animals:monkeys", "programming:javascript"
 
-### Subject Normalisation
-- Use South African English when possible (when generating content)
-- Proper pluralisation
-- Simple, clear terminology (prefer single words)
-- Remove filler words ("about", "guide to", etc.)
-- Slug: lowercase, dashes between words
-- Title: Proper case with spaces (short, direct and heavily based on subject slug, no educational filler terms like "guide to", "fundamentals", etc.)
+### Subject Normalisation Rules
+- Spelling: Use South African English spelling when possible
+- Pluralisation: Use appropriate singular/plural forms
+- Terminology: Simple, clear terms (prefer single words over phrases)
+- Cleanup: Remove filler words ("about", "guide to", "fundamentals of", etc.) - only core concept
+- Slug: lowercase, dashes between words, no special characters
+- Title: Proper case with spaces, concise and direct
 
 ### Response Structure
 Each subject option must include:
 - domainSlug: Exact domain from available list
-- slug: Normalized slug (lowercase, dashes)
+- slug: Normalised slug (lowercase, dashes)
 - subjectId: domain:subject-slug format
-- title: Proper case title (heavily based on subject slug, no educational filler terms like "guide to", "fundamentals", etc.)
-- description: Brief context to differentiate from homonyms
+- title: Proper case title (concise, no educational filler terms)
+- description: Brief context to differentiate from homonyms or similar terms
 
 ## INPUT DATA
 Subject: "${subject}"
@@ -117,7 +134,7 @@ Available Domains: ${domainSlugs.join(', ')}
 Existing Subjects: ${storedSubjects.join(', ')}
 
 ## OUTPUT FORMAT
-Return JSON with: isValid, validityReason, subjectMatches, matchedSubjectId, subjectOptions (array of 3 if no match)`;
+Return valid JSON with: isValid, validityReason, subjectMatches, matchedSubjectId, subjectOptions (array of 3 if no match)`;
 
   return prompt;
 };
