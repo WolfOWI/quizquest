@@ -3,7 +3,17 @@
 
 import { db } from '@/config/firebaseConfig';
 import { Subject, Story, Chapter, QuizChunk } from '@/lib/types/curriculum/Curriculum';
-import { setDoc, doc, getDoc, where, getDocs, query, collection } from 'firebase/firestore';
+import {
+  setDoc,
+  doc,
+  getDoc,
+  where,
+  getDocs,
+  query,
+  collection,
+  updateDoc,
+  writeBatch,
+} from 'firebase/firestore';
 
 // ========= COMBINATION FUNCTIONALITY =========
 
@@ -15,7 +25,10 @@ export const createSubjectWithId = async (subject: Subject, subjectId: string) =
   try {
     const subjectDocRef = doc(db, 'subjects', subjectId);
     await setDoc(subjectDocRef, subject);
-    return { ...subject, id: subjectDocRef.id };
+    return {
+      subjectId: subjectDocRef.id,
+      ...subject,
+    } as Subject;
   } catch (error) {
     throw error;
   }
@@ -27,7 +40,10 @@ export const createSubjectWithId = async (subject: Subject, subjectId: string) =
 export const getSubjectById = async (subjectId: string): Promise<Subject> => {
   try {
     const subjectDoc = await getDoc(doc(db, 'subjects', subjectId));
-    return subjectDoc.data() as Subject;
+    return {
+      subjectId: subjectDoc.id,
+      ...subjectDoc.data(),
+    } as Subject;
   } catch (error) {
     throw error;
   }
@@ -58,28 +74,59 @@ export const getSubjectsDocIds = async () => {
   }
 };
 
+/**
+ * Update a subject doc based on what is passed in (and return the updated subject)
+ */
+export const updateSubjectDocById = async (subjectId: string, data: Partial<Subject>) => {
+  try {
+    const subjectDocRef = doc(db, 'subjects', subjectId);
+    await updateDoc(subjectDocRef, data);
+
+    // Get the updated subject
+    const subjectDoc = await getDoc(subjectDocRef);
+    return {
+      subjectId: subjectDoc.id,
+      ...subjectDoc.data(),
+    } as Subject;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // ========= STORY SERVICES =========
 /**
- * Create and return a newly created story with custom ID
+ * Create a story with custom ID (and return the created story)
  */
 export const createStoryWithId = async (story: Story, storyId: string) => {
   try {
     const storyDocRef = doc(db, 'stories', storyId);
     await setDoc(storyDocRef, story);
-    return { ...story, id: storyDocRef.id };
+
+    // Get the created story
+    const storyDoc = await getDoc(storyDocRef);
+    return {
+      storyId: storyDoc.id,
+      ...storyDoc.data(),
+    } as Story;
   } catch (error) {
     throw error;
   }
 };
 
 /**
- * Get all stories by subject ID
+ * Get all stories by subject ID (and return the stories as an array of Story objects)
  */
 export const getStoriesBySubjectId = async (subjectId: string) => {
   try {
     const storiesQuery = query(collection(db, 'stories'), where('subjectId', '==', subjectId));
     const storiesSnapshot = await getDocs(storiesQuery);
-    return storiesSnapshot.docs.map((doc) => doc.data());
+    return storiesSnapshot.docs.map(
+      (doc) =>
+        ({
+          storyId: doc.id,
+          ...doc.data(),
+        }) as Story
+    );
   } catch (error) {
     throw error;
   }
@@ -91,7 +138,29 @@ export const getStoriesBySubjectId = async (subjectId: string) => {
 export const getStoryById = async (storyId: string): Promise<Story> => {
   try {
     const storyDoc = await getDoc(doc(db, 'stories', storyId));
-    return storyDoc.data() as Story;
+    return {
+      storyId: storyDoc.id,
+      ...storyDoc.data(),
+    } as Story;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Update a story doc based on what is passed in (and return the updated story)
+ */
+export const updateStoryDocById = async (storyId: string, data: Partial<Story>) => {
+  try {
+    const storyDocRef = doc(db, 'stories', storyId);
+    await updateDoc(storyDocRef, data);
+
+    // Get the updated story
+    const storyDoc = await getDoc(storyDocRef);
+    return {
+      storyId: storyDoc.id,
+      ...storyDoc.data(),
+    } as Story;
   } catch (error) {
     throw error;
   }
@@ -99,13 +168,46 @@ export const getStoryById = async (storyId: string): Promise<Story> => {
 
 // ========= CHAPTER SERVICES =========
 /**
- * Create and return a newly created chapter with custom ID
+ * Create a chapter with custom ID (and return the created chapter)
  */
 export const createChapterWithId = async (chapter: Chapter, chapterId: string) => {
   try {
     const chapterDocRef = doc(db, 'chapters', chapterId);
     await setDoc(chapterDocRef, chapter);
-    return { ...chapter, id: chapterDocRef.id };
+
+    // Get the created chapter
+    const chapterDoc = await getDoc(chapterDocRef);
+    return {
+      chapterId: chapterDoc.id,
+      ...chapterDoc.data(),
+    } as Chapter;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Create multiple chapters with custom IDs (and return the created chapters)
+ */
+export const createMultipleChaptersWithIds = async (chapters: Chapter[], chapterIds: string[]) => {
+  try {
+    const batch = writeBatch(db);
+    const createdChapters: Chapter[] = [];
+
+    // Add all chapters to the batch
+    chapters.forEach((chapter, index) => {
+      const chapterDocRef = doc(db, 'chapters', chapterIds[index]);
+      batch.set(chapterDocRef, chapter);
+      createdChapters.push({
+        ...chapter,
+        chapterId: chapterIds[index],
+      } as Chapter);
+    });
+
+    // Commit the batch
+    await batch.commit();
+
+    return createdChapters;
   } catch (error) {
     throw error;
   }
@@ -113,13 +215,49 @@ export const createChapterWithId = async (chapter: Chapter, chapterId: string) =
 
 // ========= QUIZ CHUNK SERVICES =========
 /**
- * Create and return a newly created quiz chunk with custom ID
+ * Create a quiz chunk with custom ID (and return the created quiz chunk)
  */
 export const createQuizChunkWithId = async (quizChunk: QuizChunk, quizChunkId: string) => {
   try {
     const quizChunkDocRef = doc(db, 'quizChunks', quizChunkId);
     await setDoc(quizChunkDocRef, quizChunk);
-    return { ...quizChunk, id: quizChunkDocRef.id };
+
+    // Get the created quiz chunk
+    const quizChunkDoc = await getDoc(quizChunkDocRef);
+    return {
+      quizChunkId: quizChunkDoc.id,
+      ...quizChunkDoc.data(),
+    } as QuizChunk;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Create multiple quiz chunks with custom IDs (and return the created quiz chunks)
+ */
+export const createMultipleQuizChunksWithIds = async (
+  quizChunks: QuizChunk[],
+  quizChunkIds: string[]
+) => {
+  try {
+    const batch = writeBatch(db);
+    const createdQuizChunks: QuizChunk[] = [];
+
+    // Add all quiz chunks to the batch
+    quizChunks.forEach((quizChunk, index) => {
+      const quizChunkDocRef = doc(db, 'quizChunks', quizChunkIds[index]);
+      batch.set(quizChunkDocRef, quizChunk);
+      createdQuizChunks.push({
+        ...quizChunk,
+        quizChunkId: quizChunkIds[index],
+      } as QuizChunk);
+    });
+
+    // Commit the batch
+    await batch.commit();
+
+    return createdQuizChunks;
   } catch (error) {
     throw error;
   }

@@ -38,7 +38,7 @@ const StoryOptionsScreen = () => {
     router.push({
       pathname: '/(app)/(story-creation)/loadingAiGen' as any,
       params: {
-        selectedSubject: selectedOption.toString(),
+        selectedSubject: JSON.stringify(selectedOption),
         selectedLevel: userInputtedLevel,
       },
     });

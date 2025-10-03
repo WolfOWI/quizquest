@@ -79,6 +79,10 @@ export const getEnvironment = (id: string): Environment => {
   return CONTENT.environments[id];
 };
 
+export const getArrayOfEnvironmentIds = () => {
+  return Object.keys(CONTENT.environments);
+};
+
 export const getEnvironmentIcon = (environmentId: string) => {
   const environment = getEnvironment(environmentId);
   if (!environment) return null;

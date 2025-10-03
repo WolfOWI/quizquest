@@ -95,12 +95,15 @@ Return: subjectMatches (boolean) and matchedSubjectId (string if match found, nu
 Create exactly 3 subject options:
 
 If subject is VALID:
-- Option 1: The original subject (normalised)
-- Options 2 and 3: Related but distinct subjects that complement the original
+- Option 1: The original subject (normalised to South African English spelling and format)
+- Options 2 and 3: Related but distinct subjects that complement the original (also normalised)
 
 If subject is INVALID:
 - Create 3 completely different, educationally appropriate subjects
 - Ensure they're suitable for quiz generation and the target level
+- All options must be normalised to South African English spelling and format
+
+IMPORTANT: ALL subject options must be normalised according to the normalisation rules below, regardless of whether the original subject was valid or invalid.
 
 ## FORMATTING REQUIREMENTS
 
@@ -111,11 +114,11 @@ If subject is INVALID:
 
 ### Subject Normalisation Rules
 - Spelling: Use South African English spelling when possible
-- Pluralisation: Use appropriate singular/plural forms
+- Pluralisation: Use appropriate singular/plural forms (e.g., "Orangutan" → "orangutans")
 - Terminology: Simple, clear terms (prefer single words over phrases)
 - Cleanup: Remove filler words ("about", "guide to", "fundamentals of", etc.) - only core concept
 - Slug: lowercase, dashes between words, no special characters
-- Examples: "react-native", "hunger-games", "south-african-history", "photosynthesis"
+- Examples: "react-native", "hunger-games", "south-african-history", "photosynthesis", "orangutans"
 
 ### Response Structure
 Each subject option must include:

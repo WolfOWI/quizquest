@@ -7,23 +7,26 @@ import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import BannerFolded from '@/components/banner/BannerFolded';
 import OwnedStoryBook from '@/components/cards/OwnedStoryBook';
 import { Timestamp } from 'firebase/firestore';
+import { Story, Subject } from '@/lib/types/curriculum/Curriculum';
 
 const StoryCreateSuccessScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
 
   // Params
   const params = useLocalSearchParams();
-  const subject = params.subject as string;
-  const level = params.level as AudienceLevel;
-  const selectedTitle = params.selectedTitle as string;
-  const selectedSlug = params.selectedSlug as string;
-  const selectedDescription = params.selectedDescription as string;
+  const story = JSON.parse(params.story as string) as Story;
+  const subject = JSON.parse(params.subject as string) as Subject;
 
   const handleStartStory = () => {
-    // TODO: Navigate to the story content (actual story/quiz screen)
-    // For now, navigate back to library tab
-    router.dismissAll();
-    router.push('/(app)/(tabs)/library' as any);
+    if (story.storyId) {
+      // Navigate to the story content
+      router.dismissAll();
+      router.push(`/(app)/(story)/storyQuests?storyId=${story.storyId}` as any);
+    } else {
+      // Fallback to library if no storyId
+      router.dismissAll();
+      router.push('/(app)/(tabs)/library' as any);
+    }
   };
 
   const handleBackToLibrary = () => {
@@ -47,17 +50,16 @@ const StoryCreateSuccessScreen = () => {
           <View className="items-center gap-4 rounded-2xl bg-zinc-900/40 px-4 pb-6 pt-4">
             <OwnedStoryBook
               story={{
-                subjectTitle: selectedTitle,
-                subjectId: subject,
-                level,
+                subjectTitle: story.subjectTitle, // Story title (sam as subject title)
+                subjectId: story.subjectId,
+                level: story.level,
                 acquiredAt: Timestamp.now(),
-                domainId: 'animal',
+                domainId: subject.domainId,
               }}
             />
-            <Text className="text-center font-pixelify text-lg text-gray-300">
-              {selectedDescription}
+            <Text className="text-center font-pixelify text-sm text-gray-300">
+              {story.description}
             </Text>
-            {/* <Text className="mb-3 text-sm text-gray-300">{selectedDescription}</Text> */}
           </View>
 
           {/* Buttons */}
