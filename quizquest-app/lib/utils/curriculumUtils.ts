@@ -1,6 +1,6 @@
 import { AudienceLevel, SourceType } from '../types/general/General';
 
-// ID BUILDERS
+// ======= ID BUILDERS =======
 // Subject ID format: domainId:subjectSlug (e.g. animals:monkeys)
 export const buildSubjectId = (domainId: string, subjectSlug: string) => {
   return `${domainId}:${subjectSlug}`;

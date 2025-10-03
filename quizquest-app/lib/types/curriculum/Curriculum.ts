@@ -62,10 +62,12 @@ export interface QuizChunk {
 }
 
 export interface QuestionItem {
-  kind: 'singleSelect' | 'multiSelect' | 'trueFalse';
+  kind: QuestionItemKind;
   question: string;
   choices: string[];
   correctAnswerIndex: number[];
   hint: string;
   explanation: string;
 }
+
+export type QuestionItemKind = 'singleSelect' | 'multiSelect' | 'trueFalse';

@@ -73,18 +73,20 @@ export interface PowerAttack {
 }
 
 export interface Balance {
-  player: {
-    baseHealth: number;
-  };
-  enemy: {
-    baseHealth: number;
-  };
-  powerAttack: {
-    pFive: PowerAttack;
-    pFour: PowerAttack;
-    pThree: PowerAttack;
-    pTwo: PowerAttack;
-    pOne: PowerAttack;
+  questRunConfig: {
+    levels: Record<
+      AudienceLevel,
+      {
+        playerBaseHealth: number;
+      }
+    >;
+    powerAttack: {
+      pFive: PowerAttack;
+      pFour: PowerAttack;
+      pThree: PowerAttack;
+      pTwo: PowerAttack;
+      pOne: PowerAttack;
+    };
   };
   pricing: {
     generate: {
@@ -109,6 +111,48 @@ export interface Balance {
       gems: number;
     };
     xpTotal: number;
+  };
+  curriculumGenConfig: {
+    levels: Record<
+      AudienceLevel,
+      {
+        difficultyDescription: string;
+        educationLevel: string;
+        quizChunksPerChapter: {
+          min: number;
+          max: number;
+        };
+        questionsPerQuizChunk: number;
+        questionTypeDistributionPercent: {
+          singleSelect: number;
+          multiSelect: number;
+          trueFalse: number;
+        };
+        questionDifficulty: {
+          negationsRate: number;
+          distractorSimilarity: number;
+        };
+        bloomWeights: {
+          remember: number;
+          understand: number;
+          apply: number;
+          analyze: number;
+        };
+        hints: {
+          style: 'explicit' | 'subtle' | 'cryptic';
+        };
+        explanations: {
+          depth: 'brief' | 'standard' | 'rich';
+        };
+      }
+    >;
+    configExplain: {
+      'questionDifficulty.negationsRate': string;
+      'questionDifficulty.distractorSimilarity': string;
+      'hints.style': string;
+      'explanations.depth': string;
+      bloomWeights: string;
+    };
   };
 }
 

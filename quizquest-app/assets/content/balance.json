@@ -1,13 +1,19 @@
 {
-  "player": { "baseHealth": 5 },
-  "enemy": { "baseHealth": 5 },
-  "powerAttack": {
-    "pFive": { "sec": 1, "hearts": 8 },
-    "pFour": { "sec": 2, "hearts": 5 },
-    "pThree": { "sec": 3, "hearts": 3 },
-    "pTwo": { "sec": 4, "hearts": 2 },
-    "pOne": { "sec": 5, "hearts": 1 }
+  "questRunConfig": {
+    "levels": {
+      "novice": { "playerBaseHealth": 5 },
+      "apprentice": { "playerBaseHealth": 4 },
+      "master": { "playerBaseHealth": 3 }
+    },
+    "powerAttack": {
+      "pFive": { "sec": 1, "hearts": 8 },
+      "pFour": { "sec": 2, "hearts": 5 },
+      "pThree": { "sec": 3, "hearts": 3 },
+      "pTwo": { "sec": 4, "hearts": 2 },
+      "pOne": { "sec": 5, "hearts": 1 }
+    }
   },
+
   "pricing": {
     "generate": { "gems": 5 },
     "story": {
@@ -16,12 +22,68 @@
       "master": { "gems": 3, "gold": 5000 }
     }
   },
+
   "profileDefaults": {
-    "equipped": {
-      "characterId": "heavyKnight_red",
-      "petId": ""
-    },
+    "equipped": { "characterId": "heavyKnight_red", "petId": "" },
     "economy": { "gold": 0, "gems": 0 },
     "xpTotal": 0
+  },
+
+  "curriculumGenConfig": {
+    "levels": {
+      "novice": {
+        "difficultyDescription": "Beginner-friendly. Assumes little prior knowledge. Direct questions, clear wording. Use simple wording, avoid tricky negations, and keep distractors mostly different from the correct answer.",
+        "educationLevel": "Upper primary / early high school level",
+        "quizChunksPerChapter": { "min": 2, "max": 5 },
+        "questionsPerQuizChunk": 10,
+        "questionTypeDistributionPercent": {
+          "singleSelect": 0.5,
+          "multiSelect": 0.1,
+          "trueFalse": 0.4
+        },
+        "questionDifficulty": { "negationsRate": 0.1, "distractorSimilarity": 0.1 },
+        "bloomWeights": { "remember": 0.6, "understand": 0.4, "apply": 0.0, "analyze": 0.0 },
+        "hints": { "style": "explicit" },
+        "explanations": { "depth": "brief" }
+      },
+      "apprentice": {
+        "difficultyDescription": "Intermediate. Assumes basics are known. Use precise wording with occasional negations; make wrong options somewhat similar; mix of recall and light reasoning.",
+        "educationLevel": "Mid/late high school level",
+        "quizChunksPerChapter": { "min": 3, "max": 6 },
+        "questionsPerQuizChunk": 12,
+        "questionTypeDistributionPercent": {
+          "singleSelect": 0.4,
+          "multiSelect": 0.3,
+          "trueFalse": 0.3
+        },
+        "questionDifficulty": { "negationsRate": 0.2, "distractorSimilarity": 0.4 },
+        "bloomWeights": { "remember": 0.3, "understand": 0.4, "apply": 0.2, "analyze": 0.1 },
+        "hints": { "style": "subtle" },
+        "explanations": { "depth": "standard" }
+      },
+      "master": {
+        "difficultyDescription": "Advanced. Strong foundation expected. Use compact academic wording, include careful negations and edge cases; make distractors closely confusable and for some questions, require multi-step reasoning.",
+        "educationLevel": "College intro / early tertiary level",
+        "quizChunksPerChapter": { "min": 3, "max": 8 },
+        "questionsPerQuizChunk": 15,
+        "questionTypeDistributionPercent": {
+          "singleSelect": 0.5,
+          "multiSelect": 0.3,
+          "trueFalse": 0.2
+        },
+        "questionDifficulty": { "negationsRate": 0.3, "distractorSimilarity": 0.6 },
+        "bloomWeights": { "remember": 0.1, "understand": 0.3, "apply": 0.3, "analyze": 0.3 },
+        "hints": { "style": "cryptic" },
+        "explanations": { "depth": "rich" }
+      }
+    },
+
+    "configExplain": {
+      "questionDifficulty.negationsRate": "Frequency [0,1] of using negations (NOT/except) in stems or options; higher = trickier.",
+      "questionDifficulty.distractorSimilarity": "How similar wrong options should be to the correct answer in [0,1]; higher = more confusable.",
+      "hints.style": "How revealing hints should be: 'explicit' | 'subtle' | 'cryptic'.",
+      "explanations.depth": "Detail level for the explanation: 'brief' | 'standard' | 'rich'.",
+      "bloomWeights": "0–1 weights to bias cognitive demand across remember/understand/apply/analyze."
+    }
   }
 }
