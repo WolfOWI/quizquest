@@ -34,7 +34,7 @@
       "novice": {
         "difficultyDescription": "Beginner-friendly. Assumes little prior knowledge. Direct questions, clear wording. Use simple wording, avoid tricky negations, and keep distractors mostly different from the correct answer.",
         "educationLevel": "Upper primary / early high school level",
-        "quizChunksPerChapter": { "min": 2, "max": 5 },
+        "quizChunksPerChapter": { "min": 1, "max": 3 },
         "questionsPerQuizChunk": 10,
         "questionTypeDistributionPercent": {
           "singleSelect": 0.5,
@@ -49,7 +49,7 @@
       "apprentice": {
         "difficultyDescription": "Intermediate. Assumes basics are known. Use precise wording with occasional negations; make wrong options somewhat similar; mix of recall and light reasoning.",
         "educationLevel": "Mid/late high school level",
-        "quizChunksPerChapter": { "min": 3, "max": 6 },
+        "quizChunksPerChapter": { "min": 2, "max": 4 },
         "questionsPerQuizChunk": 12,
         "questionTypeDistributionPercent": {
           "singleSelect": 0.4,
@@ -64,7 +64,7 @@
       "master": {
         "difficultyDescription": "Advanced. Strong foundation expected. Use compact academic wording, include careful negations and edge cases; make distractors closely confusable and for some questions, require multi-step reasoning.",
         "educationLevel": "College intro / early tertiary level",
-        "quizChunksPerChapter": { "min": 3, "max": 8 },
+        "quizChunksPerChapter": { "min": 2, "max": 5 },
         "questionsPerQuizChunk": 15,
         "questionTypeDistributionPercent": {
           "singleSelect": 0.5,

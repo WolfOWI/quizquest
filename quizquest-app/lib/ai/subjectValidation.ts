@@ -99,7 +99,7 @@ If subject is VALID:
 - Options 2 and 3: Related but distinct subjects that complement the original (also normalised)
 
 If subject is INVALID:
-- Create 3 completely different, educationally appropriate subjects
+- Create 3 educationally appropriate subjects surrounding the invalid subject, but that would fit into one of the domains. Keep them related but distinct.
 - Ensure they're suitable for quiz generation and the target level
 - All options must be normalised to South African English spelling and format
 
@@ -125,7 +125,7 @@ Each subject option must include:
 - domainId: Exact domain from available list
 - slug: Normalised slug (lowercase, dashes)
 - subjectId: domain:subject-slug format
-- description: Brief context to differentiate from homonyms or similar terms
+- description: Brief context to differentiate from homonyms or similar terms. Avoid vague terms like "about" or "quiz on", the description should simply describe what the subject is and in the context of the domain.
 
 ## INPUT DATA
 Subject: "${subject}"

@@ -9,7 +9,12 @@ import { capitaliseWord } from '@/lib/utils/textUtils';
 import Heading from '@/components/typography/Heading';
 import { validateSubject } from '@/services/aiValidateService';
 import { getContentRegistry } from '@/lib/content';
-import { getSubjectById, getSubjectsDocIds } from '@/services/curriculumServices';
+import {
+  getAllStoriesBySubjectId,
+  getStoryBySubjectIdLevelSource,
+  getSubjectById,
+  getSubjectsDocIds,
+} from '@/services/curriculumServices';
 import { Subject } from '@/lib/types/curriculum/Curriculum';
 
 const LoadingAiValidateScreen = () => {
@@ -50,7 +55,7 @@ const LoadingAiValidateScreen = () => {
         clearInterval(messageInterval);
         setIsValidating(false);
 
-        // Matched subject (storyExists or subjectLevelsExists screens)
+        // Subject Matched!
         if (aiRes.subjectMatches) {
           console.log(`AI detected ${aiRes.matchedSubjectId} as a matched subject`);
           try {
@@ -58,23 +63,41 @@ const LoadingAiValidateScreen = () => {
             const matchedSubject: Subject = await getSubjectById(aiRes.matchedSubjectId as string);
             console.log('Matched Subject:', matchedSubject);
 
-            // Does the matched subject have any levels available?
             if (matchedSubject.levelsAvailable.length > 0) {
+              // If requested level is available
               if (matchedSubject.levelsAvailable.includes(level)) {
                 console.log(
                   `The matched subject already has a story at the requested level: ${level}`
                 );
+                // Story (at same level) exists
+                const existingStory = await getStoryBySubjectIdLevelSource(
+                  aiRes.matchedSubjectId as string,
+                  level,
+                  'gen'
+                );
                 router.replace({
                   pathname: '/(app)/(story-creation)/storyExists' as any,
-                  params: { subject, level, matchedSubject: JSON.stringify(matchedSubject) },
+                  params: {
+                    level,
+                    matchedSubject: JSON.stringify(matchedSubject),
+                    existingStory: JSON.stringify(existingStory),
+                  },
                 });
               } else {
+                // Story (at other levels) exists
                 console.log(
                   `The matched subject has ${matchedSubject.levelsAvailable.length} level(s) available, but the requested level: ${level} is not one of them`
                 );
+                const existingStories = await getAllStoriesBySubjectId(
+                  matchedSubject.subjectId as string
+                );
                 router.replace({
                   pathname: '/(app)/(story-creation)/subjectLevelsExists' as any,
-                  params: { subject, level, matchedSubject: JSON.stringify(matchedSubject) },
+                  params: {
+                    level,
+                    matchedSubject: JSON.stringify(matchedSubject),
+                    existingStories: JSON.stringify(existingStories),
+                  },
                 });
               }
             }
@@ -86,7 +109,7 @@ const LoadingAiValidateScreen = () => {
             });
           }
         } else if (aiRes.subjectOptions) {
-          // AI didn't match a subject, so it returned subject options
+          // Completely new subject & story
           router.replace({
             pathname: '/(app)/(story-creation)/storyOptions' as any,
             params: { subject, level, aiResponse: JSON.stringify(aiRes) },

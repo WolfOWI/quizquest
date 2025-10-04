@@ -3,6 +3,8 @@
 
 import { db } from '@/config/firebaseConfig';
 import { Subject, Story, Chapter, QuizChunk } from '@/lib/types/curriculum/Curriculum';
+import { AudienceLevel, SourceType } from '@/lib/types/general/General';
+import { buildStoryId } from '@/lib/utils/curriculumUtils';
 import {
   setDoc,
   doc,
@@ -116,7 +118,7 @@ export const createStoryWithId = async (story: Story, storyId: string) => {
 /**
  * Get all stories by subject ID (and return the stories as an array of Story objects)
  */
-export const getStoriesBySubjectId = async (subjectId: string) => {
+export const getAllStoriesBySubjectId = async (subjectId: string) => {
   try {
     const storiesQuery = query(collection(db, 'stories'), where('subjectId', '==', subjectId));
     const storiesSnapshot = await getDocs(storiesQuery);
@@ -127,6 +129,28 @@ export const getStoriesBySubjectId = async (subjectId: string) => {
           ...doc.data(),
         }) as Story
     );
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Get a story by subject ID and level (novice / apprentice / master)
+ */
+export const getStoryBySubjectIdLevelSource = async (
+  subjectId: string,
+  level: AudienceLevel,
+  source: SourceType
+): Promise<Story> => {
+  try {
+    const storyDoc = await getDoc(doc(db, 'stories', buildStoryId(subjectId, level, source)));
+    if (!storyDoc.exists()) {
+      throw new Error('Story not found');
+    }
+    return {
+      storyId: storyDoc.id,
+      ...storyDoc.data(),
+    } as Story;
   } catch (error) {
     throw error;
   }
@@ -213,6 +237,25 @@ export const createMultipleChaptersWithIds = async (chapters: Chapter[], chapter
   }
 };
 
+/**
+ * Get all chapters for a story
+ */
+export const getAllChaptersByStoryId = async (storyId: string) => {
+  try {
+    const chaptersQuery = query(collection(db, 'chapters'), where('storyId', '==', storyId));
+    const chaptersSnapshot = await getDocs(chaptersQuery);
+    return chaptersSnapshot.docs.map(
+      (doc) =>
+        ({
+          chapterId: doc.id,
+          ...doc.data(),
+        }) as Chapter
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
 // ========= QUIZ CHUNK SERVICES =========
 /**
  * Create a quiz chunk with custom ID (and return the created quiz chunk)
@@ -258,6 +301,28 @@ export const createMultipleQuizChunksWithIds = async (
     await batch.commit();
 
     return createdQuizChunks;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * Get all quiz chunks for a chapter
+ */
+export const getAllQuizChunksByChapterId = async (chapterId: string) => {
+  try {
+    const quizChunksQuery = query(
+      collection(db, 'quizChunks'),
+      where('chapterId', '==', chapterId)
+    );
+    const quizChunksSnapshot = await getDocs(quizChunksQuery);
+    return quizChunksSnapshot.docs.map(
+      (doc) =>
+        ({
+          quizChunkId: doc.id,
+          ...doc.data(),
+        }) as QuizChunk
+    );
   } catch (error) {
     throw error;
   }

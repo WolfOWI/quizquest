@@ -7,7 +7,12 @@ import PlayerSprite from '@/components/sprites/PlayerSprite';
 import { useAppStore } from '@/lib/state/appStore';
 import { capitaliseWord, unslugify } from '@/lib/utils/textUtils';
 import Heading from '@/components/typography/Heading';
-import { getContentRegistry, getDomain, getArrayOfEnvironmentIds } from '@/lib/content';
+import {
+  getContentRegistry,
+  getDomain,
+  getArrayOfEnvironmentIds,
+  getCurriculumGenConfigByLevel,
+} from '@/lib/content';
 import { ValidationResponse } from '@/lib/ai/subjectValidation';
 import { Domain } from '@/lib/types/content/ContentTypes';
 import { Subject, Story, Chapter, QuizChunk } from '@/lib/types/curriculum/Curriculum';
@@ -151,6 +156,14 @@ const LoadingAiGenScreen = () => {
         if (aiGenData && subjectForStoryGen.subjectId && userDoc) {
           // Create the story
           try {
+            // Calculate total question count for all chapters
+            const questionsPerChunk =
+              getCurriculumGenConfigByLevel(chosenLevel).questionsPerQuizChunk;
+            let totalQuestionCount = 0;
+            for (const chapter of aiGenData.chapters) {
+              totalQuestionCount += chapter.chunkCount * questionsPerChunk;
+            }
+
             const tempStory: Story = {
               subjectId: subjectForStoryGen.subjectId,
               subjectTitle: subjectForStoryGen.title,
@@ -159,10 +172,8 @@ const LoadingAiGenScreen = () => {
               source: 'gen',
               authorUid: userDoc.uid,
               chapterCount: aiGenData.chapters.length,
-              questionCount: aiGenData.firstChapterQuizChunks.reduce(
-                (acc, chunk) => acc + chunk.items.length,
-                0
-              ),
+              questionCount: totalQuestionCount,
+              isGenComplete: false,
               createdAt: Timestamp.now(),
               updatedAt: Timestamp.now(),
             };
@@ -188,15 +199,10 @@ const LoadingAiGenScreen = () => {
             // Cycle through environment array if there are more chapters than environments
             const environmentIndex = index % shuffledEnvironmentArray.length;
 
-            // Calculate question count for this specific chapter
-            // For now, only first chapter has quiz chunks, others have 0
-            const questionCount =
-              index === 0
-                ? aiGenData.firstChapterQuizChunks.reduce(
-                    (acc, chunk) => acc + chunk.items.length,
-                    0
-                  )
-                : 0;
+            // Calculate question count based on chunkCount and questions per chunk
+            const questionsPerChunk =
+              getCurriculumGenConfigByLevel(chosenLevel).questionsPerQuizChunk;
+            const questionCount = aiChapter.chunkCount * questionsPerChunk;
 
             const tempChapter: Chapter = {
               storyId: createdStory.storyId,
@@ -205,6 +211,8 @@ const LoadingAiGenScreen = () => {
               seq: index + 1, // Start at 1
               environmentId: shuffledEnvironmentArray[environmentIndex],
               questionCount,
+              chunkCount: aiChapter.chunkCount,
+              isGenComplete: index === 0, // Only first chapter is complete (index of 0 = 0 is true)
               createdAt: Timestamp.now(),
               updatedAt: Timestamp.now(),
             };

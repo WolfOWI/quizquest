@@ -15,7 +15,11 @@ import { QuestionItem } from '../types/curriculum/Curriculum';
 
 export interface StoryGenerationResponse {
   story: { description: string };
-  chapters: Array<{ title: string; description: string }>;
+  chapters: Array<{
+    title: string;
+    description: string;
+    chunkCount: number;
+  }>;
   firstChapterQuizChunks: Array<{
     chunkSeq: number;
     items: QuestionItem[];
@@ -34,6 +38,7 @@ export const createNewStoryGenerationModel = () => {
           properties: {
             title: Schema.string(),
             description: Schema.string(),
+            chunkCount: Schema.number(),
           },
         }),
       }),
@@ -111,15 +116,16 @@ Education Level: ${aiGenConfig.educationLevel}
 Create a compelling educational description that:
 - Clearly explains what the story covers based on the domain, subject, and chapter templates
 - Uses age-appropriate language for ${aiGenConfig.educationLevel}
-- Is exactly 1-2 sentences long
+- 1 to 3 sentences long, between 100 and 300 characters
 - Avoids vague terms like "comprehensive guide" or "everything about"
 
-### 2. Chapter Titles and Descriptions
+### 2. Chapter Titles, Descriptions, and Chunk Counts
 Generate ${chapterTemplates.length} chapters that:
 - Use the provided templates as a foundation (replace {subject} with the core concept)
 - Create engaging, specific titles that clearly indicate chapter content
-- Write 1-2 sentence descriptions that summarise what students will learn
+- Write 1-2 sentence descriptions that summarise what students will learn, between 100 and 200 characters
 - Match the educational level: ${aiGenConfig.educationLevel}
+- Provide chunkCount for each chapter (choose ${chunkRange.min}-${chunkRange.max} based on topic complexity)
 
 ### 3. First Chapter Quiz Content
 Create quiz content ONLY for the first chapter with these specifications:

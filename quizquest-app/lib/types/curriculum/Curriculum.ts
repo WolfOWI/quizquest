@@ -38,6 +38,7 @@ export interface Story {
   authorUid: string; // Foreign key to users/{uid}
   chapterCount: number;
   questionCount: number;
+  isGenComplete: boolean; // True if all chapters have all their quiz chunks generated
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -52,6 +53,8 @@ export interface Chapter {
   seq: number;
   environmentId: string; // Catalog key
   questionCount: number;
+  chunkCount: number; // Number of quiz chunks for this chapter
+  isGenComplete: boolean; // True if all quiz chunks for this chapter are generated
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }

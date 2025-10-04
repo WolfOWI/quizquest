@@ -42,6 +42,7 @@ const StoryQuestsScreen = () => {
     authorUid: '123',
     chapterCount: 3,
     questionCount: 200,
+    isGenComplete: true,
     createdAt: Timestamp.now(),
     updatedAt: Timestamp.now(),
   };
@@ -65,13 +66,15 @@ const StoryQuestsScreen = () => {
   // Generate fake quests (chapters) with user progress data
   const quests: (Chapter & UserChapterProgress)[] = [
     {
-      chapterId: `${story.storyId}__ch1`,
+      chapterId: 'animals:snakes__novice__gen__ch1',
       storyId: 'animals:snakes__novice__gen',
       title: 'Basics & traits of snakes',
       description: 'Learn about snake characteristics and features',
       seq: 1,
       environmentId: 'desert-oasis',
       questionCount: 10,
+      chunkCount: 2,
+      isGenComplete: true,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
       runs: {
@@ -88,13 +91,40 @@ const StoryQuestsScreen = () => {
       },
     },
     {
-      chapterId: `${story.storyId}__ch2`,
+      chapterId: 'animals:snakes__novice__gen__ch2',
       storyId: 'animals:snakes__novice__gen',
       title: 'Habitat & range',
       description: 'Explore where snakes live and their distribution',
       seq: 2,
       environmentId: 'desert-oasis',
+      questionCount: 15,
+      chunkCount: 3,
+      isGenComplete: false,
+      createdAt: Timestamp.now(),
+      updatedAt: Timestamp.now(),
+      runs: {
+        total: 0,
+        won: 0,
+      },
+      battles: {
+        total: 0,
+        won: 0,
+      },
+      questions: {
+        total: 15,
+        correct: 0,
+      },
+    },
+    {
+      chapterId: 'animals:snakes__novice__gen__ch3',
+      storyId: 'animals:snakes__novice__gen',
+      title: 'Food & nutrition of the great Japanese snake in the war of 1938',
+      description: 'Learn about what snakes eat and how they survive',
+      seq: 3,
+      environmentId: 'desert-oasis',
       questionCount: 10,
+      chunkCount: 2,
+      isGenComplete: false,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
       runs: {
@@ -107,29 +137,6 @@ const StoryQuestsScreen = () => {
       },
       questions: {
         total: 10,
-        correct: 0,
-      },
-    },
-    {
-      chapterId: `${story.storyId}__ch3`,
-      storyId: 'animals:snakes__novice__gen',
-      title: 'Food & nutrition of the great Japanese snake in the war of 1938',
-      description: 'Learn about what snakes eat and how they survive',
-      seq: 3,
-      environmentId: 'desert-oasis',
-      questionCount: 5,
-      createdAt: Timestamp.now(),
-      updatedAt: Timestamp.now(),
-      runs: {
-        total: 0,
-        won: 0,
-      },
-      battles: {
-        total: 0,
-        won: 0,
-      },
-      questions: {
-        total: 5,
         correct: 0,
       },
     },
