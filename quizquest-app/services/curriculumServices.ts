@@ -17,8 +17,6 @@ import {
   writeBatch,
 } from 'firebase/firestore';
 
-// ========= COMBINATION FUNCTIONALITY =========
-
 // ========= SUBJECT SERVICES =========
 /**
  * Create and return a newly created subject with custom ID
