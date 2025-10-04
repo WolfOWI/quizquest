@@ -130,9 +130,14 @@ Generate ${chapterTemplates.length} chapters that:
 ### 3. First Chapter Quiz Content
 Create quiz content ONLY for the first chapter with these specifications:
 
+## CRITICAL REQUIREMENT: QUESTION COUNT
+**EACH QUIZ CHUNK MUST CONTAIN EXACTLY ${qPerChunk} QUESTIONS - NO MORE, NO LESS**
+This is a hard requirement that must be followed precisely.
+(For example, if you create 2 chunks, each chunk will have ${qPerChunk} questions, with a total of ${qPerChunk * 2} questions)
+
 Structure:
 - Quiz chunks: Choose ${chunkRange.min}-${chunkRange.max} chunks based on topic complexity
-- Questions per chunk: Exactly ${qPerChunk} questions
+- **Questions per chunk: EXACTLY ${qPerChunk} questions (MANDATORY)**
 - Each chunk needs 'chunkSeq' (starting at 1) and 'items' array
 
 Question Quality Standards:
@@ -142,7 +147,7 @@ Question Quality Standards:
 - Avoid trick questions or overly complex wording
 - Make questions progressively challenging within each chunk
 
-Question Type Distribution:
+Question Type Distribution (apply to the ${qPerChunk} questions per chunk):
 - ${(qDist.singleSelect * 100).toFixed(0)}% singleSelect (8 options, 1 correct)
 - ${(qDist.multiSelect * 100).toFixed(0)}% multiSelect (8 options, 2-4 correct)
 - ${(qDist.trueFalse * 100).toFixed(0)}% trueFalse (True/False only)
@@ -167,6 +172,13 @@ Quality Control:
 - Check that hints guide without giving away answers
 - Confirm explanations provide educational value
 - Use South African English spelling (e.g., "colour" not "color", "realise" not "realize")
+
+## FINAL VALIDATION
+Before returning the JSON, double-check that:
+1. Each quiz chunk contains exactly ${qPerChunk} questions
+2. The total number of questions in firstChapterQuizChunks equals (number of chunks × ${qPerChunk})
+3. All question types are properly distributed according to the percentages
+4. All questions are factually accurate and educationally valuable
 
 ## OUTPUT FORMAT
 Return valid JSON with: story, chapters, firstChapterQuizChunks`;
