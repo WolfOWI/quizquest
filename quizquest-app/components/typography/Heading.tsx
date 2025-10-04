@@ -5,14 +5,16 @@ const Heading = ({
   children,
   className,
   size = 'standard',
+  color = 'text-white',
 }: {
   children: React.ReactNode;
   className?: string;
   size?: 'standard' | 'large';
+  color?: string | 'text-white';
 }) => {
   const textSize = size === 'standard' ? 'text-4xl' : 'text-5xl';
 
-  return <Text className={`font-jacquard ${textSize} text-white ${className}`}>{children}</Text>;
+  return <Text className={`font-jacquard ${textSize} ${color} ${className}`}>{children}</Text>;
 };
 
 export default Heading;

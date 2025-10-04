@@ -23,6 +23,7 @@ export const UI_ICONS = {
   // Curriculum icons
   curriculum: {
     subjectBook: Image.resolveAssetSource(require('@/assets/icons/ui/curriculum/subjectbook.png')),
+    quest: Image.resolveAssetSource(require('@/assets/icons/ui/curriculum/quest.png')),
   },
 
   // Difficulty level icons
