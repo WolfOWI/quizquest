@@ -133,3 +133,7 @@ export const getCurriculumGenConfigByLevel = (level: AudienceLevel) => {
 export const getCurriculumGenConfigExplain = () => {
   return CONTENT.balance.curriculumGenConfig.configExplain;
 };
+
+export const getStoryPrice = (level: AudienceLevel) => {
+  return CONTENT.balance.pricing.story[level];
+};

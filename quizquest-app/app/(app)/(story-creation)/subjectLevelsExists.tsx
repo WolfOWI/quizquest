@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable, Image, ScrollView } from 'react-native';
+import { View, Text, Pressable, Image, ScrollView, Alert } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
@@ -8,10 +8,12 @@ import Heading from '@/components/typography/Heading';
 import Subheading from '@/components/typography/Subheading';
 import { AudienceLevel } from '@/lib/types/general/General';
 import { capitaliseWord } from '@/lib/utils/textUtils';
+import { shortenNumber } from '@/lib/utils/numberUtils';
 import { getDifficultyIcon, UI_ICONS } from '@/lib/constants/uiIcons';
 import { Story, Subject } from '@/lib/types/curriculum/Curriculum';
 import TopAppBar from '@/components/navigation/TopAppBar';
 import BuySingleStoryModal from '@/components/modals/BuySingleStoryModal';
+import { getStoryPrice } from '@/lib/content';
 
 const SubjectLevelsExistsScreen = () => {
   const backgroundTexture = require('@/assets/textures/wood_planks.png');
@@ -21,9 +23,10 @@ const SubjectLevelsExistsScreen = () => {
   const requestedLevel = params.level as AudienceLevel;
   const matchedSubject = JSON.parse(params.matchedSubject as string) as Subject;
   const existingStories = JSON.parse(params.existingStories as string) as Story[];
+  const ownedStoryIds = JSON.parse(params.ownedStoryIds as string) as string[];
 
   // Modal state
-  const [modalVisible, setModalVisible] = useState(false);
+  const [buyModalVisible, setBuyModalVisible] = useState(false);
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
 
   // TODO: Replace with actual user currency
@@ -44,13 +47,37 @@ const SubjectLevelsExistsScreen = () => {
     router.back();
   };
 
-  const handleBuyStory = (story: Story) => {
-    setSelectedStory(story);
-    setModalVisible(true);
+  const handleStoryPress = (story: Story) => {
+    if (ownedStoryIds.includes(story.storyId as string)) {
+      // Show alert for owned stories
+      Alert.alert(
+        'Go to Story',
+        `You already own "${story.subjectTitle}" at ${capitaliseWord(story.level)} level. Do you want to quit story crafting and go to this story?`,
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Go to Story',
+            onPress: () => {
+              router.push({
+                pathname: '/(app)/(story)/storyQuests' as any,
+                params: { storyId: story.storyId },
+              });
+            },
+          },
+        ]
+      );
+    } else {
+      // Show buy modal for unowned stories
+      setSelectedStory(story);
+      setBuyModalVisible(true);
+    }
   };
 
-  const handleCloseModal = () => {
-    setModalVisible(false);
+  const handleCloseBuyModal = () => {
+    setBuyModalVisible(false);
     setSelectedStory(null);
   };
 
@@ -64,23 +91,14 @@ const SubjectLevelsExistsScreen = () => {
     }
   };
 
-  // Get pricing for a story level
-  const getStoryPricing = (level: string) => {
-    const pricing = {
-      novice: { gems: 1, gold: 3000 },
-      apprentice: { gems: 2, gold: 4000 },
-      master: { gems: 3, gold: 5000 },
-    };
-    return pricing[level as keyof typeof pricing] || pricing.novice;
-  };
-
   return (
     <StandardSafeLayout bgTexture={backgroundTexture} textureScale={2}>
       <View className="flex-1">
         {/* Header */}
         <View className="items-center gap-2">
           <TopAppBar
-            title="Other Levels Found"
+            title="Other Levels"
+            titleCenter
             rightButtonIcon="close"
             rightButtonPress={() => router.back()}
             buttonVariant="wood"
@@ -93,39 +111,71 @@ const SubjectLevelsExistsScreen = () => {
             We've discovered already generated levels available for the "{matchedSubject.title}" at
             a cheaper cost.
           </Text>
+          {ownedStoryIds.length > 0 && (
+            <Text className="mt-2 text-center font-pixelify text-sm text-green-300">
+              You already own {ownedStoryIds.length} of these stories! Tap the play button to view
+              them.
+            </Text>
+          )}
         </View>
 
         {/* Level Options */}
         <View className="flex-1">
           <View className="gap-3">
             {existingStories.map((story) => {
-              const pricing = getStoryPricing(story.level);
+              const storyPricing = getStoryPrice(story.level);
+              const isOwned = ownedStoryIds.includes(story.storyId as string);
+
               return (
                 <View
                   key={story.storyId}
-                  className="flex-row items-center justify-between rounded-lg bg-white/10 p-4">
+                  className={`flex-row items-center justify-between rounded-lg p-4 ${
+                    isOwned ? 'border border-green-500/50 bg-green-900/30' : 'bg-white/10'
+                  }`}>
                   <View className="flex-1">
-                    <View className="mb-2 flex-row items-center gap-2">
-                      <Image source={getDifficultyIcon(story.level)} className="h-10 w-10" />
-                      <Text className="font-pixelify text-xl text-white">
-                        {capitaliseWord(story.level)} Level
-                      </Text>
-                    </View>
-                    <View className="flex-row items-center gap-2">
+                    <View className="mb-2 flex-col gap-2">
                       <View className="flex-row items-center gap-1">
-                        <Image source={UI_ICONS.currency.gem} className="h-8 w-8" />
-                        <Text className="font-kenney text-lg text-white">{pricing.gems}</Text>
-                      </View>
-                      <Text className="font-pixelify text-lg text-white">or</Text>
-                      <View className="flex-row items-center gap-1">
-                        <Image source={UI_ICONS.currency.gold} className="h-8 w-8" />
-                        <Text className="font-kenney text-lg text-white">
-                          {pricing.gold >= 1000 ? `${pricing.gold / 1000}K` : pricing.gold}
+                        <Image source={getDifficultyIcon(story.level)} className="h-8 w-8" />
+                        <Text className="font-pixelify text-xl text-white">
+                          {capitaliseWord(story.level)} Level
                         </Text>
                       </View>
+
+                      {isOwned && (
+                        <View className="flex-row items-center gap-1">
+                          <Image source={UI_ICONS.general.checkmark} className="h-4 w-4" />
+                          <Text className="font-pixelify text-xs text-white">In Library</Text>
+                        </View>
+                      )}
                     </View>
+                    {!isOwned && (
+                      <View className="flex-row items-center gap-2">
+                        <View className="flex-row items-center gap-1">
+                          <Image source={UI_ICONS.currency.gem} className="h-8 w-8" />
+                          <Text className="font-kenney text-lg text-white">
+                            {storyPricing.gems}
+                          </Text>
+                        </View>
+                        <Text className="font-pixelify text-lg text-white">or</Text>
+                        <View className="flex-row items-center gap-1">
+                          <Image source={UI_ICONS.currency.gold} className="h-8 w-8" />
+                          <Text className="font-kenney text-lg text-white">
+                            {shortenNumber(storyPricing.gold ?? 0)}
+                          </Text>
+                        </View>
+                      </View>
+                    )}
+                    {isOwned && (
+                      <Text className="font-pixelify text-sm text-green-300">
+                        Tap to view your story
+                      </Text>
+                    )}
                   </View>
-                  <SquareBtn icon="plus" onPress={() => handleBuyStory(story)} variant="wood" />
+                  <SquareBtn
+                    icon={isOwned ? 'play' : 'plus'}
+                    onPress={() => handleStoryPress(story)}
+                    variant="wood"
+                  />
                 </View>
               );
             })}
@@ -142,9 +192,9 @@ const SubjectLevelsExistsScreen = () => {
 
         {/* Buy Story Modal */}
         <BuySingleStoryModal
-          visible={modalVisible}
-          onClose={handleCloseModal}
-          onModalHide={handleCloseModal}
+          visible={buyModalVisible}
+          onClose={handleCloseBuyModal}
+          onModalHide={handleCloseBuyModal}
           onBuyStory={handleConfirmBuy}
           story={selectedStory}
           userGems={userGems}

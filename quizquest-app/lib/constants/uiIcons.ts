@@ -33,6 +33,12 @@ export const UI_ICONS = {
     master: Image.resolveAssetSource(require('@/assets/icons/ui/difficulty/master.png')),
   },
 
+  // General icons
+  general: {
+    checkmark: Image.resolveAssetSource(require('@/assets/icons/ui/general/checkmark.png')),
+    cross: Image.resolveAssetSource(require('@/assets/icons/ui/general/cross.png')),
+  },
+
   // Health icons
   health: {
     default: Image.resolveAssetSource(require('@/assets/icons/ui/health/health_default.png')),

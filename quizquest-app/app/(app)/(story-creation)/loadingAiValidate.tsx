@@ -15,6 +15,7 @@ import {
   getSubjectById,
   getSubjectsDocIds,
 } from '@/services/curriculumServices';
+import { checkUserOwnsStory } from '@/services/userStoryServices';
 import { Subject } from '@/lib/types/curriculum/Curriculum';
 
 const LoadingAiValidateScreen = () => {
@@ -75,6 +76,29 @@ const LoadingAiValidateScreen = () => {
                   level,
                   'gen'
                 );
+
+                // Check if user already owns this story
+                if (userDoc && existingStory?.storyId) {
+                  const userOwnsStory = await checkUserOwnsStory(
+                    userDoc.uid,
+                    existingStory.storyId
+                  );
+                  if (userOwnsStory) {
+                    console.log(
+                      'User already owns this story, redirecting to storyAlreadyOwned screen'
+                    );
+                    router.replace({
+                      pathname: '/(app)/(story-creation)/storyAlreadyOwned' as any,
+                      params: {
+                        level,
+                        matchedSubject: JSON.stringify(matchedSubject),
+                        existingStory: JSON.stringify(existingStory),
+                      },
+                    });
+                    return;
+                  }
+                }
+
                 router.replace({
                   pathname: '/(app)/(story-creation)/storyExists' as any,
                   params: {
@@ -91,12 +115,34 @@ const LoadingAiValidateScreen = () => {
                 const existingStories = await getAllStoriesBySubjectId(
                   matchedSubject.subjectId as string
                 );
+
+                // Check if user already owns any of the existing stories
+                const ownedStoryIds: string[] = [];
+                if (userDoc && existingStories.length > 0) {
+                  for (const story of existingStories) {
+                    if (story.storyId) {
+                      const userOwnsStory = await checkUserOwnsStory(userDoc.uid, story.storyId);
+                      if (userOwnsStory) {
+                        ownedStoryIds.push(story.storyId);
+                      }
+                    }
+                  }
+
+                  // If user owns all stories, show a different message or redirect
+                  if (ownedStoryIds.length === existingStories.length) {
+                    console.log('User already owns all available stories for this subject');
+                    // For now, show the subjectLevelsExists screen but with a note that they own all stories
+                    // In the future, we could create a different screen for this case
+                  }
+                }
+
                 router.replace({
                   pathname: '/(app)/(story-creation)/subjectLevelsExists' as any,
                   params: {
                     level,
                     matchedSubject: JSON.stringify(matchedSubject),
                     existingStories: JSON.stringify(existingStories),
+                    ownedStoryIds: JSON.stringify(ownedStoryIds),
                   },
                 });
               }
