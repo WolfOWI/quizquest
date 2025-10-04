@@ -35,6 +35,7 @@ import {
 import { generateStoryContent } from '@/services/aiGenService';
 import { StoryGenerationResponse } from '@/lib/ai/newStoryGeneration';
 import { shuffleArray } from '@/lib/utils/arrayUtils';
+import { addStoryToUserOwnedStories, checkUserOwnsStory } from '@/services/userStoryServices';
 
 const LoadingAiGenScreen = () => {
   const backgroundTexture = require('@/assets/textures/chainmail_grey.png');
@@ -190,6 +191,22 @@ const LoadingAiGenScreen = () => {
           if (!createdStory || !createdStory.storyId) {
             console.error(`Created story is null or has no storyId`);
             return;
+          }
+
+          // Add the story to user's ownedStories
+          try {
+            // First check if user owns the story
+            const userOwnsStory = await checkUserOwnsStory(userDoc.uid, createdStory.storyId);
+            if (userOwnsStory) {
+              console.log('User already owns story, skipping addition');
+              return;
+            }
+
+            // Add the story to user's ownedStories
+            await addStoryToUserOwnedStories(userDoc.uid, createdStory);
+            console.log('Story added to user ownedStories successfully');
+          } catch (error) {
+            console.error('Error adding story to user ownedStories:', error);
           }
 
           // Create the chapters

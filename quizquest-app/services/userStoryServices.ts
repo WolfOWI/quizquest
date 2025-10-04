@@ -24,6 +24,7 @@ export const addStoryToUserOwnedStories = async (
       subjectId: story.subjectId,
       subjectTitle: story.subjectTitle,
       level: story.level,
+      // lastPlayedAt - Not added here, because when adding a story for the first time, the user hasn't played it yet
     };
 
     const ownedStoryDocRef = doc(db, 'users', userId, 'ownedStories', story.storyId!);

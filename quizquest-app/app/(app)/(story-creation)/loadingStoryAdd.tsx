@@ -8,6 +8,7 @@ import { useAppStore } from '@/lib/state/appStore';
 import { capitaliseWord } from '@/lib/utils/textUtils';
 import Heading from '@/components/typography/Heading';
 import { Story } from '@/lib/types/curriculum/Curriculum';
+import { addStoryToUserOwnedStories, checkUserOwnsStory } from '@/services/userStoryServices';
 
 const LoadingStoryAddScreen = () => {
   const backgroundTexture = require('@/assets/textures/chainmail_grey.png');
@@ -41,29 +42,40 @@ const LoadingStoryAddScreen = () => {
 
     const performStoryAdd = async () => {
       try {
-        // TODO: Implement actual story adding functionality
-
-        // 1. Add the story to user's ownedStories document
-        // 2. Update user's currency
-        // 3. Handle any purchase validation
+        // If user isn't logged in
+        if (!userDoc) {
+          console.error('User not logged in');
+          router.replace('/(app)/(auth)/welcome' as any);
+          return;
+        }
 
         // console.log('Adding story to user collection:', {
         //   storyId: storyToAdd.storyId,
         //   storyTitle: storyToAdd.subjectTitle,
         //   level: storyToAdd.level,
         //   subject: storyToAdd.subjectTitle,
-        //   userId: userDoc?.uid,
+        //   userId: userDoc.uid,
         // });
 
-        await new Promise((resolve) => setTimeout(resolve, 5000));
+        // First check if user owns the story
+        const userOwnsStory = await checkUserOwnsStory(userDoc.uid, storyToAdd.storyId as string);
+        if (userOwnsStory) {
+          console.log('User already owns story, skipping addition');
+          return;
+        }
 
-        // TODO: Setup navigation to success screen
-        // router.replace({
-        //   pathname: '/(app)/(story-creation)/storyAddSuccess' as any,
-        //   params: {
-        //     storyToAdd: JSON.stringify(storyToAdd),
-        //   },
-        // });
+        // Add the story to user's ownedStories
+        await addStoryToUserOwnedStories(userDoc.uid, storyToAdd);
+
+        // TODO: Update user's currency
+
+        // Navigate to success screen
+        router.replace({
+          pathname: '/(app)/(story-creation)/storyAddSuccess' as any,
+          params: {
+            storyToAdd: JSON.stringify(storyToAdd),
+          },
+        });
       } catch (error) {
         console.error('Error adding story to collection:', error);
         // TODO: Handle error - maybe show error screen or retry option
