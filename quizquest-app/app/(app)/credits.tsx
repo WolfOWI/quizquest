@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Pressable } from 'react-native';
+import { View, Text, ScrollView, Pressable, Linking } from 'react-native';
 import { router } from 'expo-router';
 import StandardSafeLayout from '@/components/layout/StandardSafeLayout';
 import TopAppBar from '@/components/navigation/TopAppBar';
@@ -17,11 +17,26 @@ const CreditBox = ({ children, title }: { children: React.ReactNode; title?: str
   );
 };
 
-const CreditItem = ({ mainText, subText }: { mainText?: string; subText?: string }) => {
+const CreditItem = ({
+  mainText,
+  subText,
+  link,
+}: {
+  mainText?: string;
+  subText?: string;
+  link?: string;
+}) => {
   return (
-    <View className="gap-1 p-2">
+    <View className="gap-1 p-3">
       <Text className={`text-center font-pixelify text-base text-white`}>{mainText}</Text>
       <Text className={`text-center font-pixelify text-sm text-gray-300`}>{subText}</Text>
+      {link && (
+        <Pressable onPress={() => Linking.openURL(link)}>
+          <Text className="text-center font-pixelifyBold text-sm text-yellow-400">
+            Visit Website
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -55,7 +70,11 @@ const CreditsScreen = () => {
 
           {/* Assets & Resources */}
           <CreditBox title="Assets & Resources">
-            <CreditItem mainText="Kenney Game Assets" subText="UI Elements & Sprites" />
+            <CreditItem
+              mainText="Icons from Pixel Icon Library"
+              subText="By HackerNoon"
+              link="http://pixeliconlibrary.com/"
+            />
           </CreditBox>
 
           {/* Special Thanks */}
