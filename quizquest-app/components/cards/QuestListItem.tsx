@@ -1,8 +1,7 @@
 import { Pressable, View, Text, Image, ImageBackground } from 'react-native';
 import { Chapter } from '@/lib/types/curriculum/Curriculum';
 import { UserChapterProgress } from '@/lib/types/user/User';
-import { UI_ICONS } from '@/lib/constants/uiIcons';
-import { getIcon } from '@/lib/content/registry';
+import { getIcon, getBackground, getEnvironmentTexture } from '@/lib/content/registry';
 
 // Quest list item component
 interface QuestListItemProps {
@@ -15,23 +14,18 @@ const QuestListItem = ({ chapterAndProgress, onPress }: QuestListItemProps) => {
     chapterAndProgress.questions.total > 0
       ? (chapterAndProgress.questions.correct / chapterAndProgress.questions.total) * 100
       : 0;
-  const isCompleted = completionPercentage === 100;
+  // const isCompleted = completionPercentage === 100;
 
-  //   TODO: Temporary hard-coded icon & background texture
-  const forestIcon = getIcon('env_temperate_forest');
-  const pyramidIcon = getIcon('env_desert_pyramids');
-  const environmentIcon = forestIcon;
+  const environmentIcon = getIcon(chapterAndProgress.environmentId);
+  console.log('Environment Icon:', environmentIcon);
 
-  const grassTexture = require('@/assets/textures/grass_green.png');
-  const backgroundTexture = grassTexture;
+  const backgroundTexture = getEnvironmentTexture(chapterAndProgress.environmentId);
+  console.log('Background Texture:', backgroundTexture);
 
   return (
     <Pressable onPress={onPress} className="overflow-hidden rounded-2xl">
-      {/* Background Texture */}
       <ImageBackground source={backgroundTexture}>
-        <View className="inset-0 bg-black/20" />
-
-        {/* Quest Icon & Title */}
+        <View className="absolute inset-0 bg-black/30" />
         <View className="min-h-24 flex-1 flex-row items-center p-4">
           <View className="min-w-0 flex-1 flex-row items-center gap-2">
             <Image source={environmentIcon} className="h-12 w-12" />

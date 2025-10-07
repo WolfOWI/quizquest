@@ -78,7 +78,7 @@ const OwnedStoryBook = ({ story }: OwnedStoryBookProps) => {
   const handlePress = () => {
     router.push({
       pathname: '/(app)/(story)/storyQuests',
-      params: { subjectId: story.subjectId },
+      params: { storyId: story.storyId },
     } as any);
   };
 

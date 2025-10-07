@@ -117,7 +117,9 @@ export const ICONS: Record<string, any> = {
   ),
 };
 
-export const getIcon = (iconKey: string) => {
+export const getIcon = (environmentId: string) => {
+  // Map environmentId to the correct icon key
+  const iconKey = `env_${environmentId}_icon`;
   return ICONS[iconKey];
 };
 
@@ -204,7 +206,9 @@ export const BACKGROUNDS: Record<string, any> = {
   ),
 };
 
-export const getBackground = (imgKey: string) => {
+export const getBackground = (environmentId: string) => {
+  // Map environmentId to the correct background image key
+  const imgKey = `env_${environmentId}_img`;
   return BACKGROUNDS[imgKey];
 };
 
@@ -279,4 +283,15 @@ export const TEXTURES: Record<string, any> = {
 
 export const getTexture = (textureKey: string) => {
   return TEXTURES[textureKey];
+};
+
+// Helper function to get environment texture based on environmentId
+export const getEnvironmentTexture = (environmentId: string) => {
+  // Import the environments data to get the textureKey
+  const environments = require('@/assets/content/environments.json');
+  const environment = environments[environmentId];
+  if (environment && environment.textureKey) {
+    return getTexture(environment.textureKey);
+  }
+  return null;
 };
