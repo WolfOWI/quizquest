@@ -15,6 +15,8 @@ import { SquareBtn } from '../buttons/square/SquareBtn';
 import { UserChapterProgress } from '@/lib/types/user/User';
 import { UI_ICONS } from '@/lib/constants/uiIcons';
 import { getIcon } from '@/lib/content/registry';
+import { getTexture } from '@/lib/content/registry';
+import { getEnvironment, getEnvironmentIcon } from '@/lib/content';
 
 interface QuestPreviewModalProps {
   visible: boolean;
@@ -43,12 +45,14 @@ const QuestPreviewModal = ({
   const enemiesSlainIcon = UI_ICONS.stats.slain;
   const playThroughsIcon = UI_ICONS.stats.runs;
 
-  // Environment Icons
-  const forestIcon = getIcon('env_temperate_forest');
-  const pyramidIcon = getIcon('env_desert_pyramids');
-  const environmentIcon = forestIcon;
+  console.log('Chapter and Progress:', chapterAndProgress);
 
-  const paperTexture = require('@/assets/textures/paper_scroll.png');
+  const environmentIcon = getEnvironmentIcon(chapterAndProgress.environmentId);
+  const environment = getEnvironment(chapterAndProgress.environmentId);
+  console.log('Environment Icon:', environmentIcon);
+  console.log('Environment:', environment);
+
+  const paperTexture = getTexture('paper_scroll');
   const screenHeight = Dimensions.get('window').height;
 
   return (
@@ -74,7 +78,9 @@ const QuestPreviewModal = ({
             <View className="flex-col gap-2 pb-4">
               <View className="flex-row items-center gap-2">
                 <Image source={environmentIcon} className="h-6 w-6" />
-                <Text className="font-pixelify text-sm text-white/70">Desert Oasis</Text>
+                <Text className="font-pixelify text-sm text-white/70">
+                  {environment?.name || 'Unknown Environment'}
+                </Text>
               </View>
               <Text className="font-kenney text-xl text-white">{chapterAndProgress.title}</Text>
             </View>

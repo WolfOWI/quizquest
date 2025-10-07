@@ -117,7 +117,11 @@ export const ICONS: Record<string, any> = {
   ),
 };
 
-export const getIcon = (environmentId: string) => {
+export const getIcon = (iconKey: string) => {
+  return ICONS[iconKey];
+};
+
+export const getEnvironmentIcon = (environmentId: string) => {
   // Map environmentId to the correct icon key
   const iconKey = `env_${environmentId}_icon`;
   return ICONS[iconKey];

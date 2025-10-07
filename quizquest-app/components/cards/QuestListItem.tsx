@@ -1,7 +1,7 @@
 import { Pressable, View, Text, Image, ImageBackground } from 'react-native';
 import { Chapter } from '@/lib/types/curriculum/Curriculum';
 import { UserChapterProgress } from '@/lib/types/user/User';
-import { getIcon, getBackground, getEnvironmentTexture } from '@/lib/content/registry';
+import { getEnvironmentIcon, getBackground, getEnvironmentTexture } from '@/lib/content/registry';
 
 // Quest list item component
 interface QuestListItemProps {
@@ -16,7 +16,7 @@ const QuestListItem = ({ chapterAndProgress, onPress }: QuestListItemProps) => {
       : 0;
   // const isCompleted = completionPercentage === 100;
 
-  const environmentIcon = getIcon(chapterAndProgress.environmentId);
+  const environmentIcon = getEnvironmentIcon(chapterAndProgress.environmentId);
   console.log('Environment Icon:', environmentIcon);
 
   const backgroundTexture = getEnvironmentTexture(chapterAndProgress.environmentId);
