@@ -17,7 +17,7 @@ const AnswerBox: React.FC<AnswerBoxProps> = ({
   className = '',
 }) => {
   const baseClasses =
-    'min-h-12 items-center justify-center rounded-xl border border-white/20 bg-black/30 px-4';
+    'flex-1 items-center justify-center rounded-xl border border-white/20 bg-black/30 px-4';
   const combinedClasses = `${baseClasses} ${className}`.trim();
 
   if (isEmpty) {

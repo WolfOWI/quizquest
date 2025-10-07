@@ -7,6 +7,8 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import BattleArena from '@/components/battle/BattleArena';
 import BattleArenaCounter from '@/components/battle/BattleArenaCounter';
 import QuestionRenderer from '@/components/quiz/QuestionRenderer';
+import HintModal from '@/components/modals/HintModal';
+import ExplanationModal from '@/components/modals/ExplanationModal';
 import { getCharacter, getEnemy, getEnvironmentBackground } from '@/lib/content';
 import { UI_ICONS } from '@/lib/constants/uiIcons';
 import {
@@ -43,6 +45,10 @@ const QuestRunScreen = () => {
   };
 
   const [quizState, setQuizState] = useState<QuizState | null>(null);
+
+  // Modal state
+  const [hintModalVisible, setHintModalVisible] = useState(false);
+  const [explanationModalVisible, setExplanationModalVisible] = useState(false);
 
   // Centralised state update function
   const updateQuizState = (updates: Partial<QuizState>) => {
@@ -112,11 +118,19 @@ const QuestRunScreen = () => {
   const inventoryIcon = UI_ICONS.nav.inventory;
 
   const showHintModal = () => {
-    console.log('Show hint modal');
+    setHintModalVisible(true);
   };
 
   const showExplanationModal = () => {
-    console.log('Show explanation modal');
+    setExplanationModalVisible(true);
+  };
+
+  const closeHintModal = () => {
+    setHintModalVisible(false);
+  };
+
+  const closeExplanationModal = () => {
+    setExplanationModalVisible(false);
   };
 
   if (!quizState) {
@@ -186,14 +200,45 @@ const QuestRunScreen = () => {
           {/* Bottom Navigation */}
           <View className="flex-row items-center justify-between px-4 pb-4">
             <SquareBtn onPress={handleQuitQuest} icon="pause" />
-            <SquareBtn onPress={showHintModal} icon="question" />
-            <SquareBtn onPress={showExplanationModal} icon="check" />
-            <Pressable onPress={() => console.log('Inventory')}>
+            {/* Hint modal & Explanation modal swaps based on state */}
+            {quizState.currentState !== 'answered' ? (
+              <Pressable
+                onPress={showHintModal}
+                className="items-center justify-center rounded-full border-2 border-treasureYellow px-4 py-2">
+                <Text className="font-pixelifyBold text-base text-treasureYellow">Hint</Text>
+              </Pressable>
+            ) : (
+              <Pressable
+                onPress={showExplanationModal}
+                className="items-center justify-center rounded-full border-2 border-treasureYellow px-4 py-2">
+                <Text className="font-pixelifyBold text-base text-treasureYellow">Explain</Text>
+              </Pressable>
+            )}
+            <Pressable
+              onPress={() => console.log('Inventory')}
+              style={{ width: 64, height: 64, justifyContent: 'center', alignItems: 'center' }}>
               <Image source={inventoryIcon} className="h-12 w-12" />
             </Pressable>
           </View>
         </SafeAreaView>
       </View>
+
+      {/* Modals */}
+      <HintModal
+        visible={hintModalVisible}
+        onClose={closeHintModal}
+        onModalHide={closeHintModal}
+        hintText={quizState?.currentQuestion?.hint || 'No hint available for this question.'}
+      />
+
+      <ExplanationModal
+        visible={explanationModalVisible}
+        onClose={closeExplanationModal}
+        onModalHide={closeExplanationModal}
+        explanationText={
+          quizState?.currentQuestion?.explanation || 'No explanation available for this question.'
+        }
+      />
     </View>
   );
 };

@@ -68,7 +68,7 @@ const AnswerOption: React.FC<AnswerOptionProps> = ({
 
   return (
     <Pressable
-      className={`min-h-12 items-center justify-center rounded-xl border px-4 ${getBackgroundColor()} ${getBorderColor()}`}
+      className={`flex-1 items-center justify-center rounded-xl border px-4 ${getBackgroundColor()} ${getBorderColor()}`}
       onPress={onPress}
       disabled={disabled || (showFeedback && !isMultiSelect)}>
       <Text className="text-center font-pixelify text-base text-white">{option}</Text>

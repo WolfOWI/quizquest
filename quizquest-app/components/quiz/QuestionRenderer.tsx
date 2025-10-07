@@ -54,6 +54,11 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
             <AnswerBox isEmpty />
           )}
         </AnswerOptionsContainer>
+        <>
+          <View className="items-center">
+            <Text className="my-4 font-pixelify text-xl text-white"></Text>
+          </View>
+        </>
       </View>
     );
   }
@@ -97,13 +102,20 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
       <Pressable className="flex-1" onPress={onContinue}>
         {renderQuestion()}
         <View className="items-center">
-          <Text className="mb-4 font-pixelify text-xl text-white">Tap to Continue</Text>
+          <Text className="my-4 font-pixelify text-xl text-white">Tap to Continue</Text>
         </View>
       </Pressable>
     );
   }
 
-  return renderQuestion();
+  return (
+    <>
+      {renderQuestion()}
+      <View className="items-center">
+        <Text className="my-4 font-pixelify text-xl text-white"></Text>
+      </View>
+    </>
+  );
 };
 
 export default QuestionRenderer;
