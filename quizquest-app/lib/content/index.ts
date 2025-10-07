@@ -92,7 +92,7 @@ export const getEnvironmentIcon = (environmentId: string) => {
 export const getEnvironmentBackground = (environmentId: string) => {
   const environment = getEnvironment(environmentId);
   if (!environment) return null;
-  return getBackground(environment.imgKey);
+  return getBackground(environmentId);
 };
 
 // ======= TEXTURE =======
