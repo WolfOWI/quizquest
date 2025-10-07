@@ -17,6 +17,8 @@ const StandardSafeLayout = ({
   noHorizontalPadding?: boolean;
   darkenOverlay?: number;
 }) => {
+  const darkeningOpacity = darkenOverlay / 100;
+
   return (
     <View className="flex-1">
       {/* Background Texture */}
@@ -43,7 +45,7 @@ const StandardSafeLayout = ({
         <View
           className="absolute bottom-0 left-0 right-0 top-0"
           style={{
-            backgroundColor: `rgba(0,0,0,${darkenOverlay / 100})`,
+            backgroundColor: `rgba(0,0,0,${darkeningOpacity})`,
             zIndex: 1,
           }}
         />

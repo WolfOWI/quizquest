@@ -45,12 +45,12 @@ const QuestPreviewModal = ({
   const enemiesSlainIcon = UI_ICONS.stats.slain;
   const playThroughsIcon = UI_ICONS.stats.runs;
 
-  console.log('Chapter and Progress:', chapterAndProgress);
+  // console.log('Chapter and Progress:', chapterAndProgress);
 
   const environmentIcon = getEnvironmentIcon(chapterAndProgress.environmentId);
   const environment = getEnvironment(chapterAndProgress.environmentId);
-  console.log('Environment Icon:', environmentIcon);
-  console.log('Environment:', environment);
+  // console.log('Environment Icon:', environmentIcon);
+  // console.log('Environment:', environment);
 
   const paperTexture = getTexture('paper_scroll');
   const screenHeight = Dimensions.get('window').height;

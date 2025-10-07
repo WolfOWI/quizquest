@@ -17,10 +17,8 @@ const QuestListItem = ({ chapterAndProgress, onPress }: QuestListItemProps) => {
   // const isCompleted = completionPercentage === 100;
 
   const environmentIcon = getEnvironmentIcon(chapterAndProgress.environmentId);
-  console.log('Environment Icon:', environmentIcon);
 
   const backgroundTexture = getEnvironmentTexture(chapterAndProgress.environmentId);
-  console.log('Background Texture:', backgroundTexture);
 
   return (
     <Pressable onPress={onPress} className="overflow-hidden rounded-2xl">

@@ -29,8 +29,8 @@ const BattleArenaCounter: React.FC<BattleArenaCounterProps> = ({
       </View>
 
       {/* Question Counter */}
-      <View className="flex-shrink-0 rounded-full border border-white/20 bg-black/70 px-3 py-1">
-        <Text className="font-pixelify text-base text-white">
+      <View className="flex-shrink-0 rounded-full bg-black/70 px-3 py-1">
+        <Text className="font-kenney text-sm text-white">
           {addLeadingZero(currentQuestion)} / {addLeadingZero(totalQuestions)}
         </Text>
       </View>
