@@ -11,6 +11,14 @@
       "pThree": { "sec": 3, "hearts": 3 },
       "pTwo": { "sec": 4, "hearts": 2 },
       "pOne": { "sec": 5, "hearts": 1 }
+    },
+    "timing": {
+      "interQuestionLoadingTime": 200,
+      "questionReadTime": {
+        "baseTime": 1000,
+        "charactersPerIncrement": 50,
+        "incrementTime": 400
+      }
     }
   },
 
@@ -42,7 +50,7 @@
           "trueFalse": 0.4
         },
         "questionDifficulty": { "negationsRate": 0.1, "distractorSimilarity": 0.1 },
-        "bloomWeights": { "remember": 0.6, "understand": 0.4, "apply": 0.0, "analyze": 0.0 },
+        "bloomWeights": { "remember": 0.6, "understand": 0.4, "apply": 0.0, "analyse": 0.0 },
         "hints": { "style": "explicit" },
         "explanations": { "depth": "brief" }
       },
@@ -57,7 +65,7 @@
           "trueFalse": 0.3
         },
         "questionDifficulty": { "negationsRate": 0.2, "distractorSimilarity": 0.4 },
-        "bloomWeights": { "remember": 0.3, "understand": 0.4, "apply": 0.2, "analyze": 0.1 },
+        "bloomWeights": { "remember": 0.3, "understand": 0.4, "apply": 0.2, "analyse": 0.1 },
         "hints": { "style": "subtle" },
         "explanations": { "depth": "standard" }
       },
@@ -72,7 +80,7 @@
           "trueFalse": 0.2
         },
         "questionDifficulty": { "negationsRate": 0.3, "distractorSimilarity": 0.6 },
-        "bloomWeights": { "remember": 0.1, "understand": 0.3, "apply": 0.3, "analyze": 0.3 },
+        "bloomWeights": { "remember": 0.1, "understand": 0.3, "apply": 0.3, "analyse": 0.3 },
         "hints": { "style": "cryptic" },
         "explanations": { "depth": "rich" }
       }
@@ -83,7 +91,7 @@
       "questionDifficulty.distractorSimilarity": "How similar wrong options should be to the correct answer in [0,1]; higher = more confusable.",
       "hints.style": "How revealing hints should be: 'explicit' | 'subtle' | 'cryptic'.",
       "explanations.depth": "Detail level for the explanation: 'brief' | 'standard' | 'rich'.",
-      "bloomWeights": "0–1 weights to bias cognitive demand across remember/understand/apply/analyze."
+      "bloomWeights": "0–1 weights to bias cognitive demand across remember/understand/apply/analyse."
     }
   }
 }

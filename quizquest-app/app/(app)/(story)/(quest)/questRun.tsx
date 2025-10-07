@@ -6,28 +6,35 @@ import { SquareBtn } from '@/components/buttons/square/SquareBtn';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import BattleArena from '@/components/battle/BattleArena';
 import BattleArenaCounter from '@/components/battle/BattleArenaCounter';
-import QuizOption from '@/components/quiz/QuizOption';
-import { getCharacter, getEnemy } from '@/lib/content';
+import QuestionRenderer from '@/components/quiz/QuestionRenderer';
+import { getCharacter, getEnemy, getEnvironmentBackground } from '@/lib/content';
 import { UI_ICONS } from '@/lib/constants/uiIcons';
+import {
+  FAKE_QUESTION_BANK,
+  processQuestionBank,
+  selectAnswer,
+  resetFeedback,
+  moveToNextQuestion,
+  transitionToState,
+  updateQuestionTiming,
+  type QuizState,
+  type QuizStateType,
+  getQuizStateReadyByQIndex,
+} from '@/services/questRunService';
+import { Chapter, QuestionItem } from '@/lib/types/curriculum/Curriculum';
+import { UserChapterProgress } from '@/lib/types/user/User';
 
 const QuestRunScreen = () => {
-  const backgroundTexture = require('@/assets/textures/wood_planks.png');
-  const inventoryIcon = UI_ICONS.nav.inventory;
+  const params = useLocalSearchParams();
+  const chapterAndProgress = JSON.parse(params.chapterAndProgress as string) as Chapter &
+    UserChapterProgress;
 
-  const { chapterId } = useLocalSearchParams<{
-    chapterId: string;
-  }>();
-
-  const userCharacterId = 'heavyKnight_green';
-  const userEnemyId = 'bushMonster_default';
-
-  const character = getCharacter(userCharacterId);
-  const enemy = getEnemy(userEnemyId);
+  // TODO: Get all questions from the chapter info
 
   const handleCompleteQuest = () => {
     router.push({
       pathname: '/(app)/(story)/(quest)/questResult',
-      params: { chapterId },
+      params: {},
     } as any);
   };
 
@@ -35,74 +42,90 @@ const QuestRunScreen = () => {
     router.back();
   };
 
-  // TODO: Fake data here (get from chapterId in params)
-  const questionBank = [
-    {
-      question: 'Which animal classification do squirrels belong to?',
-      answers: ['Reptilia', 'Pisces', 'Aves', 'Mammalia'],
-      correctAnswer: 3,
-    },
-    {
-      question: 'What is the largest planet in our solar system?',
-      answers: ['Earth', 'Saturn', 'Jupiter', 'Neptune'],
-      correctAnswer: 2,
-    },
-    {
-      question: 'Who painted the Mona Lisa?',
-      answers: ['Vincent van Gogh', 'Pablo Picasso', 'Leonardo da Vinci', 'Michelangelo'],
-      correctAnswer: 2,
-    },
-    {
-      question: 'What is the chemical symbol for gold?',
-      answers: ['Go', 'Gd', 'Au', 'Ag'],
-      correctAnswer: 2,
-    },
-    {
-      question: 'Which programming language was created by Brendan Eich?',
-      answers: ['Python', 'Java', 'JavaScript', 'C++'],
-      correctAnswer: 2,
-    },
-  ];
+  const [quizState, setQuizState] = useState<QuizState | null>(null);
 
-  // State for quiz feedback and navigation
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-
-  const currentQuestion = questionBank[currentQuestionIndex];
-
-  const handleAnswerSelect = (index: number) => {
-    if (selectedAnswer !== null) return; // Prevent multiple selections
-
-    setSelectedAnswer(index);
-    const correct = index === currentQuestion.correctAnswer;
-    setIsCorrect(correct);
-    setShowFeedback(true);
-
-    setTimeout(() => {
-      setShowFeedback(false);
-      setSelectedAnswer(null);
-      setIsCorrect(false);
-
-      // Move to next question if not the last one
-      if (currentQuestionIndex < questionBank.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-      } else {
-        // If it's the last question, complete the quest
-        handleCompleteQuest();
-      }
-    }, 2500);
+  // Centralised state update function
+  const updateQuizState = (updates: Partial<QuizState>) => {
+    setQuizState((prevState) => {
+      if (!prevState) return null;
+      return { ...prevState, ...updates };
+    });
   };
 
-  // On mount, set the current question index to 0
+  // On load, initialise the quiz state
   useEffect(() => {
-    setCurrentQuestionIndex(0);
+    const processedQuestions = processQuestionBank(FAKE_QUESTION_BANK);
+    setQuizState(getQuizStateReadyByQIndex(processedQuestions, 0));
   }, []);
+
+  // On answer select
+  const handleAnswerSelect = (index: number) => {
+    if (!quizState) return;
+
+    // If something is already selected, and it's not a multi-select, do nothing
+    if (quizState.selectedAnswer !== null && !quizState.isMultiSelect) {
+      return;
+    }
+
+    updateQuizState(selectAnswer(quizState, index));
+  };
+
+  const handleStateTransition = (newState: QuizStateType) => {
+    updateQuizState(transitionToState(newState));
+  };
+
+  const handleContinue = () => {
+    if (!quizState) return;
+
+    // Move to next question if not the last one
+    if (quizState.isLastQuestion) {
+      handleCompleteQuest();
+      return;
+    }
+
+    // Combine all state updates for the next question
+    const nextQuestionUpdates = {
+      ...moveToNextQuestion(quizState),
+      ...resetFeedback(),
+    };
+
+    updateQuizState({
+      ...nextQuestionUpdates,
+      ...updateQuestionTiming({ ...quizState, ...nextQuestionUpdates }),
+    });
+  };
 
   const screenHeight = Dimensions.get('window').height;
   const combatSceneHeight = screenHeight * 0.35;
   const statusBarHeight = useSafeAreaInsets().top;
+
+  // TODO: Setup visual assets
+  // Visual Assets
+  const userCharacterId = 'heavyKnight_green';
+  const userEnemyId = 'bushMonster_default';
+  const character = getCharacter(userCharacterId);
+  const enemy = getEnemy(userEnemyId);
+  const envBackground =
+    getEnvironmentBackground(chapterAndProgress.environmentId) ||
+    getEnvironmentBackground('castle_courtyard');
+  const backgroundTexture = require('@/assets/textures/wood_planks.png');
+  const inventoryIcon = UI_ICONS.nav.inventory;
+
+  const showHintModal = () => {
+    console.log('Show hint modal');
+  };
+
+  const showExplanationModal = () => {
+    console.log('Show explanation modal');
+  };
+
+  if (!quizState) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Text className="font-pixelify text-lg text-white">Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1">
@@ -117,8 +140,8 @@ const QuestRunScreen = () => {
           enemySize={200}
           spriteDistance={400}
           spriteScale={1.0}
-          backgroundImage={require('@/assets/images/backgrounds/start.png')}
-          showGradientOverlay={true}
+          backgroundImage={envBackground}
+          showGradientOverlay
           autoPlay={true}
           containerStyle={{
             position: 'absolute',
@@ -133,10 +156,10 @@ const QuestRunScreen = () => {
         {/* Health & question counter */}
         <SafeAreaView className="z-10">
           <BattleArenaCounter
-            leftHealth={32} // Enemy Health
-            rightHealth={5} // Player Health
-            currentQuestion={currentQuestionIndex + 1}
-            totalQuestions={questionBank.length}
+            leftHealth={32} // TODO: Health tracking of enemy
+            rightHealth={5} // TODO: Health tracking of player
+            currentQuestion={quizState.currentQIndex + 1}
+            totalQuestions={quizState.totalQuestions}
           />
         </SafeAreaView>
       </View>
@@ -152,33 +175,19 @@ const QuestRunScreen = () => {
           />
           {/* Question & Answers Display */}
           <View className="flex-1 px-4">
-            {/* Question */}
-            <View className="mb-4 rounded-xl bg-black/50 p-4">
-              <Text className="text-center font-pixelify text-base text-white">
-                {currentQuestion.question}
-              </Text>
-            </View>
-
-            {/* Answer Options */}
-            <View className="flex-1 flex-col gap-2">
-              {currentQuestion.answers.map((answer, index) => (
-                <QuizOption
-                  key={index}
-                  index={index}
-                  option={answer}
-                  isSelected={selectedAnswer === index}
-                  isCorrect={isCorrect}
-                  showFeedback={showFeedback}
-                  correctAnswerIndex={currentQuestion.correctAnswer}
-                  onPress={() => handleAnswerSelect(index)}
-                />
-              ))}
-            </View>
+            <QuestionRenderer
+              quizState={quizState}
+              onAnswerSelect={handleAnswerSelect}
+              onStateTransition={handleStateTransition}
+              onContinue={handleContinue}
+            />
           </View>
 
           {/* Bottom Navigation */}
           <View className="flex-row items-center justify-between px-4 pb-4">
             <SquareBtn onPress={handleQuitQuest} icon="pause" />
+            <SquareBtn onPress={showHintModal} icon="question" />
+            <SquareBtn onPress={showExplanationModal} icon="check" />
             <Pressable onPress={() => console.log('Inventory')}>
               <Image source={inventoryIcon} className="h-12 w-12" />
             </Pressable>

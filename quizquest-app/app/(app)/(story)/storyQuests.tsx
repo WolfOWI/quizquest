@@ -163,7 +163,7 @@ const StoryQuestsScreen = () => {
       router.push({
         pathname: '/(app)/(story)/(quest)/questRun',
         params: {
-          chapterId: selectedQuest.chapterId,
+          chapterAndProgress: JSON.stringify(selectedQuest),
         },
       } as any);
     }

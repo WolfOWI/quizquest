@@ -137,3 +137,12 @@ export const getCurriculumGenConfigExplain = () => {
 export const getStoryPrice = (level: AudienceLevel) => {
   return CONTENT.balance.pricing.story[level];
 };
+
+// ======= QUEST RUN TIMING =======
+export const getInterQuestionLoadingTime = (): number => {
+  return CONTENT.balance.questRunConfig.timing.interQuestionLoadingTime;
+};
+
+export const getQuestionReadTimeConfig = () => {
+  return CONTENT.balance.questRunConfig.timing.questionReadTime;
+};

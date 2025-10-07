@@ -86,6 +86,14 @@ export interface Balance {
       pTwo: PowerAttack;
       pOne: PowerAttack;
     };
+    timing: {
+      interQuestionLoadingTime: number;
+      questionReadTime: {
+        baseTime: number;
+        charactersPerIncrement: number;
+        incrementTime: number;
+      };
+    };
   };
   pricing: {
     generate: {
@@ -135,7 +143,7 @@ export interface Balance {
           remember: number;
           understand: number;
           apply: number;
-          analyze: number;
+          analyse: number;
         };
         hints: {
           style: 'explicit' | 'subtle' | 'cryptic';

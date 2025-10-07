@@ -160,7 +160,7 @@ Cognitive Level Distribution:
 - Remember: ${(qBloom.remember * 100).toFixed(0)}% (${qBloomWeightsExplain})
 - Understand: ${(qBloom.understand * 100).toFixed(0)}%
 - Apply: ${(qBloom.apply * 100).toFixed(0)}%
-- Analyse: ${(qBloom.analyze * 100).toFixed(0)}%
+- Analyse: ${(qBloom.analyse * 100).toFixed(0)}%
 
 Hints and Explanations:
 - Hints style: "${aiGenConfig.hints.style}" (${qHintsStyleExplain})
