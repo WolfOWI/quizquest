@@ -7,11 +7,12 @@ interface IconNumCountProps {
   uiIcon: any;
   count: number;
   label: string;
+  className?: string;
 }
 
-const IconStat: React.FC<IconNumCountProps> = ({ uiIcon, count, label }) => {
+const IconStat: React.FC<IconNumCountProps> = ({ uiIcon, count, label, className }) => {
   return (
-    <View className="flex-col items-center gap-1">
+    <View className={`flex-col items-center gap-1 ${className}`}>
       <View className="flex-row items-center gap-1">
         <Image source={uiIcon} className="h-6 w-6" />
         <Text className="font-kenney text-lg text-white">{shortenNumber(count, 0)}</Text>
