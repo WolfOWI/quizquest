@@ -11,9 +11,23 @@ export default function QuestLayout() {
         }}
       />
       <Stack.Screen
-        name="questResult"
+        name="questVictory"
         options={{
-          title: 'Quest Result',
+          title: 'Quest Victory',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="questDefeat"
+        options={{
+          title: 'Quest Defeat',
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="levelUp"
+        options={{
+          title: 'Level Up',
           headerShown: false,
         }}
       />

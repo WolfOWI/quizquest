@@ -117,19 +117,19 @@ const QuestPreviewModal = ({
               <View className="flex-row justify-between rounded-xl bg-white/20 p-4">
                 <IconStat
                   uiIcon={UI_ICONS.stats.runs}
-                  count={0}
+                  numStat={0}
                   label="Attempts"
                   className="w-1/3"
                 />
                 <IconStat
                   uiIcon={UI_ICONS.stats.slain}
-                  count={0}
+                  numStat={0}
                   label="Enemies Slain"
                   className="w-1/3"
                 />
                 <IconStat
                   uiIcon={UI_ICONS.stats.deaths}
-                  count={0}
+                  numStat={0}
                   label="Deaths"
                   className="w-1/3"
                 />

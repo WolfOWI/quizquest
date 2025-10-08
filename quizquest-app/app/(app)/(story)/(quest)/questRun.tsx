@@ -33,15 +33,26 @@ const QuestRunScreen = () => {
 
   // TODO: Get all questions from the chapter info
 
-  const handleCompleteQuest = () => {
+  const handleWinQuest = () => {
     router.push({
-      pathname: '/(app)/(story)/(quest)/questResult',
-      params: {},
+      pathname: '/(app)/(story)/(quest)/questVictory',
+      params: {
+        chapterAndProgress: JSON.stringify(chapterAndProgress),
+      },
     } as any);
   };
 
   const handleQuitQuest = () => {
     router.back();
+  };
+
+  const handleDefeatQuest = () => {
+    router.push({
+      pathname: '/(app)/(story)/(quest)/questDefeat',
+      params: {
+        chapterAndProgress: JSON.stringify(chapterAndProgress),
+      },
+    } as any);
   };
 
   const [quizState, setQuizState] = useState<QuizState | null>(null);
@@ -85,7 +96,7 @@ const QuestRunScreen = () => {
 
     // Move to next question if not the last one
     if (quizState.isLastQuestion) {
-      handleCompleteQuest();
+      handleWinQuest();
       return;
     }
 
@@ -175,6 +186,14 @@ const QuestRunScreen = () => {
             currentQuestion={quizState.currentQIndex + 1}
             totalQuestions={quizState.totalQuestions}
           />
+          {/* TODO: Delete later */}
+          <Pressable onPress={handleWinQuest} className="absolute bottom-0 left-0">
+            <Text className="font-pixelify text-base text-white">Win</Text>
+          </Pressable>
+          {/* TODO: Delete later */}
+          <Pressable onPress={handleDefeatQuest} className="absolute bottom-0 right-0">
+            <Text className="font-pixelify text-base text-white">Defeat</Text>
+          </Pressable>
         </SafeAreaView>
       </View>
 
