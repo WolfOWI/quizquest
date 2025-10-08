@@ -17,7 +17,7 @@ import { UI_ICONS } from '@/lib/constants/uiIcons';
 import { getIcon } from '@/lib/content/registry';
 import { getTexture } from '@/lib/content/registry';
 import { getEnvironment, getEnvironmentIcon } from '@/lib/content';
-
+import IconStat from '../counters/IconStat';
 interface QuestPreviewModalProps {
   visible: boolean;
   onClose: () => void;
@@ -41,9 +41,6 @@ const QuestPreviewModal = ({
   const isInProgress = completionPercentage > 0 && completionPercentage < 100;
 
   // Quest Stat Icons
-  const deathsIcon = UI_ICONS.stats.deaths;
-  const enemiesSlainIcon = UI_ICONS.stats.slain;
-  const playThroughsIcon = UI_ICONS.stats.runs;
 
   // console.log('Chapter and Progress:', chapterAndProgress);
 
@@ -117,29 +114,10 @@ const QuestPreviewModal = ({
             {/* Quest Statistics */}
             <View className="mb-6">
               <Text className="mb-3 font-kenney text-lg text-white">Quest Statistics</Text>
-              <View className="flex-row justify-around">
-                <View className="flex-col items-center gap-1">
-                  <View className="flex-row items-center gap-2">
-                    <Image source={playThroughsIcon} className="h-6 w-6" />
-                    <Text className="font-kenney text-base text-white">0</Text>
-                  </View>
-
-                  <Text className="font-pixelify text-sm text-white/70">Attempts</Text>
-                </View>
-                <View className="flex-col items-center gap-1">
-                  <View className="flex-row items-center gap-2">
-                    <Image source={enemiesSlainIcon} className="h-6 w-6" />
-                    <Text className="font-kenney text-base text-white">0</Text>
-                  </View>
-                  <Text className="font-pixelify text-sm text-white/70">Enemies Slain</Text>
-                </View>
-                <View className="flex-col items-center gap-1">
-                  <View className="flex-row items-center gap-2">
-                    <Image source={deathsIcon} className="h-6 w-6" />
-                    <Text className="font-kenney text-base text-white">0</Text>
-                  </View>
-                  <Text className="font-pixelify text-sm text-white/70">Deaths</Text>
-                </View>
+              <View className="flex-row justify-around rounded-xl bg-white/20 p-4">
+                <IconStat uiIcon={UI_ICONS.stats.runs} count={0} label="Attempts" />
+                <IconStat uiIcon={UI_ICONS.stats.slain} count={0} label="Enemies Slain" />
+                <IconStat uiIcon={UI_ICONS.stats.deaths} count={0} label="Deaths" />
               </View>
             </View>
           </ScrollView>

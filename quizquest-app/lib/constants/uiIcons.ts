@@ -3,21 +3,11 @@ import { Image } from 'react-native';
 // UI Icons (non-content - enemies, items, environments, etc. - icons for UI only)
 
 export const UI_ICONS = {
-  // Navigation icons
-  nav: {
-    library: Image.resolveAssetSource(require('@/assets/icons/ui/nav/library.png')),
-    library_active: Image.resolveAssetSource(require('@/assets/icons/ui/nav/library_active.png')),
-    shop: Image.resolveAssetSource(require('@/assets/icons/ui/nav/shop.png')),
-    achievements: Image.resolveAssetSource(require('@/assets/icons/ui/nav/achievements.png')),
-    profile: Image.resolveAssetSource(require('@/assets/icons/ui/nav/profile.png')),
-    inventory: Image.resolveAssetSource(require('@/assets/icons/ui/nav/inventory.png')),
-    ai_generate: Image.resolveAssetSource(require('@/assets/icons/ui/nav/ai_generate.png')),
-  },
-
   // Currency icons
   currency: {
     gem: Image.resolveAssetSource(require('@/assets/icons/ui/currency/gem.png')),
     gold: Image.resolveAssetSource(require('@/assets/icons/ui/currency/gold.png')),
+    xp: Image.resolveAssetSource(require('@/assets/icons/ui/currency/xp.png')),
   },
 
   // Curriculum icons
@@ -44,11 +34,29 @@ export const UI_ICONS = {
     default: Image.resolveAssetSource(require('@/assets/icons/ui/health/health_default.png')),
   },
 
+  // Navigation icons
+  nav: {
+    library: Image.resolveAssetSource(require('@/assets/icons/ui/nav/library.png')),
+    library_active: Image.resolveAssetSource(require('@/assets/icons/ui/nav/library_active.png')),
+    shop: Image.resolveAssetSource(require('@/assets/icons/ui/nav/shop.png')),
+    achievements: Image.resolveAssetSource(require('@/assets/icons/ui/nav/achievements.png')),
+    profile: Image.resolveAssetSource(require('@/assets/icons/ui/nav/profile.png')),
+    inventory: Image.resolveAssetSource(require('@/assets/icons/ui/nav/inventory.png')),
+    ai_generate: Image.resolveAssetSource(require('@/assets/icons/ui/nav/ai_generate.png')),
+  },
+
+  // Result (quest run) icons
+  result: {
+    defeat: Image.resolveAssetSource(require('@/assets/icons/ui/result/defeat.png')),
+  },
+
   // Quest stats icons
   stats: {
     deaths: Image.resolveAssetSource(require('@/assets/icons/ui/stats/deaths.png')),
     runs: Image.resolveAssetSource(require('@/assets/icons/ui/stats/runs.png')),
     slain: Image.resolveAssetSource(require('@/assets/icons/ui/stats/slain.png')),
+    star_gold: Image.resolveAssetSource(require('@/assets/icons/ui/stats/star_gold.png')),
+    star_grey: Image.resolveAssetSource(require('@/assets/icons/ui/stats/star_grey.png')),
   },
 } as const;
 
