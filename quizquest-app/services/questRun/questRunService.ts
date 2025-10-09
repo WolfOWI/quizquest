@@ -2,20 +2,20 @@ import { shuffleArray } from '@/lib/utils/arrayUtils';
 import { QuestionItem, QuestionItemKind } from '@/lib/types/curriculum/Curriculum';
 import { getQuestionReadTimeConfig } from '@/lib/content';
 
-export type QuizStateType = 'q-only' | 'q-and-a' | 'answered';
+export type QuizPhaseType = 'q-only' | 'q-and-a' | 'answered';
 
 export interface QuizState {
-  currentState: QuizStateType;
+  currentPhase: QuizPhaseType;
+  processedQuestions: QuestionItem[];
+  totalNumQuestions: number;
   currentQIndex: number;
+  currentQuestion: QuestionItem | null;
+  isLastQuestion: boolean;
   selectedAnswer: number[] | null;
   showFeedback: boolean;
   isCorrect: boolean;
-  processedQuestions: QuestionItem[];
   showContinuePrompt: boolean;
-  questionReadTime: number;
-  currentQuestion: QuestionItem | null;
-  isLastQuestion: boolean;
-  totalQuestions: number;
+  questionReadTime: number; // Duration (ms) to read show q-only phase
 
   // For Multi-select questions
   isMultiSelect: boolean;
@@ -76,9 +76,13 @@ const processQuestion = (questionItem: QuestionItem): QuestionItem => {
 /**
  * Calculate question-specific properties for a given question
  */
-const getQuestionProperties = (question: QuestionItem, index: number, totalQuestions: number) => ({
+const getQuestionProperties = (
+  question: QuestionItem,
+  index: number,
+  totalNumQuestions: number
+) => ({
   currentQuestion: question,
-  isLastQuestion: isLastQuestion(index, totalQuestions),
+  isLastQuestion: isLastQuestion(index, totalNumQuestions),
   isMultiSelect: question.kind === 'multiSelect',
   requiredCount: getNumOfPossibleCorrectAnswers(question),
   questionReadTime: calcQuestionReadTime(question.question),
@@ -95,7 +99,7 @@ export const getQuizStateReadyByQIndex = (
   const questionProps = getQuestionProperties(question, index, processedQuestions.length);
 
   return {
-    currentState: 'q-only' as QuizStateType,
+    currentPhase: 'q-only' as QuizPhaseType,
     currentQIndex: index,
     selectedAnswer: null,
     showFeedback: false,
@@ -104,7 +108,7 @@ export const getQuizStateReadyByQIndex = (
     showContinuePrompt: false,
     isComplete: false,
     selectedCount: 0,
-    totalQuestions: processedQuestions.length,
+    totalNumQuestions: processedQuestions.length,
     ...questionProps,
   };
 };
@@ -139,7 +143,7 @@ export const selectAnswer = (state: QuizState, selectedIndex: number): Partial<Q
       selectedAnswer: newSelectedAnswers,
       isCorrect,
       showFeedback: isComplete, // Only show feedback when multi-select is complete
-      currentState: (isComplete ? 'answered' : 'q-and-a') as QuizStateType,
+      currentPhase: (isComplete ? 'answered' : 'q-and-a') as QuizPhaseType,
       showContinuePrompt: isComplete,
       selectedCount: newSelectedAnswers.length,
     };
@@ -147,7 +151,7 @@ export const selectAnswer = (state: QuizState, selectedIndex: number): Partial<Q
     // Single select or true/false - store as single-element array
     const isCorrect = checkAnswer(selectedIndex, currentQuestion.correctAnswerIndex);
     return {
-      currentState: 'answered' as QuizStateType,
+      currentPhase: 'answered' as QuizPhaseType,
       selectedAnswer: [selectedIndex],
       isCorrect,
       showFeedback: true,
@@ -161,19 +165,12 @@ export const selectAnswer = (state: QuizState, selectedIndex: number): Partial<Q
  */
 export const resetFeedback = (): Partial<QuizState> => {
   return {
-    currentState: 'q-only' as QuizStateType,
+    currentPhase: 'q-only' as QuizPhaseType,
     selectedAnswer: null,
     showFeedback: false,
     isCorrect: false,
     showContinuePrompt: false,
   };
-};
-
-/**
- * Transition to a specific state
- */
-export const transitionToState = (newState: QuizStateType): Partial<QuizState> => {
-  return { currentState: newState };
 };
 
 /**
@@ -221,8 +218,8 @@ export const getCurrentQuestion = (
   return processedQuestions[currentIndex] || null;
 };
 
-export const isLastQuestion = (currentIndex: number, totalQuestions: number): boolean => {
-  return currentIndex >= totalQuestions - 1;
+export const isLastQuestion = (currentIndex: number, totalNumQuestions: number): boolean => {
+  return currentIndex >= totalNumQuestions - 1;
 };
 
 const getNumOfPossibleCorrectAnswers = (question: QuestionItem): number => {

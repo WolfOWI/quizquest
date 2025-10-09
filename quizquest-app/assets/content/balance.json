@@ -2,15 +2,15 @@
   "questRunConfig": {
     "levels": {
       "novice": { "playerBaseHealth": 5 },
-      "apprentice": { "playerBaseHealth": 4 },
-      "master": { "playerBaseHealth": 3 }
+      "apprentice": { "playerBaseHealth": 5 },
+      "master": { "playerBaseHealth": 5 }
     },
     "powerAttack": {
-      "pFive": { "sec": 1, "hearts": 8 },
-      "pFour": { "sec": 2, "hearts": 5 },
-      "pThree": { "sec": 3, "hearts": 3 },
-      "pTwo": { "sec": 4, "hearts": 2 },
-      "pOne": { "sec": 5, "hearts": 1 }
+      "pFive": { "ms": 1000, "hearts": 8 },
+      "pFour": { "ms": 2000, "hearts": 5 },
+      "pThree": { "ms": 3000, "hearts": 3 },
+      "pTwo": { "ms": 4000, "hearts": 2 },
+      "pOne": { "ms": 5000, "hearts": 1 }
     },
     "timing": {
       "interQuestionLoadingTime": 200,

@@ -7,7 +7,7 @@ interface BattleArenaCounterProps {
   leftHealth: number;
   rightHealth: number;
   currentQuestion: number;
-  totalQuestions: number;
+  totalNumQuestions: number;
   className?: string;
 }
 
@@ -15,7 +15,7 @@ const BattleArenaCounter: React.FC<BattleArenaCounterProps> = ({
   leftHealth,
   rightHealth,
   currentQuestion,
-  totalQuestions,
+  totalNumQuestions,
   className = '',
 }) => {
   const healthIcon = UI_ICONS.health.default;
@@ -31,7 +31,7 @@ const BattleArenaCounter: React.FC<BattleArenaCounterProps> = ({
       {/* Question Counter */}
       <View className="flex-shrink-0 rounded-full bg-black/70 px-3 py-1">
         <Text className="font-kenney text-sm text-white">
-          {addLeadingZero(currentQuestion)} / {addLeadingZero(totalQuestions)}
+          {addLeadingZero(currentQuestion)} / {addLeadingZero(totalNumQuestions)}
         </Text>
       </View>
 

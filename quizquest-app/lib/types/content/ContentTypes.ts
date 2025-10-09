@@ -67,7 +67,7 @@ export interface Domain {
 }
 
 export interface PowerAttack {
-  sec: number;
+  ms: number;
   hearts: number;
 }
 

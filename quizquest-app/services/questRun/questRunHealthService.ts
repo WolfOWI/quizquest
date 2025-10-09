@@ -95,15 +95,6 @@ export const isEnemyDefeated = (enemyHealth: number): boolean => {
 };
 
 /**
- * Get power attack damage based on timing and question difficulty
- */
-export const getPowerAttackDmg = (questionStartTime?: number, questionEndTime?: number): number => {
-  // TODO: Implement power attack timing
-
-  return 100;
-};
-
-/**
  * Get enemy attack damage - always 1 for now
  */
 export const getEnemyAttackDmg = (enemyId: string): number => {

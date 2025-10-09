@@ -52,6 +52,7 @@ export const UI_ICONS = {
 
   // Quest stats icons
   stats: {
+    damage: Image.resolveAssetSource(require('@/assets/icons/ui/stats/damage.png')),
     deaths: Image.resolveAssetSource(require('@/assets/icons/ui/stats/deaths.png')),
     runs: Image.resolveAssetSource(require('@/assets/icons/ui/stats/runs.png')),
     slain: Image.resolveAssetSource(require('@/assets/icons/ui/stats/slain.png')),

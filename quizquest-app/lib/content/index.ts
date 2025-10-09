@@ -118,10 +118,12 @@ export const getBalance = (): Balance => {
   return CONTENT.balance;
 };
 
+// - - - Profile Defaults - - -
 export const getProfileDefaults = () => {
   return CONTENT.balance.profileDefaults;
 };
 
+// - - - Curriculum Gen Config - - -
 export const getCurriculumGenConfig = () => {
   return CONTENT.balance.curriculumGenConfig;
 };
@@ -134,15 +136,21 @@ export const getCurriculumGenConfigExplain = () => {
   return CONTENT.balance.curriculumGenConfig.configExplain;
 };
 
+// - - - Pricing - - -
 export const getStoryPrice = (level: AudienceLevel) => {
   return CONTENT.balance.pricing.story[level];
 };
 
-// ======= QUEST RUN TIMING =======
+// - - - Quest Run Timing - - -
 export const getInterQuestionLoadingTime = (): number => {
   return CONTENT.balance.questRunConfig.timing.interQuestionLoadingTime;
 };
 
 export const getQuestionReadTimeConfig = () => {
   return CONTENT.balance.questRunConfig.timing.questionReadTime;
+};
+
+// - - - Power Attack - - -
+export const getPowerAttackConfig = () => {
+  return CONTENT.balance.questRunConfig.powerAttack;
 };

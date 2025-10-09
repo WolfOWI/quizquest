@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, Pressable, ImageBackground, Dimensions, Image } from 'react-native';
 import { router } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
@@ -6,10 +6,16 @@ import { SquareBtn } from '@/components/buttons/square/SquareBtn';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import BattleArena from '@/components/battle/BattleArena';
 import BattleArenaCounter from '@/components/battle/BattleArenaCounter';
+import PowerAttackBar from '@/components/battle/PowerAttackBar';
 import QuestionRenderer from '@/components/quiz/QuestionRenderer';
 import HintModal from '@/components/modals/HintModal';
 import ExplanationModal from '@/components/modals/ExplanationModal';
-import { getCharacter, getEnemy, getEnvironmentBackground } from '@/lib/content';
+import {
+  getCharacter,
+  getEnemy,
+  getEnvironmentBackground,
+  getTextureResource,
+} from '@/lib/content';
 import { UI_ICONS } from '@/lib/constants/uiIcons';
 import {
   FAKE_QUESTION_BANK,
@@ -17,14 +23,12 @@ import {
   selectAnswer,
   resetFeedback,
   moveToNextQuestion,
-  transitionToState,
   updateQuestionTiming,
   type QuizState,
-  type QuizStateType,
+  type QuizPhaseType,
   getQuizStateReadyByQIndex,
 } from '@/services/questRun/questRunService';
 import {
-  getPowerAttackDmg,
   getEnemyAttackDmg,
   spawnNewEnemy,
   isPlayerDefeated,
@@ -87,11 +91,12 @@ const QuestRunScreen = () => {
     });
   };
 
+  // TODO: Remove this later
   useEffect(() => {
-    console.log('Health State', healthState);
+    console.log('🏥 Health State Updated:', healthState);
   }, [healthState]);
 
-  // On load, initialise the quiz & health state
+  // At start, create quiz & health state
   useEffect(() => {
     const processedQuestions = processQuestionBank(FAKE_QUESTION_BANK);
     setQuizState(getQuizStateReadyByQIndex(processedQuestions, 0));
@@ -122,14 +127,12 @@ const QuestRunScreen = () => {
     }
   }, [healthState?.enemyHealth]);
 
-  // On answer select
   const handleAnswerSelect = (index: number) => {
     if (!quizState || !healthState) return;
 
-    // If something is already selected, and it's not a multi-select, do nothing
-    if (quizState.selectedAnswer !== null && !quizState.isMultiSelect) {
-      return;
-    }
+    // if (quizState.selectedAnswer !== null && !quizState.isMultiSelect) {
+    //   return;
+    // }
 
     const updatedState = selectAnswer(quizState, index);
     updateQuizState(updatedState);
@@ -140,24 +143,7 @@ const QuestRunScreen = () => {
       (!quizState.isMultiSelect || updatedState.showFeedback);
 
     if (questionIsAnswered) {
-      // Calculate dynamic damage values for this question
-      const powerAttackDmg = getPowerAttackDmg(
-        undefined, // TODO: implement timing (questionStartTime)
-        undefined // TODO: implement timing (questionEndTime)
-      );
-
-      if (updatedState.isCorrect) {
-        // Correct answer - damage enemy
-        const newEnemyHealth = damageEnemy(healthState.enemyHealth, powerAttackDmg);
-        setHealthState((prev) =>
-          prev
-            ? {
-                ...prev,
-                enemyHealth: newEnemyHealth,
-              }
-            : null
-        );
-      } else {
+      if (!updatedState.isCorrect) {
         // Incorrect answer - enemy attacks player
         const enemyDamage = getEnemyAttackDmg(healthState.currentEnemyId);
         const newPlayerHealth = damagePlayer(healthState.playerHealth, enemyDamage);
@@ -173,9 +159,27 @@ const QuestRunScreen = () => {
     }
   };
 
-  const handleStateTransition = (newState: QuizStateType) => {
-    updateQuizState(transitionToState(newState));
+  const handleStateTransition = (newState: QuizPhaseType) => {
+    updateQuizState({ currentPhase: newState });
   };
+
+  const handlePowerAttackDamage = useCallback(
+    (damage: number) => {
+      // Apply damage to enemy if the answer was correct and we have damage
+      if (damage > 0 && healthState) {
+        const newEnemyHealth = damageEnemy(healthState.enemyHealth, damage);
+        setHealthState((prev) =>
+          prev
+            ? {
+                ...prev,
+                enemyHealth: newEnemyHealth,
+              }
+            : null
+        );
+      }
+    },
+    [healthState]
+  );
 
   const handleContinue = () => {
     if (!quizState) return;
@@ -210,7 +214,7 @@ const QuestRunScreen = () => {
   const envBackground =
     getEnvironmentBackground(chapterAndProgress.environmentId) ||
     getEnvironmentBackground('castle_courtyard');
-  const backgroundTexture = require('@/assets/textures/wood_planks.png');
+  const backgroundTexture = getTextureResource('wood_planks');
   const inventoryIcon = UI_ICONS.nav.inventory;
 
   const showHintModal = () => {
@@ -228,6 +232,11 @@ const QuestRunScreen = () => {
   const closeExplanationModal = () => {
     setExplanationModalVisible(false);
   };
+
+  // TODO: Remove this later
+  // useEffect(() => {
+  //   console.log('Quiz State', quizState);
+  // }, [quizState]);
 
   if (!quizState) {
     return (
@@ -265,12 +274,14 @@ const QuestRunScreen = () => {
 
         {/* Health & question counter */}
         <SafeAreaView className="z-10">
-          <BattleArenaCounter
-            leftHealth={healthState?.enemyHealth || 0}
-            rightHealth={healthState?.playerHealth || 0}
-            currentQuestion={quizState.currentQIndex + 1}
-            totalQuestions={quizState.totalQuestions}
-          />
+          {healthState && (
+            <BattleArenaCounter
+              leftHealth={healthState.enemyHealth || 0}
+              rightHealth={healthState.playerHealth || 0}
+              currentQuestion={quizState.currentQIndex + 1}
+              totalNumQuestions={quizState.totalNumQuestions}
+            />
+          )}
           {/* TODO: Delete later */}
           <Pressable onPress={handleWinQuest} className="absolute bottom-0 left-0">
             <Text className="font-pixelify text-base text-white">Win</Text>
@@ -283,8 +294,9 @@ const QuestRunScreen = () => {
       </View>
 
       {/* Quiz Section */}
-      <View className="flex-1 pt-4" style={{ marginTop: combatSceneHeight - statusBarHeight }}>
+      <View className="flex-1 pt-2" style={{ marginTop: combatSceneHeight - statusBarHeight }}>
         <SafeAreaView style={{ flex: 1 }}>
+          {/* Background Texture */}
           <ImageBackground
             source={backgroundTexture}
             resizeMode="repeat"
@@ -293,6 +305,14 @@ const QuestRunScreen = () => {
           />
           {/* Question & Answers Display */}
           <View className="flex-1 px-4">
+            {/* Power Attack Bar */}
+            <PowerAttackBar
+              isActive={quizState.currentPhase === 'q-and-a'}
+              onDamageCalculated={handlePowerAttackDamage}
+              isCorrect={quizState.isCorrect}
+              currentPhase={quizState.currentPhase}
+            />
+
             <QuestionRenderer
               quizState={quizState}
               onAnswerSelect={handleAnswerSelect}
@@ -305,7 +325,7 @@ const QuestRunScreen = () => {
           <View className="flex-row items-center justify-between px-4 pb-4">
             <SquareBtn onPress={handleQuitQuest} icon="pause" />
             {/* Hint modal & Explanation modal swaps based on state */}
-            {quizState.currentState !== 'answered' ? (
+            {quizState.currentPhase !== 'answered' ? (
               <Pressable
                 onPress={showHintModal}
                 className="items-center justify-center rounded-full border-2 border-treasureYellow px-4 py-2">

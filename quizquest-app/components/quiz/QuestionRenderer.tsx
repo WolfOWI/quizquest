@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { QuizState, QuizStateType } from '@/services/questRun/questRunService';
+import { QuizState, QuizPhaseType } from '@/services/questRun/questRunService';
 import SingleChoiceQuestion from './SingleChoiceQuestion';
 import MultiSelectQuestion from './MultiSelectQuestion';
 import QuestionBox from './QuestionBox';
@@ -10,7 +10,7 @@ import AnswerOptionsContainer from './AnswerOptionsContainer';
 interface QuestionRendererProps {
   quizState: QuizState;
   onAnswerSelect: (index: number) => void;
-  onStateTransition: (newState: QuizStateType) => void;
+  onStateTransition: (newState: QuizPhaseType) => void;
   onContinue: () => void;
 }
 
@@ -21,7 +21,7 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
   onContinue,
 }) => {
   const {
-    currentState,
+    currentPhase,
     currentQuestion,
     selectedAnswer,
     showFeedback,
@@ -37,14 +37,14 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
 
-    if (currentState === 'q-only') {
+    if (currentPhase === 'q-only') {
       timer = setTimeout(() => onStateTransition('q-and-a'), questionReadTime);
     }
 
     return () => clearTimeout(timer);
-  }, [currentState, onStateTransition, questionReadTime]);
+  }, [currentPhase, onStateTransition, questionReadTime]);
 
-  if (currentState === 'q-only') {
+  if (currentPhase === 'q-only') {
     return (
       <View className="flex-1">
         <QuestionBox question={currentQuestion?.question || ''} />
