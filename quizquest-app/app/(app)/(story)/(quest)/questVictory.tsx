@@ -8,7 +8,7 @@ import { PrimaryBtn } from '@/components/buttons/standard/PrimaryBtn';
 import BannerFolded from '@/components/banner/BannerFolded';
 import { UI_ICONS } from '@/lib/constants/uiIcons';
 import IconStat from '@/components/counters/IconStat';
-import { Chapter } from '@/lib/types/curriculum/Curriculum';
+import { Chapter, Story } from '@/lib/types/curriculum/Curriculum';
 import { UserChapterProgress } from '@/lib/types/user/User';
 import { SquareBtn } from '@/components/buttons/square/SquareBtn';
 
@@ -17,6 +17,7 @@ const QuestVictoryScreen = () => {
   const params = useLocalSearchParams();
   const chapterAndProgress = JSON.parse(params.chapterAndProgress as string) as Chapter &
     UserChapterProgress;
+  const story = JSON.parse(params.story as string) as Story;
 
   const handleBackToStory = () => {
     // TODO: Back to story (open modal)
@@ -35,6 +36,7 @@ const QuestVictoryScreen = () => {
     router.dismissTo({
       pathname: '/(app)/(story)/(quest)/questRun',
       params: {
+        story: JSON.stringify(story),
         chapterAndProgress: JSON.stringify(chapterAndProgress),
       },
     } as any);

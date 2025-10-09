@@ -22,14 +22,26 @@ import {
   type QuizState,
   type QuizStateType,
   getQuizStateReadyByQIndex,
-} from '@/services/questRunService';
-import { Chapter, QuestionItem } from '@/lib/types/curriculum/Curriculum';
+} from '@/services/questRun/questRunService';
+import {
+  getPowerAttackDmg,
+  getEnemyAttackDmg,
+  spawnNewEnemy,
+  isPlayerDefeated,
+  isEnemyDefeated,
+  type HealthState,
+  damageEnemy,
+  damagePlayer,
+  getInitialHealthState,
+} from '@/services/questRun/questRunHealthService';
+import { Chapter, QuestionItem, Story } from '@/lib/types/curriculum/Curriculum';
 import { UserChapterProgress } from '@/lib/types/user/User';
 
 const QuestRunScreen = () => {
   const params = useLocalSearchParams();
   const chapterAndProgress = JSON.parse(params.chapterAndProgress as string) as Chapter &
     UserChapterProgress;
+  const story = JSON.parse(params.story as string) as Story;
 
   // TODO: Get all questions from the chapter info
 
@@ -37,6 +49,7 @@ const QuestRunScreen = () => {
     router.push({
       pathname: '/(app)/(story)/(quest)/questVictory',
       params: {
+        story: JSON.stringify(story),
         chapterAndProgress: JSON.stringify(chapterAndProgress),
       },
     } as any);
@@ -50,12 +63,17 @@ const QuestRunScreen = () => {
     router.push({
       pathname: '/(app)/(story)/(quest)/questDefeat',
       params: {
+        story: JSON.stringify(story),
         chapterAndProgress: JSON.stringify(chapterAndProgress),
       },
     } as any);
   };
 
+  // Quiz State
   const [quizState, setQuizState] = useState<QuizState | null>(null);
+
+  // Health State
+  const [healthState, setHealthState] = useState<HealthState | null>(null);
 
   // Modal state
   const [hintModalVisible, setHintModalVisible] = useState(false);
@@ -69,22 +87,90 @@ const QuestRunScreen = () => {
     });
   };
 
-  // On load, initialise the quiz state
+  useEffect(() => {
+    console.log('Health State', healthState);
+  }, [healthState]);
+
+  // On load, initialise the quiz & health state
   useEffect(() => {
     const processedQuestions = processQuestionBank(FAKE_QUESTION_BANK);
     setQuizState(getQuizStateReadyByQIndex(processedQuestions, 0));
-  }, []);
+
+    setHealthState(getInitialHealthState(chapterAndProgress, story));
+  }, [chapterAndProgress.chapterId]);
+
+  // Defeat when player health = 0
+  useEffect(() => {
+    if (healthState && isPlayerDefeated(healthState.playerHealth)) {
+      handleDefeatQuest();
+    }
+  }, [healthState?.playerHealth]);
+
+  // Spawn new enemy when enemy health = 0
+  useEffect(() => {
+    if (healthState && isEnemyDefeated(healthState.enemyHealth)) {
+      const { newEnemyId, newEnemyHealth } = spawnNewEnemy(healthState.enemyLineup);
+      setHealthState((prev) =>
+        prev
+          ? {
+              ...prev,
+              currentEnemyId: newEnemyId,
+              enemyHealth: newEnemyHealth,
+            }
+          : null
+      );
+    }
+  }, [healthState?.enemyHealth]);
 
   // On answer select
   const handleAnswerSelect = (index: number) => {
-    if (!quizState) return;
+    if (!quizState || !healthState) return;
 
     // If something is already selected, and it's not a multi-select, do nothing
     if (quizState.selectedAnswer !== null && !quizState.isMultiSelect) {
       return;
     }
 
-    updateQuizState(selectAnswer(quizState, index));
+    const updatedState = selectAnswer(quizState, index);
+    updateQuizState(updatedState);
+
+    // Only apply health changes when the question is complete and feedback is shown
+    const questionIsAnswered =
+      updatedState.isCorrect !== undefined &&
+      (!quizState.isMultiSelect || updatedState.showFeedback);
+
+    if (questionIsAnswered) {
+      // Calculate dynamic damage values for this question
+      const powerAttackDmg = getPowerAttackDmg(
+        undefined, // TODO: implement timing (questionStartTime)
+        undefined // TODO: implement timing (questionEndTime)
+      );
+
+      if (updatedState.isCorrect) {
+        // Correct answer - damage enemy
+        const newEnemyHealth = damageEnemy(healthState.enemyHealth, powerAttackDmg);
+        setHealthState((prev) =>
+          prev
+            ? {
+                ...prev,
+                enemyHealth: newEnemyHealth,
+              }
+            : null
+        );
+      } else {
+        // Incorrect answer - enemy attacks player
+        const enemyDamage = getEnemyAttackDmg(healthState.currentEnemyId);
+        const newPlayerHealth = damagePlayer(healthState.playerHealth, enemyDamage);
+        setHealthState((prev) =>
+          prev
+            ? {
+                ...prev,
+                playerHealth: newPlayerHealth,
+              }
+            : null
+        );
+      }
+    }
   };
 
   const handleStateTransition = (newState: QuizStateType) => {
@@ -119,9 +205,8 @@ const QuestRunScreen = () => {
   // TODO: Setup visual assets
   // Visual Assets
   const userCharacterId = 'heavyKnight_green';
-  const userEnemyId = 'bushMonster_default';
   const character = getCharacter(userCharacterId);
-  const enemy = getEnemy(userEnemyId);
+  const enemy = healthState ? getEnemy(healthState.currentEnemyId) : null;
   const envBackground =
     getEnvironmentBackground(chapterAndProgress.environmentId) ||
     getEnvironmentBackground('castle_courtyard');
@@ -160,7 +245,7 @@ const QuestRunScreen = () => {
           height={combatSceneHeight}
           width="100%"
           playerId={userCharacterId}
-          enemyId={userEnemyId}
+          enemyId={healthState?.currentEnemyId || 'bushMonster_default'}
           playerSize={200}
           enemySize={200}
           spriteDistance={400}
@@ -181,8 +266,8 @@ const QuestRunScreen = () => {
         {/* Health & question counter */}
         <SafeAreaView className="z-10">
           <BattleArenaCounter
-            leftHealth={32} // TODO: Health tracking of enemy
-            rightHealth={5} // TODO: Health tracking of player
+            leftHealth={healthState?.enemyHealth || 0}
+            rightHealth={healthState?.playerHealth || 0}
             currentQuestion={quizState.currentQIndex + 1}
             totalQuestions={quizState.totalQuestions}
           />

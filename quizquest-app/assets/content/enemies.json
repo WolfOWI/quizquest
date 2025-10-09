@@ -5,6 +5,22 @@
     "spriteKey": "enemy_bushMonster_v1",
     "iconKey": "enemy_bushMonster_icon",
     "hp": 30,
-    "drops": { "gold": 10, "xp": 8 }
+    "drops": { "gold": 10, "xp": 16 }
+  },
+  "goblin_default": {
+    "id": "goblin_default",
+    "name": "Goblin",
+    "spriteKey": "enemy_goblin_v1",
+    "iconKey": "enemy_goblin_icon",
+    "hp": 8,
+    "drops": { "gold": 5, "xp": 4 }
+  },
+  "skeleton_default": {
+    "id": "skeleton_default",
+    "name": "Skeleton",
+    "spriteKey": "enemy_skeleton_v1",
+    "iconKey": "enemy_skeleton_icon",
+    "hp": 20,
+    "drops": { "gold": 8, "xp": 12 }
   }
 }

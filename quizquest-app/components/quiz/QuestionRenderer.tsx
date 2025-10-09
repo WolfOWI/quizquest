@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { QuizState, QuizStateType } from '@/services/questRunService';
+import { QuizState, QuizStateType } from '@/services/questRun/questRunService';
 import SingleChoiceQuestion from './SingleChoiceQuestion';
 import MultiSelectQuestion from './MultiSelectQuestion';
 import QuestionBox from './QuestionBox';

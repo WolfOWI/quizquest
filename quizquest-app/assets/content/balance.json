@@ -58,7 +58,7 @@
         "difficultyDescription": "Intermediate. Assumes basics are known. Use precise wording with occasional negations; make wrong options somewhat similar; mix of recall and light reasoning.",
         "educationLevel": "Mid/late high school level",
         "quizChunksPerChapter": { "min": 2, "max": 4 },
-        "questionsPerQuizChunk": 12,
+        "questionsPerQuizChunk": 10,
         "questionTypeDistributionPercent": {
           "singleSelect": 0.4,
           "multiSelect": 0.3,
@@ -73,7 +73,7 @@
         "difficultyDescription": "Advanced. Strong foundation expected. Use compact academic wording, include careful negations and edge cases; make distractors closely confusable and for some questions, require multi-step reasoning.",
         "educationLevel": "College intro / early tertiary level",
         "quizChunksPerChapter": { "min": 2, "max": 5 },
-        "questionsPerQuizChunk": 15,
+        "questionsPerQuizChunk": 10,
         "questionTypeDistributionPercent": {
           "singleSelect": 0.5,
           "multiSelect": 0.3,

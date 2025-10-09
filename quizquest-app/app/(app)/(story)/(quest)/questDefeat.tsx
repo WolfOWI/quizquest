@@ -10,7 +10,7 @@ import { UI_ICONS } from '@/lib/constants/uiIcons';
 import IconStat from '@/components/counters/IconStat';
 import { SquareBtn } from '@/components/buttons/square/SquareBtn';
 import Heading from '@/components/typography/Heading';
-import { Chapter } from '@/lib/types/curriculum/Curriculum';
+import { Chapter, Story } from '@/lib/types/curriculum/Curriculum';
 import { UserChapterProgress } from '@/lib/types/user/User';
 
 const QuestDefeatScreen = () => {
@@ -18,6 +18,7 @@ const QuestDefeatScreen = () => {
   const params = useLocalSearchParams();
   const chapterAndProgress = JSON.parse(params.chapterAndProgress as string) as Chapter &
     UserChapterProgress;
+  const story = JSON.parse(params.story as string) as Story;
 
   const handleBackToStory = () => {
     // TODO: Open modal to confirm back to story
@@ -31,7 +32,10 @@ const QuestDefeatScreen = () => {
     // TODO: Retry quest (refresh the quest)
     router.dismissTo({
       pathname: '/(app)/(story)/(quest)/questRun',
-      params: { chapterAndProgress: JSON.stringify(chapterAndProgress) },
+      params: {
+        story: JSON.stringify(story),
+        chapterAndProgress: JSON.stringify(chapterAndProgress),
+      },
     } as any);
   };
 

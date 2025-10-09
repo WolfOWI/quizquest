@@ -2,6 +2,8 @@ import { Image } from 'react-native';
 import { heavyKnight_sprite_data } from '@/lib/spritesConfig/PlayerSpriteData';
 import { bushMonster_sprite_data } from '@/lib/spritesConfig/EnemySpriteData';
 import { SpriteSheetConfig } from '@/lib/types/sprites/SpriteConfig';
+import { goblin_sprite_data } from '@/lib/spritesConfig/EnemySpriteData';
+import { skeleton_sprite_data } from '@/lib/spritesConfig/EnemySpriteData';
 
 // Connect sprite sheet to spriteKey
 export const SPRITE_SHEETS: Record<string, SpriteSheetConfig> = {
@@ -12,6 +14,8 @@ export const SPRITE_SHEETS: Record<string, SpriteSheetConfig> = {
 
   // Enemy sprite sheets
   [bushMonster_sprite_data.spriteKey]: bushMonster_sprite_data,
+  [goblin_sprite_data.spriteKey]: goblin_sprite_data,
+  [skeleton_sprite_data.spriteKey]: skeleton_sprite_data,
   //   enemy_skeleton: EnemyData.skeleton,
   //   enemy_goblin: EnemyData.goblin,
 };
